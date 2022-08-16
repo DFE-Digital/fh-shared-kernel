@@ -1,4 +1,4 @@
-﻿namespace LocalAuthorityInformationServices.SharedKernel;
+﻿namespace FamilyHubs.SharedKernel;
 
 [Serializable]
 public abstract class ValueObjectBase

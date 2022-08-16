@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace LocalAuthorityInformationServices.SharedKernel.UnitTests.DateTimeRangeTests;
+namespace FamilyHubs.SharedKernel.UnitTests.DateTimeRangeTests;
 
 public class DateTimeRange_DurationInMinutes
 {

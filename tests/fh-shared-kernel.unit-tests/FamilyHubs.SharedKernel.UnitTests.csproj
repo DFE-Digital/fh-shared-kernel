@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\fh-shared-kernel.shared-kernel\fh-shared-kernel.shared-kernel.csproj" />
+    <ProjectReference Include="..\..\src\fh-shared-kernel.shared-kernel\FamilyHubs.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

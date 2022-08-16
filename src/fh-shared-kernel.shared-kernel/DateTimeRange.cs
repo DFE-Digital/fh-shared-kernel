@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 
-namespace LocalAuthorityInformationServices.SharedKernel;
+namespace FamilyHubs.SharedKernel;
 
 public class DateTimeRange : ValueObject
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LocalAuthorityInformationServices.SharedKernel;
+namespace FamilyHubs.SharedKernel;
 
 /// <summary>
 /// Base types for all Entities which track state using a given Id.
@@ -23,6 +23,6 @@ public abstract class EntityBase<Tid>
     public IEnumerable<DomainEventBase> DomainEvents => _domainEvents.AsReadOnly();
 
     protected void RegisterDomainEvent(DomainEventBase domainEvent) => _domainEvents.Add(domainEvent);
-    
+
     internal void ClearDomainEvents() => _domainEvents.Clear();
 }

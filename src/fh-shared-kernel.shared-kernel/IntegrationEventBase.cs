@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace LocalAuthorityInformationServices.SharedKernel;
+namespace FamilyHubs.SharedKernel;
 
 /// <summary>
 /// Integration events are used to communicate between bounded contexts and/or applications.

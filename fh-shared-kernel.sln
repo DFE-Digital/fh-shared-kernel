@@ -7,13 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F6A22F03-7B1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7D522EFC-2888-443B-9D74-82679CE08792}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fh-shared-kernel.shared-kernel", "fh-shared-kernel.shared-kernel", "{8B3DD79D-B63C-477E-841D-D7A6AEB2A162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel", "src\fh-shared-kernel.shared-kernel\FamilyHubs.SharedKernel.csproj", "{1477507E-C615-4FFF-A1C9-A8E6265EE51B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fh-shared-kernel.shared-kernel", "src\fh-shared-kernel.shared-kernel\fh-shared-kernel.shared-kernel.csproj", "{AB76ABE1-1A67-4457-9C1E-530A1C081470}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit-tests", "unit-tests", "{225EC4ED-60DE-4477-885C-4CFA0AC248FC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fh-shared-kernel.unit-tests", "tests\fh-shared-kernel.unit-tests\fh-shared-kernel.unit-tests.csproj", "{8FB50D6A-E8E3-48CC-97A8-839906FD4F4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.UnitTests", "tests\fh-shared-kernel.unit-tests\FamilyHubs.SharedKernel.UnitTests.csproj", "{32B1435A-437F-4F0A-A26C-BF741760B062}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,23 +17,21 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AB76ABE1-1A67-4457-9C1E-530A1C081470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB76ABE1-1A67-4457-9C1E-530A1C081470}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB76ABE1-1A67-4457-9C1E-530A1C081470}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB76ABE1-1A67-4457-9C1E-530A1C081470}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FB50D6A-E8E3-48CC-97A8-839906FD4F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FB50D6A-E8E3-48CC-97A8-839906FD4F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FB50D6A-E8E3-48CC-97A8-839906FD4F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FB50D6A-E8E3-48CC-97A8-839906FD4F4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1477507E-C615-4FFF-A1C9-A8E6265EE51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1477507E-C615-4FFF-A1C9-A8E6265EE51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1477507E-C615-4FFF-A1C9-A8E6265EE51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1477507E-C615-4FFF-A1C9-A8E6265EE51B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B1435A-437F-4F0A-A26C-BF741760B062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B1435A-437F-4F0A-A26C-BF741760B062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B1435A-437F-4F0A-A26C-BF741760B062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B1435A-437F-4F0A-A26C-BF741760B062}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8B3DD79D-B63C-477E-841D-D7A6AEB2A162} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
-		{AB76ABE1-1A67-4457-9C1E-530A1C081470} = {8B3DD79D-B63C-477E-841D-D7A6AEB2A162}
-		{225EC4ED-60DE-4477-885C-4CFA0AC248FC} = {7D522EFC-2888-443B-9D74-82679CE08792}
-		{8FB50D6A-E8E3-48CC-97A8-839906FD4F4D} = {225EC4ED-60DE-4477-885C-4CFA0AC248FC}
+		{1477507E-C615-4FFF-A1C9-A8E6265EE51B} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
+		{32B1435A-437F-4F0A-A26C-BF741760B062} = {7D522EFC-2888-443B-9D74-82679CE08792}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C201054B-AFD5-490A-AC28-D1877657240E}

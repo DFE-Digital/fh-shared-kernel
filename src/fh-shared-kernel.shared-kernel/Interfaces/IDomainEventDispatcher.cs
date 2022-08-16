@@ -1,4 +1,6 @@
-﻿namespace LocalAuthorityInformationServices.SharedKernel.Interfaces;
+﻿using FamilyHubs.SharedKernel;
+
+namespace FamilyHubs.SharedKernel.Interfaces;
 
 public interface IDomainEventDispatcher
 {

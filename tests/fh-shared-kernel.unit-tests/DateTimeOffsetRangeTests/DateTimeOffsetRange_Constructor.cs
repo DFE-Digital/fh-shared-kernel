@@ -1,6 +1,6 @@
-﻿using LocalAuthorityInformationServices.SharedKernel.UnitTests.DateTimeRangeTests;
+﻿using FamilyHubs.SharedKernel.UnitTests.DateTimeRangeTests;
 
-namespace LocalAuthorityInformationServices.SharedKernel.UnitTests.DateTimeOffsetRangeTests;
+namespace FamilyHubs.SharedKernel.UnitTests.DateTimeOffsetRangeTests;
 
 public class DateTimeOffsetRange_Constructor
 {

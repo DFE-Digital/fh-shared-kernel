@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace LocalAuthorityInformationServices.SharedKernel.Interfaces
+namespace FamilyHubs.SharedKernel.Interfaces;
+
+public interface IDateTime
 {
-    public interface IDateTime
-    {
-        DateTime Now { get; }
-    }
+    DateTime Now { get; }
 }

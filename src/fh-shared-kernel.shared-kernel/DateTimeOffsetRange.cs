@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
-using LocalAuthorityInformationServices.SharedKernel.Guards;
+using FamilyHubs.SharedKernel.Guards;
 
-namespace LocalAuthorityInformationServices.SharedKernel;
+namespace FamilyHubs.SharedKernel;
 
 public class DateTimeOffsetRange : ValueObject
 {

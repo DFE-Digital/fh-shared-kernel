@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace LocalAuthorityInformationServices.SharedKernel.UnitTests.BaseDomainEventTests;
+namespace FamilyHubs.SharedKernel.UnitTests.BaseDomainEventTests;
 
 public class BaseDomainEvent_Constructor
 {

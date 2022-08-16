@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
-using LocalAuthorityInformationServices.SharedKernel.UnitTests.DateTimeRangeTests;
-using Xunit;
+﻿using FamilyHubs.SharedKernel;
+using FamilyHubs.SharedKernel.UnitTests.DateTimeRangeTests;
+using FluentAssertions;
 
-namespace LocalAuthorityInformationServices.SharedKernel.UnitTests.DateTimeOffsetRangeTests;
+namespace FamilyHubs.SharedKernel.UnitTests.DateTimeOffsetRangeTests;
 
 public class DateTimeOffsetRange_CreateOneWeekRange
 {

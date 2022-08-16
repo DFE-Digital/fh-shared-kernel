@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 
-namespace LocalAuthorityInformationServices.SharedKernel.Guards;
+namespace FamilyHubs.SharedKernel.Guards;
 
 public static class CustomGuards
 {
