@@ -1,7 +1,8 @@
-﻿using MediatR;
+﻿using FamilyHubs.SharedKernel.Interfaces;
+using MediatR;
 using LocalAuthorityInformationServices.SharedKernel.Interfaces;
 
-namespace LocalAuthorityInformationServices.SharedKernel;
+namespace FamilyHubs.SharedKernel;
 
 public class DomainEventDispatcher : IDomainEventDispatcher
 {

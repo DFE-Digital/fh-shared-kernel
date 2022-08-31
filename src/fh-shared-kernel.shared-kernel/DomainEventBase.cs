@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace LocalAuthorityInformationServices.SharedKernel;
+namespace FamilyHubs.SharedKernel;
 
 public abstract class DomainEventBase : INotification
 {

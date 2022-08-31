@@ -1,9 +1,7 @@
-﻿using System;
+﻿using FamilyHubs.SharedKernel.UnitTests.DateTimeRangeTests;
 using FluentAssertions;
-using LocalAuthorityInformationServices.SharedKernel.UnitTests.DateTimeRangeTests;
-using Xunit;
 
-namespace LocalAuthorityInformationServices.SharedKernel.UnitTests.DateTimeOffsetRangeTests;
+namespace FamilyHubs.SharedKernel.UnitTests.DateTimeOffsetRangeTests;
 
 public class DateTimeOffsetRange_Overlaps
 {
