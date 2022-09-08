@@ -1,6 +1,5 @@
 ﻿using FamilyHubs.SharedKernel.Interfaces;
 using MediatR;
-using LocalAuthorityInformationServices.SharedKernel.Interfaces;
 
 namespace FamilyHubs.SharedKernel;
 
@@ -13,7 +12,7 @@ public class DomainEventDispatcher : IDomainEventDispatcher
         _mediator = mediator;
     }
 
-    public async Task DispatchAndClearEvents(IEnumerable<EntityBase<Guid>> entitiesWithEvents)
+    public async Task DispatchAndClearEvents(IEnumerable<EntityBase<string>> entitiesWithEvents)
     {
         foreach (var entity in entitiesWithEvents)
         {

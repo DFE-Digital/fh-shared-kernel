@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FamilyHubs.SharedKernel;
-namespace LocalAuthorityInformationServices.SharedKernel;
+
 
 /// <summary>
 /// Base types for all Entities which track state using a given Id.
