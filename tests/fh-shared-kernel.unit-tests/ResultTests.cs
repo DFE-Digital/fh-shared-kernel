@@ -46,10 +46,27 @@ namespace FamilyHubs.SharedKernel.UnitTests.ResultTests
         public void SuccessMethod_BuildsFailureResultForValueResult()
         {
             //  Arrange
-            var errors = new List<string> { "Hello World" };
+            var errors = new List<string> { "Hello World" , "Hello World 2" };
 
             //  Act
             var result = Result<TestObject>.Failure("testFailure", errors);
+
+            //  Assert
+            Assert.False(result.Succeeded);
+            Assert.Equal("Hello World", result.Errors[0]);
+            Assert.Equal("Hello World 2", result.Errors[1]);
+            Assert.Equal("testFailure", result.FailureType);
+            Assert.Null(result.Value);
+        }
+
+        [Fact]
+        public void SuccessMethod_BuildsFailureResultForValueResult_WithSingleError()
+        {
+            //  Arrange
+            var error = "Hello World" ;
+
+            //  Act
+            var result = Result<TestObject>.Failure("testFailure", error);
 
             //  Assert
             Assert.False(result.Succeeded);
