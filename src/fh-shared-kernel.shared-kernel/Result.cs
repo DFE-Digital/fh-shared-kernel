@@ -52,4 +52,9 @@ public class Result<T> : Result
     {
         return new Result<T>(failType, errors);
     }
+
+    public static Result<T> Failure(string failType, string error)
+    {
+        return new Result<T>(failType, new List<string> { error });
+    }
 }
