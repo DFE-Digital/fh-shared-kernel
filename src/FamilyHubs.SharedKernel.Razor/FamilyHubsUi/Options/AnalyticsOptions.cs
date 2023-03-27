@@ -1,5 +1,5 @@
 ﻿
-namespace RclTemp.FamilyHubsUi.Options;
+namespace FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options;
 
 public class AnalyticsOptions
 {

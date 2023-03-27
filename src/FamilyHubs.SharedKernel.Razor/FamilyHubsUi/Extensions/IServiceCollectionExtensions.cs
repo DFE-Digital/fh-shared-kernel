@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options;
+using FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options.Configure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using RclTemp.FamilyHubsUi.Options;
-using RclTemp.FamilyHubsUi.Options.Configure;
 
-namespace RclTemp.FamilyHubsUi.Extensions;
+namespace FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Extensions;
 
 public static class IServiceCollectionExtensions
 {

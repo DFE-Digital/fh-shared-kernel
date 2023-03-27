@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Moq;
-using RclTemp.FamilyHubsUi.Options.Configure;
 using System.Text.Json;
+using FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options.Configure;
 using FamilyHubs.SharedKernel.Razor.UnitTests.FamilyHubsUi.Configure.Helpers;
 using FluentAssertions;
 

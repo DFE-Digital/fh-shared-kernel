@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace RclTemp.FamilyHubsUi.Options.Configure;
+namespace FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options.Configure;
 
 public class FamilyHubsUiOptionsValidation : IValidateOptions<FamilyHubsUiOptions>
 {
