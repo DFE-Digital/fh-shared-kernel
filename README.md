@@ -31,4 +31,4 @@ It's best to reference the package using its exact version number, otherwise it 
 
 The package is automatically built when the solution is built.
 
-It is currently not published automatically to the NuGet feed, and needs to be automatically uploaded to NuGet.
+It is not currently published automatically to the NuGet feed, and needs to be manually uploaded to NuGet.
