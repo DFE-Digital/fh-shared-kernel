@@ -9,6 +9,7 @@ declare global {
         GA_CONTAINER_ID: string;
         GA_COOKIE_NAME: string;
         dataLayer: any[];
+        FamilyHubsFrontend: any;
     }
 }
 
@@ -19,32 +20,36 @@ import { nodeListForEach } from './components/helpers';
 
 //todo: consistency in module/proto/class style
 
-// Initialise cookie banner
-const $cookieBanner = document.querySelector('[data-module="govuk-cookie-banner"]') as HTMLElement | null;
-new CookieBanner($cookieBanner).init();
+window.FamilyHubsFrontend = window.FamilyHubsFrontend || {};
+window.FamilyHubsFrontend.initAll = () => {
 
-initAnalytics(window.GA_MEASUREMENT_ID);
+    // Initialise cookie banner
+    const $cookieBanner = document.querySelector('[data-module="govuk-cookie-banner"]') as HTMLElement | null;
+    new CookieBanner($cookieBanner).init();
 
-//todo: move this into scripts section on cookie page
-// Initialise cookie page
-var $cookiesPage = document.querySelector('[data-module="app-cookies-page"]')
-new CookiesPage($cookiesPage).init()
+    initAnalytics(window.GA_MEASUREMENT_ID);
 
-//todo: move into module
-const backLinks = document.querySelectorAll(".app-back-link");
-nodeListForEach(backLinks, (link: HTMLAnchorElement) => {
-    link.addEventListener("click", () => {
-        window.history.back();
+    //todo: move this into scripts section on cookie page
+    // Initialise cookie page
+    var $cookiesPage = document.querySelector('[data-module="app-cookies-page"]')
+    new CookiesPage($cookiesPage).init()
+
+    //todo: move into module
+    const backLinks = document.querySelectorAll(".app-back-link");
+    nodeListForEach(backLinks, (link: HTMLAnchorElement) => {
+        link.addEventListener("click", () => {
+            window.history.back();
+        });
     });
-});
 
-//todo: when plug into find, don't forget to plug this in 
-//const button = document.getElementById('open-close-filters');
-//button?.addEventListener('click', function handleClick(event) {
-//    const filterButton = document.getElementById("filters") as HTMLDivElement | null;
-//    if (filterButton.style.display === "none") {
-//        filterButton.style.display = "block";
-//    } else {
-//        filterButton.style.display = "none";
-//    }
-//});
+    //todo: when plug into find, don't forget to plug this in
+    //const button = document.getElementById('open-close-filters');
+    //button?.addEventListener('click', function handleClick(event) {
+    //    const filterButton = document.getElementById("filters") as HTMLDivElement | null;
+    //    if (filterButton.style.display === "none") {
+    //        filterButton.style.display = "block";
+    //    } else {
+    //        filterButton.style.display = "none";
+    //    }
+    //});
+};

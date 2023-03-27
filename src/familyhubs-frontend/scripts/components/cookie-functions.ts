@@ -45,7 +45,7 @@ const DEFAULT_COOKIE_CONSENT: ConsentCookie = {
  * returns null.
  */
 export function getConsentCookie(): ConsentCookie | null {
-    const consentCookie = getCookie(CONSENT_COOKIE_NAME);
+    const consentCookie = getCookie(window.GA_COOKIE_NAME);
     let consentCookieObj: ConsentCookie | null;
 
     if (consentCookie) {
@@ -89,7 +89,7 @@ export function setConsentCookie(options: ConsentCookie) {
     cookieConsent.version = window.GDS_CONSENT_COOKIE_VERSION;
 
     // Set the consent cookie
-    setCookie(CONSENT_COOKIE_NAME, JSON.stringify(cookieConsent), { days: 365 });
+    setCookie(window.GA_COOKIE_NAME, JSON.stringify(cookieConsent), { days: 365 });
 
     // Update the other cookies
     resetCookies();

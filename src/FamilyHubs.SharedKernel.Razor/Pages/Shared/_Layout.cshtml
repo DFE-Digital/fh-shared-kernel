@@ -39,11 +39,16 @@
     <partial name="_Footer.cshtml" model="familyHubsUiOptions" />
 
     <script src="~/js/govuk-frontend-4.5.0.min.js"></script>
+@*todo: include package scripts into app.js, or import it separately, like govuk?*@
+@*if separately, will have to bundle and minify it*@
+@*todo: task to copy to wwwroot? or pick up from rcl?*@
+    <script src="~/js/familyhubs-frontend-1.0.6-alpha.min.js" asp-append-version="true"></script>
     <script src="~/js/app.js" asp-append-version="true"></script>
 
     <script>
         //todo: initialize just the components we use
         window.GOVUKFrontend.initAll();
+        window.FamilyHubsFrontend.initAll();
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
