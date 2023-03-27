@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 	
 <!--todo: once consumers have been updated to use the shared RCL, just add appropriate bits to sharedkernel and don't have a sharedkernel.razor -->
 
@@ -7,8 +7,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-	<PackageId>DfE.FamilyHubs.SharedKernel.Razor</PackageId>
+	<PackageId>FamilyHubs.SharedKernel.Razor</PackageId>
 	<VersionPrefix>1.0.2-alpha</VersionPrefix>
+	<PackageReadmeFile>readme.md</PackageReadmeFile>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<RepositoryUrl>https://github.com/DFE-Digital/fh-shared-kernel</RepositoryUrl>
+	<PackageTags>govuk frontend design-system dfe family-hub</PackageTags>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -17,8 +21,12 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-<ItemGroup>
-	<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="readme.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 </Project>
