@@ -1,4 +1,4 @@
-namespace FamilyHubs.SharedKernel.UnitTests.ResultTests
+namespace FamilyHubs.SharedKernel.UnitTests
 {
     public class ResultTests
     {
