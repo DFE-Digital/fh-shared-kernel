@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	<PackageId>DfE.FamilyHubs.SharedKernel.Razor</PackageId>
-	<VersionPrefix>1.0.1</VersionPrefix>
+	<VersionPrefix>1.0.2-alpha</VersionPrefix>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 

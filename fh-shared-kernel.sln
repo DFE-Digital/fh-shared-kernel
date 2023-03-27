@@ -11,7 +11,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.UnitTests", "tests\fh-shared-kernel.unit-tests\FamilyHubs.SharedKernel.UnitTests.csproj", "{32B1435A-437F-4F0A-A26C-BF741760B062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHubs.SharedKernel.Razor", "src\FamilyHubs.SharedKernel.Razor\FamilyHubs.SharedKernel.Razor.csproj", "{B3BB7061-A360-4403-AD31-AE9B4211B72B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.Razor", "src\FamilyHubs.SharedKernel.Razor\FamilyHubs.SharedKernel.Razor.csproj", "{B3BB7061-A360-4403-AD31-AE9B4211B72B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "familyhubs-frontend", "familyhubs-frontend", "{9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\index.js = src\familyhubs-frontend\index.js
+		src\familyhubs-frontend\package.json = src\familyhubs-frontend\package.json
+		src\familyhubs-frontend\README.md = src\familyhubs-frontend\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "styles", "styles", "{C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\styles\all.scss = src\familyhubs-frontend\styles\all.scss
+		src\familyhubs-frontend\styles\_global.scss = src\familyhubs-frontend\styles\_global.scss
+		src\familyhubs-frontend\styles\_overrides.scss = src\familyhubs-frontend\styles\_overrides.scss
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "layout", "layout", "{6C7FC6BE-F768-4541-84C0-64CCD9D0F8C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +55,9 @@ Global
 		{1477507E-C615-4FFF-A1C9-A8E6265EE51B} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
 		{32B1435A-437F-4F0A-A26C-BF741760B062} = {7D522EFC-2888-443B-9D74-82679CE08792}
 		{B3BB7061-A360-4403-AD31-AE9B4211B72B} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
+		{9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
+		{C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
+		{6C7FC6BE-F768-4541-84C0-64CCD9D0F8C0} = {C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C201054B-AFD5-490A-AC28-D1877657240E}
