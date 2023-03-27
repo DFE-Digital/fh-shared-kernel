@@ -29,7 +29,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "styles", "styles", "{C3B9E3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "layout", "layout", "{6C7FC6BE-F768-4541-84C0-64CCD9D0F8C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyHubs.SharedKernel.Razor.UnitTests", "tests\FamilyHubs.SharedKernel.Razor.UnitTests\FamilyHubs.SharedKernel.Razor.UnitTests.csproj", "{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.Razor.UnitTests", "tests\FamilyHubs.SharedKernel.Razor.UnitTests\FamilyHubs.SharedKernel.Razor.UnitTests.csproj", "{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{13D99E3E-E266-4655-BE64-38C4311E5CF1}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\scripts\familyhubs.ts = src\familyhubs-frontend\scripts\familyhubs.ts
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{94F3E6E4-19EC-43B6-8086-EB4200B1318E}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\scripts\components\analytics.ts = src\familyhubs-frontend\scripts\components\analytics.ts
+		src\familyhubs-frontend\scripts\components\cookie-banner.ts = src\familyhubs-frontend\scripts\components\cookie-banner.ts
+		src\familyhubs-frontend\scripts\components\cookie-functions.ts = src\familyhubs-frontend\scripts\components\cookie-functions.ts
+		src\familyhubs-frontend\scripts\components\cookies-page.ts = src\familyhubs-frontend\scripts\components\cookies-page.ts
+		src\familyhubs-frontend\scripts\components\helpers.ts = src\familyhubs-frontend\scripts\components\helpers.ts
+		src\familyhubs-frontend\scripts\components\postcode.ts = src\familyhubs-frontend\scripts\components\postcode.ts
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +80,8 @@ Global
 		{C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
 		{6C7FC6BE-F768-4541-84C0-64CCD9D0F8C0} = {C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92}
 		{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4} = {7D522EFC-2888-443B-9D74-82679CE08792}
+		{13D99E3E-E266-4655-BE64-38C4311E5CF1} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
+		{94F3E6E4-19EC-43B6-8086-EB4200B1318E} = {13D99E3E-E266-4655-BE64-38C4311E5CF1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C201054B-AFD5-490A-AC28-D1877657240E}
