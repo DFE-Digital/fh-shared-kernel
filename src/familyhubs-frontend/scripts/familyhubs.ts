@@ -7,6 +7,7 @@ declare global {
         GDS_CONSENT_COOKIE_VERSION: number;
         GA_MEASUREMENT_ID: string;
         GA_CONTAINER_ID: string;
+        GA_COOKIE_NAME: string;
         dataLayer: any[];
     }
 }

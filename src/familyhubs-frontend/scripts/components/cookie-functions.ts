@@ -15,9 +15,6 @@ interface CookieOptions {
     days?: number;
 }
 
-/* Name of the cookie to save users cookie preferences to. */
-const CONSENT_COOKIE_NAME = 'service_directory_cookies_policy';
-
 /* Users can (dis)allow different groups of cookies. */
 const COOKIE_CATEGORIES: CookieCategories = {
     analytics: ['_ga', '_ga_' + window.GA_CONTAINER_ID],
@@ -27,7 +24,7 @@ const COOKIE_CATEGORIES: CookieCategories = {
      * only allow adding cookies that are documented in this object, so they need
      * to be added here.
      */
-    essential: ['service_directory_cookies_policy']
+    essential: [window.GA_COOKIE_NAME]
 }
 
 /*
@@ -148,7 +145,7 @@ function userAllowsCookieCategory(cookieCategory, cookiePreferences) {
 
 function userAllowsCookie(cookieName: string) {
     // Always allow setting the consent cookie
-    if (cookieName === CONSENT_COOKIE_NAME) {
+    if (cookieName === window.GA_COOKIE_NAME) {
         return true;
     }
 
