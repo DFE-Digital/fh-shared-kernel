@@ -15,6 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.Raz
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "familyhubs-frontend", "familyhubs-frontend", "{9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}"
 	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\.npmignore = src\familyhubs-frontend\.npmignore
 		src\familyhubs-frontend\gulpfile.js = src\familyhubs-frontend\gulpfile.js
 		src\familyhubs-frontend\index.js = src\familyhubs-frontend\index.js
 		src\familyhubs-frontend\package.json = src\familyhubs-frontend\package.json
@@ -59,6 +60,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{865325
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "private", "private", "{9F443286-BF8C-46A2-8678-5E2D34DCEE1F}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\private\gulpfile.js = src\familyhubs-frontend\private\gulpfile.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +101,7 @@ Global
 		{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4} = {7D522EFC-2888-443B-9D74-82679CE08792}
 		{13D99E3E-E266-4655-BE64-38C4311E5CF1} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
 		{94F3E6E4-19EC-43B6-8086-EB4200B1318E} = {13D99E3E-E266-4655-BE64-38C4311E5CF1}
+		{9F443286-BF8C-46A2-8678-5E2D34DCEE1F} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C201054B-AFD5-490A-AC28-D1877657240E}
