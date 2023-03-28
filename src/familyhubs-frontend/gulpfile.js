@@ -4,7 +4,7 @@ const gulp = require("gulp"),
     rename = require('gulp-rename'),
     fs = require('fs');
 
-        //todo: postinstall
+//todo: postinstall
 
 function copyPackageJsToWwwroot(packageName, srcFilename) {
     // Read the package.json file to get the package version
@@ -15,14 +15,21 @@ function copyPackageJsToWwwroot(packageName, srcFilename) {
     const destFileName = `${packageName}-${packageVersion}.min.js`;
 
     // Copy and rename the file
-    return gulp.src(`../${packageName}/${srcFileName}`)
+    return gulp.src(`../${packageName}/${srcFilename}`)
         .pipe(rename(destFileName))
         .pipe(gulp.dest('../../wwwroot/js'));
 }
 
-gulp.task('copy-packages-js', function() {
-    copyPackageJsToWwwroot('govuk-frontend', 'all.js');
-    copyPackageJsToWwwroot('familyhubs-frontend', 'all.js');
+/*todo: min version is not in package, do we min it ourselves, or have manual step to add it, or add the min version into our package and copy it <--- this one*/
+/*todo: copy the map files too*/
+gulp.task('copy-govuk-frontend-js', function () {
+    return copyPackageJsToWwwroot('govuk-frontend', 'govuk/all.js');
 });
 
-        //todo: delegate from consumer gulp to this gulp?
+gulp.task('copy-familyhubs-frontend-js', function () {
+    return copyPackageJsToWwwroot('familyhubs-frontend', 'all.min.js');
+});
+
+gulp.task('copy-packages-js', gulp.series('copy-govuk-frontend-js', 'copy-familyhubs-frontend-js'));
+
+//todo: delegate from consumer gulp to this gulp?
