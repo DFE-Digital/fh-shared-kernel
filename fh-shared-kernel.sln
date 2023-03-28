@@ -79,6 +79,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{4F3B6A0B-6870-
 		src\familyhubs-frontend\wwwroot\js\govuk-frontend-4.5.0.min.js.map = src\familyhubs-frontend\wwwroot\js\govuk-frontend-4.5.0.min.js.map
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{E19D604D-0631-4171-990B-69A572BBD59A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "govuk", "govuk", "{77D85016-23D4-43C3-AAFD-EDB8CEE37754}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{68873713-D554-4C70-8E31-B35AB1F117E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{C5B03DCE-3972-426F-984A-7E76B29AF29F}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-affa96571d-v2.woff = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-affa96571d-v2.woff
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-b542beb274-v2.woff2 = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-b542beb274-v2.woff2
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-94a07e06a1-v2.woff2 = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-94a07e06a1-v2.woff2
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-f591b13f7d-v2.woff = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-f591b13f7d-v2.woff
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{690F6B66-4002-42E1-8A6C-7FBD6CD2BF7D}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\favicon.ico = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\favicon.ico
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-152x152.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-152x152.png
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-167x167.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-167x167.png
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-180x180.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-180x180.png
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon.png
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest-2x.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest-2x.png
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest.png
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-logotype-crown.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-logotype-crown.png
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-mask-icon.svg = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-mask-icon.svg
+		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-opengraph-image.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-opengraph-image.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +147,11 @@ Global
 		{33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
 		{8CE0959F-2AA0-4134-BBF4-73D8D208FFE8} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
 		{4F3B6A0B-6870-4414-97F9-1B50B51F9177} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
+		{E19D604D-0631-4171-990B-69A572BBD59A} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
+		{77D85016-23D4-43C3-AAFD-EDB8CEE37754} = {E19D604D-0631-4171-990B-69A572BBD59A}
+		{68873713-D554-4C70-8E31-B35AB1F117E9} = {77D85016-23D4-43C3-AAFD-EDB8CEE37754}
+		{C5B03DCE-3972-426F-984A-7E76B29AF29F} = {68873713-D554-4C70-8E31-B35AB1F117E9}
+		{690F6B66-4002-42E1-8A6C-7FBD6CD2BF7D} = {68873713-D554-4C70-8E31-B35AB1F117E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C201054B-AFD5-490A-AC28-D1877657240E}

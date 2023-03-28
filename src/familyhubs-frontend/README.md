@@ -2,6 +2,10 @@
 
 # ToDo
 
+* document how to use as a consumer, and how to develop
+
+* delete old wwwroot files on install
+
 * use asp-append-version to simplify updating versions??
 
 * best way to get files into wwwroot, rcl or npm?
