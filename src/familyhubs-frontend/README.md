@@ -2,6 +2,10 @@
 
 # ToDo
 
+* use asp-append-version to simplify updating versions??
+
+* best way to get files into wwwroot, rcl or npm?
+
 * remove scripts support from private gulpfile? 
 
 * Use Components/, rather than scripts and styles, a la govuk?

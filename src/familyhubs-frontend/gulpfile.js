@@ -4,7 +4,10 @@ const gulp = require("gulp"),
     rename = require('gulp-rename'),
     fs = require('fs');
 
-//todo: postinstall
+gulp.task('copy-wwwroot', function () {
+    return gulp.src('wwwroot/**/*')
+        .pipe(gulp.dest('../../wwwroot'));
+});
 
 function copyPackageJsToWwwroot(packageName, srcFilename) {
     // Read the package.json file to get the package version
@@ -31,6 +34,6 @@ gulp.task('copy-familyhubs-frontend-js', function () {
     return copyPackageJsToWwwroot('familyhubs-frontend', 'all.min.js');
 });
 
-gulp.task('copy-packages-js', gulp.series('copy-govuk-frontend-js', 'copy-familyhubs-frontend-js'));
+gulp.task('populate-wwwroot', gulp.series('copy-wwwroot', 'copy-familyhubs-frontend-js'));
 
 //todo: delegate from consumer gulp to this gulp?

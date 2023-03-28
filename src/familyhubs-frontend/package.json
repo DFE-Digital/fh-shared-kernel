@@ -1,10 +1,10 @@
 {
   "name": "familyhubs-frontend",
-  "version": "1.0.8-alpha",
+  "version": "1.0.9-alpha",
   "description": "FamilyHubs Frontend contains the code you need to start building a Family Hubs website on top of the GOVUK Design System",
   "main": "index.js",
   "scripts": {
-    "postinstall": "gulp copy-packages-js"
+    "postinstall": "gulp populate-wwwroot"
   },
   "repository": {
     "type": "git",
