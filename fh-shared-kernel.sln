@@ -16,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "familyhubs-frontend", "familyhubs-frontend", "{9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}"
 	ProjectSection(SolutionItems) = preProject
 		src\familyhubs-frontend\.npmignore = src\familyhubs-frontend\.npmignore
+		src\familyhubs-frontend\all.min.js = src\familyhubs-frontend\all.min.js
+		src\familyhubs-frontend\all.min.js.map = src\familyhubs-frontend\all.min.js.map
 		src\familyhubs-frontend\gulpfile.js = src\familyhubs-frontend\gulpfile.js
 		src\familyhubs-frontend\index.js = src\familyhubs-frontend\index.js
 		src\familyhubs-frontend\package.json = src\familyhubs-frontend\package.json
@@ -35,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.Raz
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{13D99E3E-E266-4655-BE64-38C4311E5CF1}"
 	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\all.min.js = src\familyhubs-frontend\all.min.js
-		src\familyhubs-frontend\all.min.js.map = src\familyhubs-frontend\all.min.js.map
 		src\familyhubs-frontend\scripts\familyhubs.ts = src\familyhubs-frontend\scripts\familyhubs.ts
 	EndProjectSection
 EndProject

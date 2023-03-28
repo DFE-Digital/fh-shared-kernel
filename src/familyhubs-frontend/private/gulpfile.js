@@ -3,7 +3,7 @@
 
 /*todo: new location*/
 
-var tsScriptsSrc = './scripts/**';
+var tsScriptsSrc = '../scripts/**';
 
 var gulp = require("gulp"),
     sass = require('gulp-sass')(require('sass')),
@@ -18,7 +18,7 @@ var gulp = require("gulp"),
     rename = require('gulp-rename');
 
 gulp.task('sass-to-min-css', async function () {
-    return gulp.src('./styles/all.scss')
+    return gulp.src('../styles/all.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(csso())
@@ -27,7 +27,7 @@ gulp.task('sass-to-min-css', async function () {
 });
 
 gulp.task('sass-to-min-css:watch', function () {
-    gulp.watch('./styles/**', gulp.series('sass-to-min-css'));
+    gulp.watch('../styles/**', gulp.series('sass-to-min-css'));
 });
 
 // https://www.meziantou.net/compiling-typescript-using-gulp-in-visual-studio.htm
@@ -82,7 +82,7 @@ gulp.task('bundle-and-minify-js', () => {
         .pipe(terser())
         .pipe(rename({ basename: 'all', suffix: '.min' }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('.'));
+        .pipe(gulp.dest('../'));
 });
 
 gulp.task('clean', () => {
