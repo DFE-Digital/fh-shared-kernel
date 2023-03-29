@@ -37,15 +37,14 @@
     </div>
 
     <partial name="_Footer.cshtml" model="familyHubsUiOptions" />
-    
-@*todo: is it better to include the version number in the script,
-which means after a new deployment, if the script hasn't changed, the user browsers can used their cached version,
-    or use asp-append-version, which means that after a deployment browsers could refetch unnecessarily, *@
 
-<script src="~/js/govuk-frontend-4.5.0.min.js"></script>
-@*todo: include package scripts into app.js, or import it separately, like govuk?*@
-@*if separately, will have to bundle and minify it*@
-@*todo: task to copy to wwwroot? or pick up from rcl?*@
+@*  is it better to include the version number in the script,
+    which means after a new deployment, if the script hasn't changed, the user browsers can used their cached version,
+    or use asp-append-version, which means that after a deployment browsers could refetch the script unnecessarily,
+    but means we wouldn't have to update these version numbers when we update the familyhubs or govuk npm packages?
+    for now we go with the more efficient version, but we might change to the easier to maintain version later *@
+
+    <script src="~/js/govuk-frontend-4.5.0.min.js"></script>
     <script src="~/js/familyhubs-frontend-1.0.9-alpha.min.js"></script>
     <script src="~/js/app.js" asp-append-version="true"></script>
 
