@@ -6,6 +6,7 @@
         <text>
             window.GA_MEASUREMENT_ID = '@Model.Analytics.MeasurementId';
             window.GA_CONTAINER_ID = '@Model.Analytics.ContainerId';
+            window.GDS_CONSENT_COOKIE_VERSION = @Model.Analytics.CookieVersion;
         </text>
         }
         @* even though it doesn't make sense to set the analytics cookie without GA also being integrated in the final website,
