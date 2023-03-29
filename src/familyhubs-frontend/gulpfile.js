@@ -23,9 +23,6 @@ function copyPackageJsToWwwroot(packageName, srcFilename) {
         .pipe(gulp.dest('../../wwwroot/js'));
 }
 
-/*todo: min version is not in package, do we min it ourselves, or have manual step to add it, or add the min version into our package and copy it <--- this one*/
-/*todo: copy the map files too*/
-/*todo: copy the ie8 css files too*/
 gulp.task('copy-govuk-frontend-js', function () {
     return copyPackageJsToWwwroot('govuk-frontend', 'govuk/all.js');
 });
