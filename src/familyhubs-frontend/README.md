@@ -1,14 +1,12 @@
 # FamilyHubs Frontend
 
-# ToDo
+# possible ToDos
 
-* document how to use as a consumer, and how to develop
+* finish documenting how to use as a consumer, and how to develop
 
-* delete old wwwroot files on install
+* delete old wwwroot files on install?
 
 * use asp-append-version to simplify updating versions??
-
-* best way to get files into wwwroot, rcl or npm?
 
 * remove scripts support from private gulpfile? 
 
