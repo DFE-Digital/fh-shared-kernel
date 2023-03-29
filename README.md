@@ -5,6 +5,65 @@ DDD shared kernel for the family hubs projects containing artefacts that can be 
 
 This solution contains the source for a NPM package (familyhubs-frontend) and Razor Class Library (FamilyHubs.SharedKernel.Razor), that work together to help quickly create new Family Hubs websites and add common UI components to them.
 
+## Consuming the packages
+
+Install the familyhubs-frontend package into the website project using the following command:
+
+```
+npm install familyhubs-frontend
+```
+
+Installing the package, will add files to the wwwroot folder. (todo document which files)
+
+In the styles/application.scss file, add the following line:
+
+```
+@import "../node_modules/familyhubs-frontend/styles/all";
+```
+
+Add the FamilyHubs.SharedKernel.Razor package to the website project.
+
+The FamilyHubs.SharedKernel.Razor package contains:
+
+* the layout
+* common shared partial views
+* todo add rest here
+
+Check that the npm package and the Razor Class Library are on the same version.
+
+Add the configuration section to the appsettings.json file of the website project.
+
+### Configuration
+
+Here's an example configuration section that should be added to the appsettings.json file of a Family Hubs website:
+
+```json
+  "FamilyHubsUi": {
+    "ServiceName": "Manage family support services and accounts",
+    "Phase": "Beta",
+    "FeedbackUrl": "https://example.com/feedback",
+    "Analytics": {
+      "CookieName": "manage_family_support_cookies_policy",
+      "MeasurementId": "",
+      "ContainerId": ""
+    },
+    "Footer": {
+      "Links": [
+        { "Text": "Accessibility" },
+        { "Text": "Contact Us" },
+        { "Text": "Cookies" },
+        { "Text": "Feedback", "ConfigUrl": "FamilyHubsUi:FeedbackUrl" },
+        { "Text": "Terms and conditions" }
+      ] 
+    } 
+```
+
+Notes:
+
+* Google Analytics is only enabled if the MeasurementId and ContainerId are set.
+
+* The Options classes have XML documentation on the properties.
+
 ## Version numbers
 
 To ease testing, we should keep the version number of the NPM package and the Razor Class Library in sync. Consumers should then ensure that both packages are on the same version.
