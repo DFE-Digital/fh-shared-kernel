@@ -65,6 +65,8 @@ Notes:
 
 * The Options classes have XML documentation on the properties.
 
+* If your cookie page is at a different location to `/cookies`, you can set it using `CookiePageUrl` in the `Analytics` section.
+
 ## Version numbers
 
 To ease testing, we should keep the version number of the NPM package and the Razor Class Library in sync. Consumers should then ensure that both packages are on the same version.

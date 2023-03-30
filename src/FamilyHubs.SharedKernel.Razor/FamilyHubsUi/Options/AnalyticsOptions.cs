@@ -13,4 +13,6 @@ public class AnalyticsOptions
 
     public string MeasurementId { get; set; } = "";
     public string ContainerId { get; set; } = "";
+
+    public string CookiePageUrl { get; set; } = "/cookies";
 }
