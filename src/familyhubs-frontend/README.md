@@ -2,6 +2,10 @@
 
 # possible ToDos
 
+* hardcoded cookie page location in cookie header. require cookie page at that location or have as config?
+
+* test no javascript cookie page handling is ok
+
 * finish documenting how to use as a consumer, and how to develop
 
 * delete old wwwroot files on install?

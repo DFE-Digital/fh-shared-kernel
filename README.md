@@ -44,6 +44,7 @@ Here's an example configuration section that should be added to the appsettings.
     "FeedbackUrl": "https://example.com/feedback",
     "Analytics": {
       "CookieName": "manage_family_support_cookies_policy",
+      "CookieVersion": 1,
       "MeasurementId": "",
       "ContainerId": ""
     },
@@ -91,3 +92,50 @@ It's best to reference the package using its exact version number, otherwise it 
 The package is automatically built when the solution is built.
 
 It is not currently published automatically to the NuGet feed, and needs to be manually uploaded to NuGet.
+
+## Components
+
+### Cookie page
+
+Call `AddCookiePage()` on your `IServiceCollection`, like so...
+
+```
+    services.AddCookiePage(configuration);
+```
+
+Create a new Razor Page. Inject ICookiePage into the PageModel's constructor, stash it away, then pass it to the cookie page partial in the View.
+
+To add support for users running without Javascript, add an OnPost method as per the example.
+
+E.g.
+
+```
+public class IndexModel : PageModel
+{
+    public readonly ICookiePage CookiePage;
+
+    public IndexModel(ICookiePage cookiePage)
+    {
+        CookiePage = cookiePage;
+    }
+
+    public void OnPost(bool analytics)
+    {
+        CookiePage.OnPost(analytics, Request, Response);
+    }
+}
+```
+
+and add in your view...
+
+```
+    <partial name="~/Pages/Shared/_CookiePage.cshtml" model="Model.CookiePage"/>
+```
+
+Add a partial view called `Pages/Shared/_CookiePolicy.cshtml` and add the cookie policy content into it.
+
+If you want to pick up the cookie policy content from a different partial view, pass its name into `AddCookiePage()`, e.g.
+
+```
+    services.AddCookiePage(configuration, "SomeOtherView.cshtml");
+```
