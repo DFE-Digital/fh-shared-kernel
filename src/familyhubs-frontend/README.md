@@ -12,8 +12,6 @@
 
 * Use Components/, rather than scripts and styles, a la govuk?
 
-* pick up (and rename) GDS_CONSENT_COOKIE_VERSION from config
-
 * only run postinstall script when consumer is installing, rather than running npm install locally
 
 If you are using Windows, you can use a different approach to achieve the same behavior. One way to do this is to use a Node.js script to check the value of the npm_config_global environment variable and run the gulp task if necessary. Here’s an example of how you can do this:
