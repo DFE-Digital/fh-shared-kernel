@@ -57,33 +57,31 @@
 
 @if (!string.IsNullOrEmpty(Model.Analytics?.CookieName))
 {
-    <script>
-        /*todo: move script into own file?*/
+<script>
+    (function() {
+        @*
+        /** Check the cookie preferences object.
+        *
+        * If the consent object is not present, malformed, or incorrect version,
+        * returns false, otherwise returns true.
+        *
+        * This is also duplicated in cookie-functions.js - the two need to be kept in sync
+        */
+        *@
+        function isValidConsentCookie(options) {
+            return (options && options.version >= window.GDS_CONSENT_COOKIE_VERSION)
+        }
 
-        (function() {
-            @*
-            /** Check the cookie preferences object.
-            *
-            * If the consent object is not present, malformed, or incorrect version,
-            * returns false, otherwise returns true.
-            *
-            * This is also duplicated in cookie-functions.js - the two need to be kept in sync
-            */
-            *@
-            function isValidConsentCookie(options) {
-                return (options && options.version >= window.GDS_CONSENT_COOKIE_VERSION)
+        @* Don't show the banner on the cookies page *@
+        if (window.location.pathname !== "/cookies/") {
+            @* Show the banner if there is no consent cookie or if it is outdated *@
+            var currentConsentCookie = document.cookie.match(new RegExp('(^| )@(Model.Analytics.CookieName)=([^;]+)'))
+
+            if (!currentConsentCookie || !isValidConsentCookie(JSON.parse(currentConsentCookie[2]))) {
+                var cookieBanner = document.querySelector("[data-module='govuk-cookie-banner']")
+                cookieBanner.removeAttribute('hidden')
             }
-
-            // Don't show the banner on the cookies page
-            if (window.location.pathname !== "/cookies/") {
-                // Show the banner if there is no consent cookie or if it is outdated
-                var currentConsentCookie = document.cookie.match(new RegExp('(^| )@(Model.Analytics.CookieName)=([^;]+)'))
-
-                if (!currentConsentCookie || !isValidConsentCookie(JSON.parse(currentConsentCookie[2]))) {
-                    var cookieBanner = document.querySelector("[data-module='govuk-cookie-banner']")
-                    cookieBanner.removeAttribute('hidden')
-                }
-            }
-        })()
-    </script>
+        }
+    })()
+</script>
 }
