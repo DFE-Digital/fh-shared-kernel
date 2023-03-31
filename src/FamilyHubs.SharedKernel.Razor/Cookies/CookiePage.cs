@@ -17,9 +17,6 @@ public class CookiePage : ICookiePage
     }
 
     public bool ShowSuccessBanner { get; set; }
-    //todo: remove these from here and view
-    public bool ShowPreviousPageLink { get; set; }
-    public string? LastPage { get; set; }
 
     public void OnPost(bool analytics, HttpRequest request, HttpResponse response)
     {
