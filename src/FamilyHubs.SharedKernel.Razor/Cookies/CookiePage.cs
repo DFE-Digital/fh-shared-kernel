@@ -33,31 +33,15 @@ public class CookiePage : ICookiePage
         }
 
         ShowSuccessBanner = true;
-
-        // user doesn't see the cookie banner if javascript is disabled, so there'll never be a page to go back to
-        //SetPreviousPageLink();
     }
 
-    //private void SetPreviousPageLink()
-    //{
-    //    var refererUri = new Uri(Request.Headers.Referer);
-    //    if (refererUri.LocalPath != Request.Path)
-    //    {
-    //        LastPage = refererUri.LocalPath;
-    //        ShowPreviousPageLink = true;
-    //    }
-    //    else
-    //    {
-    //        ShowPreviousPageLink = false;
-    //    }
-    //}
-
-    /// <summary>
-    /// Note: this needs to be compatible with our javascript cookie code, such as cookie-functions.ts
-    /// </summary>
+    /// <remarks>
+    /// Notes:
+    /// * this needs to be compatible with our javascript cookie code, such as cookie-functions.ts
+    /// * Response.Cookies has a static EnableCookieNameEncoding - can we use that and switch to Append?
+    /// </remarks>
     private void SetConsentCookie(HttpRequest request, HttpResponse response, bool analyticsAllowed)
     {
-        //todo: Response.Cookies has a static EnableCookieNameEncoding - can we use that and switch to Append??
         var cookieOptions = new CookieOptions
         {
             Expires = DateTime.Now.AddDays(365),
