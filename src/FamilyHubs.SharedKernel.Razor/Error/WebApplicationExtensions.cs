@@ -12,7 +12,7 @@ public static class WebApplicationExtensions
             app.UseExceptionHandler("/Error/Index");
         }
 
-        app.UseStatusCodePagesWithReExecute("/Pages/Error/{0}");
+        app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
         return app;
     }

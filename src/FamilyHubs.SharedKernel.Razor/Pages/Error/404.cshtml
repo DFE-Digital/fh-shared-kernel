@@ -1,9 +1,7 @@
 ﻿@page
-@using FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options
-@inject IOptions<FamilyHubsUiOptions> FamilyHubsUiOptions
+@model FamilyHubs.SharedKernel.Razor.Pages.Error.ErrorModel
 @{
     ViewData["Title"] = "Page not found";
-    string supportEmail = FamilyHubsUiOptions.Value.SupportEmail;
 }
 
 <div class="govuk-grid-row">
@@ -11,9 +9,9 @@
         <h1 class="govuk-heading-l">Page not found</h1>
         <p>If you typed the web address, check it is correct.</p>
         <p>If you pasted the web address, check you copied the entire address.</p>
-        @if (supportEmail != "")
+        @if (Model.SupportEmail != "")
         {
-            <p>If the problem continues, email us at <a href="mailto:@supportEmail">@supportEmail</a>.</p>
+            <p>If the problem continues, email us at <a href="mailto:@Model.SupportEmail">@Model.SupportEmail</a>.</p>
         }
         <p class="govuk-body"><a href="/">Back to homepage</a></p>
     </div>

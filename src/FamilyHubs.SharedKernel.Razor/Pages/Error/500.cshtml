@@ -1,9 +1,7 @@
 ﻿@page
-@using FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options
-@inject IOptions<FamilyHubsUiOptions> FamilyHubsUiOptions
+@model FamilyHubs.SharedKernel.Razor.Pages.Error.ErrorModel
 @{
     ViewData["Title"] = "Sorry, there is a problem with the service";
-    string supportEmail = FamilyHubsUiOptions.Value.SupportEmail;
 }
 @*this error page _might_ be displayed if there's a 500 error before a response has started (unable to test).*@
 @*it needs to be kept in sync with error/index.cshtml.*@
@@ -12,9 +10,9 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">Sorry, there is a problem with the service</h1>
         <p class="govuk-body">Try again later.</p>
-        @if (supportEmail != "")
+        @if (Model.SupportEmail != "")
         {
-            <p>If the problem continues, email us at <a href="mailto:@supportEmail">@supportEmail</a>.</p>
+            <p>If the problem continues, email us at <a href="mailto:@Model.SupportEmail">@Model.SupportEmail</a>.</p>
         }
         <p class="govuk-body"><a href="/">Back to homepage</a></p>
     </div>
