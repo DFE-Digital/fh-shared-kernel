@@ -6,10 +6,10 @@ namespace FamilyHubs.SharedKernel.Razor.Pages.Error;
 
 public class ErrorModel : PageModel
 {
-    public IOptions<FamilyHubsUiOptions> FamilyHubsUiOptions { get; set; }
+    public string SupportEmail { get; set; }
 
     public ErrorModel(IOptions<FamilyHubsUiOptions> familyHubsUiOptions)
     {
-        FamilyHubsUiOptions = familyHubsUiOptions;
+        SupportEmail = familyHubsUiOptions.Value.SupportEmail;
     }
 }

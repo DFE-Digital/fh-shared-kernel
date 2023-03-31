@@ -2,7 +2,6 @@
 @model FamilyHubs.SharedKernel.Razor.Pages.Error.ErrorModel
 @{
     ViewData["Title"] = "Sorry, there is a problem with the service";
-    string supportEmail = Model.FamilyHubsUiOptions.Value.SupportEmail;
 }
 
 @* this needs to be kept in sync with error/500.cshtml.*@
@@ -11,9 +10,9 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">Sorry, there is a problem with the service</h1>
         <p>Try again later.</p>
-        @if (supportEmail != "")
+        @if (Model.SupportEmail != "")
         {
-            <p>If the problem continues, email us at <a href="mailto:@supportEmail">@supportEmail</a>.</p>
+            <p>If the problem continues, email us at <a href="mailto:@Model.SupportEmail">@Model.SupportEmail</a>.</p>
         }
         <p class="govuk-body"><a href="/">Back to homepage</a></p>
     </div>
