@@ -154,3 +154,7 @@ To add user-friendly Family Hub branded error pages, call `UseErrorHandling()` o
 By default, the error handling middleware will only be added in the development environment. If you want to always add it, irrespective of the environment (useful for local testing), pass `true` as the first parameter.
 
 If `SupportEmail` is set in the configuration, the error page will include a link to the given support email address.
+
+To test the not found page, navigate to a URL that doesn't exist, e.g. `/not-found`.
+
+To test the error page, navigate to `/error/test`, which is a fault-injection page included in the library, explicitly for testing the error page handling.
