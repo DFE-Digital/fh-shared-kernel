@@ -33,10 +33,4 @@
 	<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.18.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
