@@ -6,9 +6,13 @@ using Microsoft.Extensions.Options;
 
 namespace FamilyHubs.SharedKernel.Razor.Cookies;
 
-//todo: global one to add everything? then remove addfamilyhubsui?
 public static class IServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds the Cookie page component.
+    /// </summary>
+    /// <param name="cookiePolicyContent">The name of the Razor view containing cookie policy content for the cookie page.</param>
+    /// <returns></returns>
     public static IServiceCollection AddCookiePage(
         this IServiceCollection services,
         IConfiguration configuration,

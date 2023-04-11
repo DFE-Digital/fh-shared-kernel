@@ -13,7 +13,7 @@ public static class SecurityHeaders
     /// jquery csp
     /// https://content-security-policy.com/examples/jquery/
     /// </summary>
-    public static IApplicationBuilder UseAppSecurityHeaders(this WebApplication app)
+    public static WebApplication UseAppSecurityHeaders(this WebApplication app)
     {
 #pragma warning disable S1075
         app.UseSecurityHeaders(policies =>
