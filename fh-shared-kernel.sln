@@ -110,6 +110,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{690F6B
 		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-opengraph-image.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-opengraph-image.png
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{0B0E8E8F-4DDD-4564-9D4A-2052C42679FA}"
+	ProjectSection(SolutionItems) = preProject
+		src\familyhubs-frontend\wwwroot\images\crest.png = src\familyhubs-frontend\wwwroot\images\crest.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +160,7 @@ Global
 		{68873713-D554-4C70-8E31-B35AB1F117E9} = {77D85016-23D4-43C3-AAFD-EDB8CEE37754}
 		{C5B03DCE-3972-426F-984A-7E76B29AF29F} = {68873713-D554-4C70-8E31-B35AB1F117E9}
 		{690F6B66-4002-42E1-8A6C-7FBD6CD2BF7D} = {68873713-D554-4C70-8E31-B35AB1F117E9}
+		{0B0E8E8F-4DDD-4564-9D4A-2052C42679FA} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C201054B-AFD5-490A-AC28-D1877657240E}

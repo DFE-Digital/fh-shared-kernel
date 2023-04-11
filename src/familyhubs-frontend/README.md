@@ -2,6 +2,8 @@
 
 # possible ToDos
 
+* use partial for error pages?
+
 * finish documenting how to use as a consumer, and how to develop
 
 * delete old wwwroot files on install?
