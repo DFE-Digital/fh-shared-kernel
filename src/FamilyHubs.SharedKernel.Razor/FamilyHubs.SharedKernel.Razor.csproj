@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+		<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.18.0" />
 	</ItemGroup>
 
 	<ItemGroup>
