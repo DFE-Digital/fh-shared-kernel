@@ -1,0 +1,20 @@
+﻿@model FamilyHubs.SharedKernel.Razor.FamilyHubsUi.Options.FamilyHubsUiOptions
+
+    <script>
+        @if (!string.IsNullOrEmpty(Model.Analytics?.MeasurementId) && !string.IsNullOrEmpty(Model.Analytics?.ContainerId))
+        {
+        <text>
+            window.GA_MEASUREMENT_ID = '@Model.Analytics.MeasurementId';
+            window.GA_CONTAINER_ID = '@Model.Analytics.ContainerId';
+        </text>
+        }
+        @* even though it doesn't make sense to set the analytics cookie without GA also being integrated in the final website,
+        we check them separately, so that the cookie functionality can be developed independently of GA integration. *@
+        @if (!string.IsNullOrEmpty(Model.Analytics?.CookieName))
+        {
+        <text>
+            window.GA_COOKIE_NAME = '@Model.Analytics.CookieName';
+            window.GDS_CONSENT_COOKIE_VERSION = @Model.Analytics.CookieVersion;
+        </text>
+        }
+    </script>

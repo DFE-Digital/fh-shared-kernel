@@ -1,0 +1,5 @@
+# private folder
+private/
+
+# Gulp tasks temporary folder
+tmp/
