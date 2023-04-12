@@ -15,7 +15,7 @@ namespace FamilyHubs.SharedKernel
     /// To avoid issues with the 64 bits being signed or unsigned the 64th bit is unused.
     /// 
     /// Timestamp.
-    /// The timestamp is based on the .net 'Tick' and is an offset from a given Epoch (starting date) which on Unix systems is typically 1/1/1970
+    /// The timestamp is based on the .net 'Tick' and is an offset from a given Epoch (starting date) which on Unix systems is typically 1/1/1970, on our system it is 1/1/2020.
     /// 
     /// GeneratorId.
     /// The generator id is an arbitary number to help with uniqueness when using multiple Id generators. With the 'tick' set at 1 millisecond it's possible to generate the same Id number across multiple instances of the IdGenrator if the calls are within 1 millisecond.
@@ -65,7 +65,16 @@ namespace FamilyHubs.SharedKernel
             return generator;
         }
 
-        private IdGen64Config GetConfig()
+        public sealed record IdGen64Config
+        {
+            public byte GeneratorId { get; set; }
+
+            public DateTime Epoch { get; set; }
+
+            public IdStructure? Structure { get; set; }
+        }
+
+        public static IdGen64Config GetConfig()
         {
             var idGen64Config = new IdGen64Config();
 
@@ -86,10 +95,8 @@ namespace FamilyHubs.SharedKernel
             return idGen64Config;
         }
 
-        private static string GetGeneratorIdConfigSetting()
+        public static string GetGeneratorIdConfigSetting()
         {
-            var generatorIdSetting = string.Empty;
-
             // Load the configuration file.
             IConfigurationRoot configurationBuilder;
             configurationBuilder = new ConfigurationBuilder().
@@ -99,18 +106,10 @@ namespace FamilyHubs.SharedKernel
             var configSection = configurationBuilder.GetSection("IdGen64");
 
             // Get the generator id
-            generatorIdSetting = configSection["GeneratorId"];
+            var generatorIdSetting = configSection["GeneratorId"];
+            ArgumentNullException.ThrowIfNullOrEmpty(generatorIdSetting);
 
-            return generatorIdSetting ?? string.Empty;
-        }
-
-        private sealed record IdGen64Config
-        {
-            public byte GeneratorId { get; set; }
-
-            public DateTime Epoch { get; set; }
-
-            public IdStructure? Structure { get; set; }
+            return generatorIdSetting;
         }
     }
 }
