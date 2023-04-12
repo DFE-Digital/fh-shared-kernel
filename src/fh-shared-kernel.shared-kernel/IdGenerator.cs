@@ -1,4 +1,5 @@
-﻿using IdGen;
+﻿using FamilyHubs.SharedKernel.Interfaces;
+using IdGen;
 using Microsoft.Extensions.Configuration;
 
 namespace FamilyHubs.SharedKernel
@@ -36,7 +37,7 @@ namespace FamilyHubs.SharedKernel
     /// "IdGen64": 
     ///       "GeneratorId": "0"
     /// </summary>
-    public class IdGen64
+    public class IdGen64 : IIdGen641
     {
         private readonly IdGenerator _idGenerator;
 

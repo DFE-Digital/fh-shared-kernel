@@ -2,10 +2,9 @@
 
 namespace FamilyHubs.SharedKernel.Interfaces
 {
-    public interface IIdGen64
+    public interface IIdGen641
     {
-        IdGenerator? Generator { get; }
-
+        IdGenerator CreateIdGenerator();
         long NewId();
     }
 }
