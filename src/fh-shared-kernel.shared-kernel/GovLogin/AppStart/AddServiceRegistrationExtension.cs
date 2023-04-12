@@ -4,6 +4,7 @@ using FamilyHubs.SharedKernel.GovLogin.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 {
@@ -18,7 +19,9 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                     "Cannot find GovUkOidcConfiguration in configuration. Please add a section called GovUkOidcConfiguration with BaseUrl, ClientId and KeyVaultIdentifier properties.");
             }
 
+            services.AddOptions();
             services.AddTransient(typeof(ICustomClaims), customClaims);
+            services.AddSingleton(c => c.GetService<IOptions<GovUkOidcConfiguration>>()!.Value);
             services.AddHttpClient<IOidcService, OidcService>();
             services.AddTransient<IAzureIdentityService, AzureIdentityService>();
             services.AddTransient<IJwtSecurityTokenService, JwtSecurityTokenService>();

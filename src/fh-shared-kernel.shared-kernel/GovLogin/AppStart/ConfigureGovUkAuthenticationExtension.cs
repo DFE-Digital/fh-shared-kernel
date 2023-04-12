@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.KeyVaultExtensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
@@ -70,13 +71,10 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 .Configure<IOidcService, IAzureIdentityService, ICustomClaims, GovUkOidcConfiguration>(
                     (options, oidcService, azureIdentityService, customClaims, config) =>
                     {
-                        var govUkConfiguration = config;
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             AuthenticationType = "private_key_jwt",
-                            IssuerSigningKey = TempCodeGetSignInCred(),
-                            //IssuerSigningKey = new KeyVaultSecurityKey(govUkConfiguration.KeyVaultIdentifier,
-                            //    azureIdentityService.AuthenticationCallback),
+                            IssuerSigningKey = GetIssuerSigningKey(config, azureIdentityService),
                             ValidateIssuerSigningKey = true,
                             ValidateIssuer = true,
                             ValidateAudience = true,
@@ -94,9 +92,14 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                     });
         }
 
-        private static RsaSecurityKey TempCodeGetSignInCred()
+        private static SecurityKey GetIssuerSigningKey(GovUkOidcConfiguration config, IAzureIdentityService azureIdentityService)
         {
-            var unencodedKey = "";
+            if (config.UseKeyVault())
+            {
+                return new KeyVaultSecurityKey(config.Oidc.KeyVaultIdentifier, azureIdentityService.AuthenticationCallback);
+            }
+
+            var unencodedKey = config.Oidc.PrivateKey!;
             var privateKeyBytes = Convert.FromBase64String(unencodedKey);
 
             var bytes = Encoding.ASCII.GetBytes(unencodedKey);

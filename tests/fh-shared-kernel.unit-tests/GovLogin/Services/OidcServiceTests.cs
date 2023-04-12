@@ -3,10 +3,10 @@ using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
 using FamilyHubs.SharedKernel.GovLogin.Services;
 using FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using FluentAssertions;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +15,6 @@ using Moq.Protected;
 using System.Net;
 using System.Security.Claims;
 using System.Text.Json;
-using FluentAssertions;
 
 namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.Services
 {

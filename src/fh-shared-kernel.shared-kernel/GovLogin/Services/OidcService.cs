@@ -113,10 +113,22 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
 
                 });
 
-            SigningCredentials signingCredentials;
+            var signingCredentials = GetSigningCredentials();
+
+            var value = _jwtSecurityTokenService.CreateToken(
+                _configuration.Oidc.ClientId,
+                $"{_configuration.Oidc.BaseUrl}/token", 
+                claimsIdentity, 
+                signingCredentials);
+
+            return value;
+        }
+
+        private SigningCredentials GetSigningCredentials()
+        {
             if (_configuration.UseKeyVault())
             {
-                signingCredentials = new SigningCredentials(
+                return new SigningCredentials(
                     new KeyVaultSecurityKey(_configuration.Oidc.KeyVaultIdentifier,
                         _azureIdentityService.AuthenticationCallback), "RS512")
                 {
@@ -126,20 +138,9 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
                     }
                 };
             }
-            else
-            {
-                signingCredentials = TempCodeGetSignInCred();
-            }
 
-            var value = _jwtSecurityTokenService.CreateToken(_configuration.Oidc.ClientId,
-                $"{_configuration.Oidc.BaseUrl}/token", claimsIdentity, signingCredentials);
 
-            return value;
-        }
-
-        private static SigningCredentials TempCodeGetSignInCred()
-        {
-            var unencodedKey = "";
+            var unencodedKey = _configuration.Oidc.PrivateKey!;
             var privateKeyBytes = Convert.FromBase64String(unencodedKey);
 
             var bytes = Encoding.ASCII.GetBytes(unencodedKey);
@@ -154,20 +155,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
                 var foo = ex.Message;
             }
             var key = new RsaSecurityKey(rsa);
-            // return new SigningCredentials(key, "RS512");
             return new SigningCredentials(key, "RS256");
-
-
-
-            //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(unencodedKey));
-            //var signingCredentials = new SigningCredentials(key, "RS256");
-
-            //return signingCredentials;
-        }
-
-        private class tempKey : SecurityKey
-        {
-            public override int KeySize => 0;
         }
     }
 }
