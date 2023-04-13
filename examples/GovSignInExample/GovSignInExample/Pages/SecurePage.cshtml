@@ -1,4 +1,24 @@
 ﻿@page
+@using System.Security.Claims
+@inject IHttpContextAccessor _httpContextAccessor
+
 @model GovSignInExample.Pages.SecurePageModel
 @{
+    ViewData["Title"] = "Secure Page";
+    var context = _httpContextAccessor.HttpContext;
 }
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Claims from .Gov</h3>
+<p>Email: @context!.User.Claims.FirstOrDefault(c=>c.Type.Equals(ClaimTypes.Email))?.Value</p>
+<p>Sub: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals(ClaimTypes.NameIdentifier))?.Value</p>
+
+<h3>Custom Claims</h3>
+<p>AccountId: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("EmployerAccountId"))?.Value</p>
+
+
+
+<a asp-area="" asp-page="/Account/signout">
+    <input type="button" value="Sign Out" />
+</a>
