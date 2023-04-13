@@ -31,11 +31,10 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                     options.MetadataAddress = $"{govUkConfiguration.Oidc.BaseUrl}/.well-known/openid-configuration";
                     options.ResponseType = "code";
                     options.AuthenticationMethod = OpenIdConnectRedirectBehavior.RedirectGet;
-                    options.SignedOutRedirectUri = "/";
-                    options.SignedOutCallbackPath = "/signed-out";
+                    options.SignedOutRedirectUri = "/Account/logout-callback";
+                    options.SignedOutCallbackPath = "/Account/logout-callback";
                     options.CallbackPath = "/Account/login-callback";
                     options.ResponseMode = string.Empty;
-
                     options.SaveTokens = true;
 
                     var scopes = "openid email phone".Split(' ');
@@ -64,7 +63,6 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                         return Task.CompletedTask;
                     };
 
-
                 }).AddAuthenticationCookie(authenticationCookieName);
             services
                 .AddOptions<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme)
@@ -78,8 +76,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                             ValidateIssuerSigningKey = true,
                             ValidateIssuer = true,
                             ValidateAudience = true,
-                            SaveSigninToken = true
-                        };
+                            SaveSigninToken = true                        };
                         options.Events.OnAuthorizationCodeReceived = async (ctx) =>
                         {
                             var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);
@@ -88,6 +85,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                                 ctx.HandleCodeRedemption(token.AccessToken, token.IdToken);
                             }
                         };
+
                         options.Events.OnTokenValidated = async ctx => await oidcService.PopulateAccountClaims(ctx);
                     });
         }
@@ -116,5 +114,6 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             var key = new RsaSecurityKey(rsa);
             return key;
         }
+
     }
 }

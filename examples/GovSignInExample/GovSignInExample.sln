@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GovSignInExample", "GovSignInExample\GovSignInExample.csproj", "{AEAF4942-7155-4388-AC12-266D6694525B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEAF4942-7155-4388-AC12-266D6694525B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEAF4942-7155-4388-AC12-266D6694525B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEAF4942-7155-4388-AC12-266D6694525B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEAF4942-7155-4388-AC12-266D6694525B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {797BA63F-8102-43AB-8DFB-A9BB12BAFD40}
+	EndGlobalSection
+EndGlobal

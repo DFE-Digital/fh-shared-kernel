@@ -85,7 +85,6 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
 
                 Headers =
                 {
-                    UserAgent = {new ProductInfoHeaderValue("DfEApprenticeships", "1")},
                     Authorization = new AuthenticationHeaderValue("Bearer", accessToken)
                 }
             };
