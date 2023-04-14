@@ -1,5 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 .AddAuthentication(sharedOptions =>
                 {
                     sharedOptions.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                    sharedOptions.DefaultChallengeScheme = authenticationCookieName;
                 })
                 .AddScheme<AuthenticationSchemeOptions, EmployerStubAuthHandler>(authenticationCookieName, _ => { })
                 .AddCookie(OpenIdConnectDefaults.AuthenticationScheme, options =>

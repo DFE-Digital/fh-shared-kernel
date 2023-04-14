@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -34,10 +35,21 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             _configuration = configuration.GetGovUkOidcConfiguration();
         }
 
+        protected override Task HandleChallengeAsync(AuthenticationProperties properties)
+        {
+            var json = JsonConvert.SerializeObject(_configuration.StubAuthentication.GovUkUser);
+            _httpContextAccessor.HttpContext!.Response.Cookies.Append(_configuration.StubAuthentication.AuthCookieName, json);
+            var request = _httpContextAccessor.HttpContext!.Request;
+            var redirect = $"https://{request.Host}{request.Path}{request.QueryString}";
+            _httpContextAccessor.HttpContext!.Response.Redirect(redirect);
+            return Task.CompletedTask;
+        }
+
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var cookieJson = _httpContextAccessor.HttpContext!.Request.Cookies[_configuration.StubAuthentication.AuthCookieName];
-            if (TryGetClaimsFromCookie(cookieJson, out var claims))
+
+            if (!TryGetClaimsFromCookie(cookieJson, out var claims))
             {
                 return AuthenticateResult.Fail("Cookie not found");
             }
@@ -69,7 +81,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 return false;
             }
 
-            var authCookieValue = JsonConvert.DeserializeObject<StubAuthUserDetails>(cookieJson);
+            var authCookieValue = JsonConvert.DeserializeObject<GovUkUser>(cookieJson);
 
             if (authCookieValue == null)
             {
@@ -77,8 +89,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             }
 
             claims.Add(new Claim(ClaimTypes.Email, authCookieValue.Email));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, authCookieValue.Id));
-            claims.Add(new Claim("sub", authCookieValue.Id));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, authCookieValue.Sub));
 
             return true;
         }
