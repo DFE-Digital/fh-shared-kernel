@@ -12,7 +12,7 @@ builder.Services.AddServiceRegistration(builder.Configuration);
 // *****  REQUIRED SECTION END
 
 // *****  CALL_API_EXAMPLE SECTION START
-builder.Services.AddSecureClient("TestClient", (serviceProvider, httpClient) =>
+builder.Services.AddSecureHttpClient("TestClient", (serviceProvider, httpClient) =>
 {
     httpClient.BaseAddress = new Uri("https://localhost:7101/");
 });

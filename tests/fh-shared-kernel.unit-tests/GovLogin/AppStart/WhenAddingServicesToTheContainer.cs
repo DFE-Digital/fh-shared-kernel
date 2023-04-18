@@ -49,7 +49,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.AppStart
         {
             var configuration = FakeConfiguration.GetConfiguration();
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddServiceRegistration(configuration, typeof(TestCustomClaims));
+            serviceCollection.AddAndConfigureGovUkAuthentication(configuration, "authenticationCookieName");
         }
 
 

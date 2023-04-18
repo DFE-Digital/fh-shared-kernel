@@ -8,6 +8,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public Urls Urls { get; set; } = default!;
         public StubAuthentication StubAuthentication { get; set; } = new StubAuthentication();
         public int ExpiryInMinutes { get; set; } = 15;
+        public string? IdamsApiBaseUrl { get; set; }
     }
 
     public class Oidc
@@ -27,11 +28,11 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
     public class StubAuthentication
     {
         public bool UseStubAuthentication { get; set; } = false;
+        public bool UseStubClaims { get; set; } = false;
         public string StubDomain { get; set; } = "localhost";
         public string AuthCookieName { get; set; } = "GovSignIn.StubAuthCookie";
         public GovUkUser GovUkUser { get; set; } = new GovUkUser { Email = "stub.user@demo.com", Sub = "stubCode" };
         public string PrivateKey { get; set; } = "StubPrivateKey";
+        public List<AccountClaim> StubClaims { get; set; } = new List<AccountClaim> { new AccountClaim { AccountId = "stub.user@demo.com", Name = "Role", Value = "Admin" } };
     }
-
-
 }

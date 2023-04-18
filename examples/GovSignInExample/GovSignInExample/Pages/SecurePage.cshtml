@@ -14,9 +14,27 @@
 <h3>Claims from .Gov</h3>
 <p>Email: @context!.User.Claims.FirstOrDefault(c=>c.Type.Equals(ClaimTypes.Email))?.Value</p>
 <p>Sub: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals(ClaimTypes.NameIdentifier))?.Value</p>
+<p>vot: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("vot"))?.Value</p>
+<p>vtm: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("vtm"))?.Value</p>
+<p>sid: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("sid"))?.Value</p>
 
 <h3>Custom Claims</h3>
-<p>AccountId: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("EmployerAccountId"))?.Value</p>
+@foreach (var claim in context!.User.Claims)
+{
+    switch (claim.Type)
+    {
+        case ClaimTypes.Email:
+        case ClaimTypes.NameIdentifier:
+        case "vot":
+        case "vtm":
+        case "sid":
+            break;
+        default:
+            <p><span>@claim.Type</span>: <span>@claim.Value</span></p>
+            break;
+    }
+}
+
 
 <p class="bearerToken">
     <span class="bearerToken-label">BearerToken-GeneratedByUs: </span>

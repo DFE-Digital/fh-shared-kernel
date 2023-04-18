@@ -10,7 +10,7 @@ namespace GovSignInExample.Pages
     {
         private HttpClient _httpClient;
         public List<KeyValuePair<string, string>>? RequestResponse { get; set; }
-        public string StatusCode { get; set; } = string.Empty;
+        public string ResponseStatusCode { get; set; } = string.Empty;
 
         public MakeApiCallModel(IHttpClientFactory httpClientFactory)
         {
@@ -27,7 +27,7 @@ namespace GovSignInExample.Pages
 
             using var response = await _httpClient.SendAsync(request);
 
-            StatusCode = $"{(int)response.StatusCode} {response.StatusCode.ToString()}";
+            ResponseStatusCode = $"{(int)response.StatusCode} {response.StatusCode.ToString()}";
 
             var json = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrEmpty(json))
