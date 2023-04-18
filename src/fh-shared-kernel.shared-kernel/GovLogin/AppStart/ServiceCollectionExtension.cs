@@ -1,11 +1,9 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Authentication;
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FamilyHubs.SharedKernel.GovLogin.AppStart
