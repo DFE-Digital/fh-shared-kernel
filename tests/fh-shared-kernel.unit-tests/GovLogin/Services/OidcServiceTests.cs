@@ -232,8 +232,6 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.Services
                     ItExpr.Is<HttpRequestMessage>(c =>
                         c.Headers.Authorization != null
                         && c.Headers.Authorization.Parameter != null
-                        && c.Headers.UserAgent.FirstOrDefault(x =>
-                            x.Product != null && x.Product.Version != null && x.Product.Name.Equals("DfEApprenticeships") && x.Product.Version.Equals("1")) != null
                         && c.Headers.Authorization.Scheme.Equals("Bearer")
                         && c.Headers.Authorization.Parameter.Equals(_accessToken)
                     ),

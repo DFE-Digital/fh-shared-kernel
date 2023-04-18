@@ -1,3 +1,4 @@
+using FamilyHubs.SharedKernel.GovLogin.AppStart;
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using GovSignInExample.AppStart;
 
@@ -10,6 +11,12 @@ builder.Services.Configure<GovUkOidcConfiguration>(builder.Configuration.GetSect
 builder.Services.AddServiceRegistration(builder.Configuration);
 // *****  REQUIRED SECTION END
 
+// *****  CALL_API_EXAMPLE SECTION START
+builder.Services.AddSecureClient("TestClient", (serviceProvider, httpClient) =>
+{
+    httpClient.BaseAddress = new Uri("https://localhost:7101/");
+});
+// *****  CALL_API_EXAMPLE SECTION END
 
 
 // Add services to the container.
@@ -31,8 +38,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 // *****  REQUIRED SECTION START
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseGovLoginAuthentication();
 // *****  REQUIRED SECTION END
 
 app.MapRazorPages();

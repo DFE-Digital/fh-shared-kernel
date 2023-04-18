@@ -1,0 +1,27 @@
+﻿@page
+@model GovSignInExample.Pages.MakeApiCallModel
+@{
+}
+
+<h2>Api Response - </h2>
+
+
+<h3>StatusCode</h3>
+@Model.StatusCode
+
+<h3>Body</h3>
+@if (Model.RequestResponse != null)
+{
+    <table>
+        @foreach (var claim in Model.RequestResponse)
+        {
+                <tr>
+                    <td style="font-weight: bold; text-align: right;">
+                    @claim.Key
+                    </td>
+                    <td>:</td>
+                    <td>@claim.Value</td>
+                </tr>
+        }
+    </table>
+}

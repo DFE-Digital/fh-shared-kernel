@@ -76,7 +76,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                             ValidateIssuerSigningKey = true,
                             ValidateIssuer = true,
                             ValidateAudience = true,
-                            SaveSigninToken = true                        };
+                            SaveSigninToken = true                        
+                        };
                         options.Events.OnAuthorizationCodeReceived = async (ctx) =>
                         {
                             var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);

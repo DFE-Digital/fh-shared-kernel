@@ -1,5 +1,6 @@
 ﻿@page
 @using System.Security.Claims
+@using FamilyHubs.SharedKernel.GovLogin.Authentication;
 @inject IHttpContextAccessor _httpContextAccessor
 
 @model GovSignInExample.Pages.SecurePageModel
@@ -17,8 +18,33 @@
 <h3>Custom Claims</h3>
 <p>AccountId: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("EmployerAccountId"))?.Value</p>
 
+<p class="bearerToken">
+    <span class="bearerToken-label">BearerToken-GeneratedByUs: </span>
+    <span class="bearerToken-value">@context.GetBearerToken()</span>
+</p>
 
+<a asp-area="" asp-page="/MakeApiCall">
+    <input type="button" value="Make Api Call" />
+</a>
 
 <a asp-area="" asp-page="/Account/signout">
     <input type="button" value="Sign Out" />
 </a>
+
+<style>
+    .bearerToken {
+        width: 1000px;
+        display: flex;
+    }
+
+    .bearerToken-label {
+        width: 250px;
+        display: inline-block;
+    }
+
+    .bearerToken-value {
+        width: 750px;
+        display: inline-block;
+        word-wrap: break-word;
+    }
+</style>

@@ -7,6 +7,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public Oidc Oidc { get; set; } = default!;
         public Urls Urls { get; set; } = default!;
         public StubAuthentication StubAuthentication { get; set; } = new StubAuthentication();
+        public int ExpiryInMinutes { get; set; } = 15;
     }
 
     public class Oidc
@@ -29,6 +30,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string StubDomain { get; set; } = "localhost";
         public string AuthCookieName { get; set; } = "GovSignIn.StubAuthCookie";
         public GovUkUser GovUkUser { get; set; } = new GovUkUser { Email = "stub.user@demo.com", Sub = "stubCode" };
+        public string PrivateKey { get; set; } = "StubPrivateKey";
     }
 
 

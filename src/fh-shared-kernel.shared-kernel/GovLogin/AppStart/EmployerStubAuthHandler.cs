@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
