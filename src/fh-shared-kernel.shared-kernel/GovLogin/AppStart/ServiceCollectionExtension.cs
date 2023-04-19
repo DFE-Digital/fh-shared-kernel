@@ -110,19 +110,19 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
               });
         }
 
-        public static void AddAuthenticationCookie(this AuthenticationBuilder services, string cookieName)
+        public static void AddAuthenticationCookie(this AuthenticationBuilder services, string cookieName, GovUkOidcConfiguration config)
         {
 
             services.AddCookie(options =>
             {
                 options.AccessDeniedPath = new PathString("/error/403");
-                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(config.ExpiryInMinutes);
                 options.Cookie.Name = cookieName;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.SlidingExpiration = true;
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.CookieManager = new ChunkingCookieManager { ChunkSize = 3000 };
-                options.LogoutPath = "/home/signed-out";
+                options.LogoutPath = "/account/signout";
             });
         }
     }

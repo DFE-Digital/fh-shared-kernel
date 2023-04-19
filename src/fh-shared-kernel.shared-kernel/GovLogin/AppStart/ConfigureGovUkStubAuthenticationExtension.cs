@@ -29,7 +29,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                     };
                 });
 
-            services.AddAuthentication(authenticationCookieName).AddAuthenticationCookie(authenticationCookieName);
+            services.AddAuthentication(authenticationCookieName).AddAuthenticationCookie(authenticationCookieName, config);
         }
 
     }

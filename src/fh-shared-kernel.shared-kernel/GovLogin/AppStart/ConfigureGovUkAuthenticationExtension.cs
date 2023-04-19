@@ -16,6 +16,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
         internal static void ConfigureGovUkAuthentication(this IServiceCollection services,
             IConfiguration configuration, string authenticationCookieName, string redirectUrl)
         {
+            var govUkConfiguration = configuration.GetGovUkOidcConfiguration();
+
             services
                 .AddAuthentication(sharedOptions =>
                 {
@@ -25,8 +27,6 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                     sharedOptions.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 }).AddOpenIdConnect(options =>
                 {
-                    var govUkConfiguration = configuration.GetGovUkOidcConfiguration();
-
                     options.ClientId = govUkConfiguration.Oidc.ClientId;
                     options.MetadataAddress = $"{govUkConfiguration.Oidc.BaseUrl}/.well-known/openid-configuration";
                     options.ResponseType = "code";
@@ -63,7 +63,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                         return Task.CompletedTask;
                     };
 
-                }).AddAuthenticationCookie(authenticationCookieName);
+                }).AddAuthenticationCookie(authenticationCookieName, govUkConfiguration);
             services
                 .AddOptions<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme)
                 .Configure<IOidcService, IAzureIdentityService, ICustomClaims, GovUkOidcConfiguration>(
