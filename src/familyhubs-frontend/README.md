@@ -2,12 +2,9 @@
 
 # possible ToDos
 
-* support opening footer links in new tab
-
-* chrome/.net seems to get confused by asp-append-version. it doesn't seem to pick up that the file's changed and fetches the correct file, but also picks stuff up from cache. find a solution
+* chrome/.net sometimes seems to get confused by asp-append-version. it doesn't seem to pick up that the file's changed and fetches the correct file, but also picks stuff up from cache. find a solution
     <script src="~/js/app.js" asp-append-version="true"></script>
-    or is it an isue with the map file?
-
+    or is it an issue with the map file?
 
 * add _viewstart to rcl?
 
