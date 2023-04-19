@@ -25,4 +25,6 @@ public class LinkOptions
     /// "FamilyHubsUi:FeedbackUrl"
     /// </example>
     public string? ConfigUrl { get; set; }
+
+    public bool OpenInNewTab { get; set; } = false;
 }

@@ -10,10 +10,8 @@
                 <ul class="govuk-footer__inline-list">
                     @foreach (var footerLink in Model.Footer.Links)
                     {
-                        @*todo: default url to the asp-page index replacing space with -. do once on load*@
                         <li class="govuk-footer__inline-list-item">
-                            <a class="govuk-footer__link" href="@footerLink.Url">
-                                @*asp-page="/Accessibility/Index">*@
+                            <a class="govuk-footer__link" href="@footerLink.Url" @(footerLink.OpenInNewTab ? Html.Raw("rel=\"noreferrer noopener\" target=\"_blank\""):"")>
                                 @footerLink.Text
                             </a>
                         </li>

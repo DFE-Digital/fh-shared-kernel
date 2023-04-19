@@ -2,6 +2,12 @@
 
 # possible ToDos
 
+* chrome/.net sometimes seems to get confused by asp-append-version. it doesn't seem to pick up that the file's changed and fetches the correct file, but also picks stuff up from cache. find a solution
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    or is it an issue with the map file?
+
+* add _viewstart to rcl?
+
 * use partial for error pages?
 
 * finish documenting how to use as a consumer, and how to develop
