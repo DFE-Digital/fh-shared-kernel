@@ -1,0 +1,68 @@
+﻿@page
+@using System.Security.Claims
+@using FamilyHubs.SharedKernel.GovLogin.Authentication;
+@inject IHttpContextAccessor _httpContextAccessor
+
+@model GovSignInExample.Pages.SecurePageModel
+@{
+    ViewData["Title"] = "Secure Page";
+    var context = _httpContextAccessor.HttpContext;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Claims from .Gov</h3>
+<p>Email: @context!.User.Claims.FirstOrDefault(c=>c.Type.Equals(ClaimTypes.Email))?.Value</p>
+<p>Sub: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals(ClaimTypes.NameIdentifier))?.Value</p>
+<p>vot: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("vot"))?.Value</p>
+<p>vtm: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("vtm"))?.Value</p>
+<p>sid: @context.User.Claims.FirstOrDefault(c=>c.Type.Equals("sid"))?.Value</p>
+
+<h3>Custom Claims</h3>
+@foreach (var claim in context!.User.Claims)
+{
+    switch (claim.Type)
+    {
+        case ClaimTypes.Email:
+        case ClaimTypes.NameIdentifier:
+        case "vot":
+        case "vtm":
+        case "sid":
+            break;
+        default:
+            <p><span>@claim.Type</span>: <span>@claim.Value</span></p>
+            break;
+    }
+}
+
+
+<p class="bearerToken">
+    <span class="bearerToken-label">BearerToken-GeneratedByUs: </span>
+    <span class="bearerToken-value">@context.GetBearerToken()</span>
+</p>
+
+<a asp-area="" asp-page="/MakeApiCall">
+    <input type="button" value="Make Api Call" />
+</a>
+
+<a asp-area="" asp-page="/Account/signout">
+    <input type="button" value="Sign Out" />
+</a>
+
+<style>
+    .bearerToken {
+        width: 1000px;
+        display: flex;
+    }
+
+    .bearerToken-label {
+        width: 250px;
+        display: inline-block;
+    }
+
+    .bearerToken-value {
+        width: 750px;
+        display: inline-block;
+        word-wrap: break-word;
+    }
+</style>
