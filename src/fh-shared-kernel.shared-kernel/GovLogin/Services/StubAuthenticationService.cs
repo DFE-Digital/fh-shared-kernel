@@ -1,16 +1,12 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace FamilyHubs.SharedKernel.GovLogin.Services
 {
-    public interface IStubAuthenticationService
-    {
-        void AddStubEmployerAuth(IResponseCookies cookies, StubAuthUserDetails model);
-    }
-
     public class StubAuthenticationService : IStubAuthenticationService
     {
         private readonly GovUkOidcConfiguration _configuration;

@@ -1,5 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Services;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
@@ -104,14 +105,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             var bytes = Encoding.ASCII.GetBytes(unencodedKey);
 
             var rsa = RSA.Create();
-            try
-            {
-                rsa.ImportPkcs8PrivateKey(privateKeyBytes, out _);
-            }
-            catch (Exception ex)
-            {
-                var foo = ex.Message;
-            }
+            rsa.ImportPkcs8PrivateKey(privateKeyBytes, out _);
             var key = new RsaSecurityKey(rsa);
             return key;
         }

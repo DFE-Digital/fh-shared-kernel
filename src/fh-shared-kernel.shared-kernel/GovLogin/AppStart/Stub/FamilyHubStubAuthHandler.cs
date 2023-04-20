@@ -1,6 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
-using FamilyHubs.SharedKernel.GovLogin.Services;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
@@ -11,15 +11,15 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace FamilyHubs.SharedKernel.GovLogin.AppStart
+namespace FamilyHubs.SharedKernel.GovLogin.AppStart.Stub
 {
-    internal class EmployerStubAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    internal class FamilyHubStubAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly ICustomClaims _customClaims;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly GovUkOidcConfiguration _configuration;
 
-        public EmployerStubAuthHandler(
+        public FamilyHubStubAuthHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options, 
             ILoggerFactory logger,
             UrlEncoder encoder, 

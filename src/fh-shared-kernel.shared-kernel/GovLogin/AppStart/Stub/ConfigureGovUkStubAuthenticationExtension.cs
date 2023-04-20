@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FamilyHubs.SharedKernel.GovLogin.AppStart
+namespace FamilyHubs.SharedKernel.GovLogin.AppStart.Stub
 {
     internal static class ConfigureGovUkStubAuthenticationExtension
     {
 
-        public static void AddEmployerStubAuthentication(this IServiceCollection services,
+        public static void AddFamilyHubStubAuthentication(this IServiceCollection services,
             string authenticationCookieName, GovUkOidcConfiguration config)
         {
             services
@@ -17,7 +17,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                     sharedOptions.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
                     sharedOptions.DefaultChallengeScheme = authenticationCookieName;
                 })
-                .AddScheme<AuthenticationSchemeOptions, EmployerStubAuthHandler>(authenticationCookieName, _ => { })
+                .AddScheme<AuthenticationSchemeOptions, FamilyHubStubAuthHandler>(authenticationCookieName, _ => { })
                 .AddCookie(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
                     options.Events.OnSigningOut = c =>

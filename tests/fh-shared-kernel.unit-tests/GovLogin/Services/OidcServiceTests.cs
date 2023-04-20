@@ -2,6 +2,7 @@
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
 using FamilyHubs.SharedKernel.GovLogin.Services;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication;

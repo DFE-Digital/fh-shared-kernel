@@ -1,24 +1,18 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Newtonsoft.Json.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
 
 namespace FamilyHubs.SharedKernel.GovLogin.Services
 {
-    public interface ICustomClaims
-    {
-        Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext);
-    }
-
-    public class CustomClaims : ICustomClaims
+    public class FamilyHubsClaims : ICustomClaims
     {
         private HttpClient _httpClient;
-        public CustomClaims(IHttpClientFactory httpClientFactory)
+        public FamilyHubsClaims(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory?.CreateClient(nameof(CustomClaims))!;
+            _httpClient = httpClientFactory?.CreateClient(nameof(FamilyHubsClaims))!;
         }
 
         public async Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
@@ -51,25 +45,5 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
         }
     }
 
-    public class StubCustomClaims : ICustomClaims
-    {
-        private List<AccountClaim> _claims;
 
-        public StubCustomClaims(GovUkOidcConfiguration govUkOidcConfiguration)
-        {
-            _claims = govUkOidcConfiguration.StubAuthentication.StubClaims;
-        }
-
-        public Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
-        {
-            var claims = new List<Claim>();
-
-            foreach (var claim in _claims)
-            {
-                claims.Add(new Claim(claim.Name, claim.Value));
-            }
-
-            return Task.FromResult(claims.AsEnumerable());
-        }
-    }
 }

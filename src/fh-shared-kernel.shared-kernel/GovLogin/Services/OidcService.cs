@@ -1,5 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.KeyVaultExtensions;
@@ -8,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 
 namespace FamilyHubs.SharedKernel.GovLogin.Services
@@ -138,11 +138,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
                 };
             }
 
-
             var unencodedKey = _configuration.Oidc.PrivateKey!;
             var privateKeyBytes = Convert.FromBase64String(unencodedKey);
-
-            var bytes = Encoding.ASCII.GetBytes(unencodedKey);
 
             var rsa = RSA.Create();
             try

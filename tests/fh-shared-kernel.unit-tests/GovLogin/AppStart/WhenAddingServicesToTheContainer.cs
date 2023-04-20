@@ -1,11 +1,10 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.AppStart;
 using FamilyHubs.SharedKernel.GovLogin.Authentication;
-using FamilyHubs.SharedKernel.GovLogin.Services;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
@@ -51,8 +50,6 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.AppStart
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddAndConfigureGovUkAuthentication(configuration, "authenticationCookieName");
         }
-
-
 
         public class TestCustomClaims : ICustomClaims
         {

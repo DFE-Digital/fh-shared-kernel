@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using FamilyHubs.SharedKernel.GovLogin.AppStart.Stub;
+using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 
 namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 {
@@ -37,7 +39,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 
             if (config.StubAuthentication.UseStubAuthentication)
             {
-                services.AddEmployerStubAuthentication($"{authenticationCookieName}.stub", config);
+                services.AddFamilyHubStubAuthentication($"{authenticationCookieName}.stub", config);
             }
             else
             {
@@ -46,19 +48,19 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 
             if (config.StubAuthentication.UseStubClaims)
             {
-                services.AddTransient<ICustomClaims, StubCustomClaims>();
+                services.AddTransient<ICustomClaims, StubFamilyHubsClaims>();
             }
             else
             {
                 if (string.IsNullOrEmpty(config.IdamsApiBaseUrl))
                     throw new Exception("IdamsApiBaseUrl is not configured, if testing locally and custom claims not required set StubAuthentication.UseStubClaims:true");
 
-                services.AddHttpClient(nameof(CustomClaims), (serviceProvider, httpClient) =>
+                services.AddHttpClient(nameof(FamilyHubsClaims), (serviceProvider, httpClient) =>
                 {
                     httpClient.BaseAddress = new Uri(config.IdamsApiBaseUrl);
                 });
 
-                services.AddTransient<ICustomClaims, CustomClaims>();
+                services.AddTransient<ICustomClaims, FamilyHubsClaims>();
             }
 
         }

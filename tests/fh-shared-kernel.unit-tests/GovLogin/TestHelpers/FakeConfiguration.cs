@@ -15,6 +15,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers
                     new("GovUkOidcConfiguration:Oidc:ClientId", "1234567"),
                     new("GovUkOidcConfiguration:Oidc:KeyVaultIdentifier", "https://test.com/"),
                     new("GovUkOidcConfiguration:Urls:AccountSuspendedRedirect", "https://familyhubs-test.com/service/account-unavailable"),
+                    new("GovUkOidcConfiguration:IdamsApiBaseUrl", "https://test.com/"),
                     new("ResourceEnvironmentName", "AT")
                 }
             };
