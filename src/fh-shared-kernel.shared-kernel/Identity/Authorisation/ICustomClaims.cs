@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Security.Claims;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Services.Interfaces
+namespace FamilyHubs.SharedKernel.Identity.Authorisation
 {
     public interface ICustomClaims
     {

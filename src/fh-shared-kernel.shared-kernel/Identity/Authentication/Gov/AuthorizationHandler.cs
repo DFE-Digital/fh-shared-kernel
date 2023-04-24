@@ -4,13 +4,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Authentication
+namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 {
-    public class AccountActiveAuthorizationHandler : AuthorizationHandler<AccountActiveRequirement>
+    public class AccountActiveRequirement : IAuthorizationRequirement
+    {
+    }
+
+    public class AuthorizationHandler : AuthorizationHandler<AccountActiveRequirement>
     {
         private readonly GovUkOidcConfiguration _configuration;
 
-        public AccountActiveAuthorizationHandler(IConfiguration configuration)
+        public AuthorizationHandler(IConfiguration configuration)
         {
             _configuration = configuration.GetGovUkOidcConfiguration();
         }

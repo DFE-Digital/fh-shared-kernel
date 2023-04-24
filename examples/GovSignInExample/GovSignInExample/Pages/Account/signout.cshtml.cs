@@ -1,4 +1,4 @@
-using FamilyHubs.SharedKernel.GovLogin.Authentication;
+using FamilyHubs.SharedKernel.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

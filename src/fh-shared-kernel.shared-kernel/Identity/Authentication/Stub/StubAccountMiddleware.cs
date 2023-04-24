@@ -4,14 +4,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Authentication
+namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
-    public class AccountMiddleware
+    public class StubAccountMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly GovUkOidcConfiguration _configuration;
 
-        public AccountMiddleware(RequestDelegate next, GovUkOidcConfiguration configuration)
+        public StubAccountMiddleware(RequestDelegate next, GovUkOidcConfiguration configuration)
         {
             _next = next;
             _configuration = configuration;
@@ -43,24 +43,14 @@ namespace FamilyHubs.SharedKernel.GovLogin.Authentication
 
         private string GetPrivateKey()
         {
-            if (_configuration.StubAuthentication.UseStubAuthentication)
-            {
-                return _configuration.StubAuthentication.PrivateKey;
-            }
-
-            if (string.IsNullOrEmpty(_configuration.Oidc.PrivateKey))
-            {
-                throw new ArgumentNullException("Configuration must contain private key to generate a bearer token");
-            }
-
-            return _configuration.Oidc.PrivateKey;
+            return _configuration.StubAuthentication.PrivateKey;
         }
 
         private static bool IsUserAuthenticated(ClaimsPrincipal? user)
         {
             if (user == null) return false;
 
-            if(user.Identity == null) return false;
+            if (user.Identity == null) return false;
 
             return user.Identity.IsAuthenticated;
         }

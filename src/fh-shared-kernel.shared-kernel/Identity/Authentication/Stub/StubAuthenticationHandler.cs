@@ -1,6 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
+using FamilyHubs.SharedKernel.Identity.Authorisation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
@@ -11,20 +11,20 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace FamilyHubs.SharedKernel.GovLogin.AppStart.Stub
+namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
-    internal class FamilyHubStubAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    internal class StubAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly ICustomClaims _customClaims;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly GovUkOidcConfiguration _configuration;
 
-        public FamilyHubStubAuthHandler(
-            IOptionsMonitor<AuthenticationSchemeOptions> options, 
+        public StubAuthenticationHandler(
+            IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
-            UrlEncoder encoder, 
-            ISystemClock clock, 
-            ICustomClaims customClaims, 
+            UrlEncoder encoder,
+            ISystemClock clock,
+            ICustomClaims customClaims,
             IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration) : base(options, logger, encoder, clock)
         {
@@ -35,17 +35,26 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart.Stub
 
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
+            if (string.IsNullOrWhiteSpace(_configuration.CookieName))
+                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
+
             var json = JsonConvert.SerializeObject(_configuration.StubAuthentication.GovUkUser);
-            _httpContextAccessor.HttpContext!.Response.Cookies.Append(_configuration.StubAuthentication.AuthCookieName, json);
+            _httpContextAccessor.HttpContext!.Response.Cookies.Append(_configuration.CookieName, json);
+
             var request = _httpContextAccessor.HttpContext!.Request;
             var redirect = $"https://{request.Host}{request.Path}{request.QueryString}";
+
             _httpContextAccessor.HttpContext!.Response.Redirect(redirect);
+
             return Task.CompletedTask;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var cookieJson = _httpContextAccessor.HttpContext!.Request.Cookies[_configuration.StubAuthentication.AuthCookieName];
+            if (string.IsNullOrWhiteSpace(_configuration.CookieName))
+                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
+
+            var cookieJson = _httpContextAccessor.HttpContext!.Request.Cookies[_configuration.CookieName];
 
             if (!TryGetClaimsFromCookie(cookieJson, out var claims))
             {
@@ -63,7 +72,6 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart.Stub
             }
 
             var ticket = new AuthenticationTicket(principal, "Employer-stub");
-
 
             var result = AuthenticateResult.Success(ticket);
 

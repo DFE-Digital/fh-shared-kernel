@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Authentication
+namespace FamilyHubs.SharedKernel.Identity
 {
     public static class HttpContextExtensions
     {
@@ -24,11 +24,11 @@ namespace FamilyHubs.SharedKernel.GovLogin.Authentication
 
         public static async Task<SignOutResult> GovSignOut(this HttpContext httpContext)
         {
-            var idToken = await httpContext.GetTokenAsync("id_token");
+            var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
 
             var authenticationProperties = new AuthenticationProperties();
             authenticationProperties.Parameters.Clear();
-            authenticationProperties.Parameters.Add("id_token", idToken);
+            authenticationProperties.Parameters.Add(AuthenticationConstants.IdToken, idToken);
 
             string[] schemes = { CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme };
             return new SignOutResult(schemes, authenticationProperties );

@@ -1,17 +1,16 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Security.Claims;
 
 
-namespace FamilyHubs.SharedKernel.GovLogin.Services
+namespace FamilyHubs.SharedKernel.Identity.Authorisation.Stub
 {
-    public class StubFamilyHubsClaims : ICustomClaims
+    public class StubClaims : ICustomClaims
     {
         private List<AccountClaim> _claims;
 
-        public StubFamilyHubsClaims(GovUkOidcConfiguration govUkOidcConfiguration)
+        public StubClaims(GovUkOidcConfiguration govUkOidcConfiguration)
         {
             _claims = govUkOidcConfiguration.StubAuthentication.StubClaims;
         }

@@ -1,8 +1,12 @@
-﻿using FamilyHubs.SharedKernel.GovLogin.Authentication;
-using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.GovLogin.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity;
+using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
+using FamilyHubs.SharedKernel.Identity.Authentication.Stub;
+using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
+using FamilyHubs.SharedKernel.Identity.Authorisation.Stub;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,8 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using FamilyHubs.SharedKernel.GovLogin.AppStart.Stub;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 
 namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 {
@@ -21,7 +23,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
         /// Configures UI to authenticate using Gov Login
         /// </summary>
         public static void AddAndConfigureGovUkAuthentication(
-            this IServiceCollection services, IConfiguration configuration, string authenticationCookieName)
+            this IServiceCollection services, IConfiguration configuration)
         {
             var config = configuration.GetGovUkOidcConfiguration(); 
             if(config == null)
@@ -30,25 +32,24 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             }
 
             services.AddOptions();
-            services.AddSingleton(c => c.GetService<IOptions<GovUkOidcConfiguration>>()!.Value);
-            services.AddHttpClient<IOidcService, OidcService>();
-            services.AddTransient<IAzureIdentityService, AzureIdentityService>();
-            services.AddTransient<IJwtSecurityTokenService, JwtSecurityTokenService>();
-            services.AddTransient<IStubAuthenticationService, StubAuthenticationService>();
-            services.AddSingleton<IAuthorizationHandler, AccountActiveAuthorizationHandler>();
+            services.AddSingleton(c => c.GetService<IOptions<GovUkOidcConfiguration>>()!.Value); 
 
             if (config.StubAuthentication.UseStubAuthentication)
             {
-                services.AddFamilyHubStubAuthentication($"{authenticationCookieName}.stub", config);
+                services.AddStubAuthentication(config);
             }
             else
             {
-                services.ConfigureGovUkAuthentication(configuration, authenticationCookieName, config.Urls.SignedOutRedirect);
+                services.AddTransient<IAzureIdentityService, AzureIdentityService>();
+                services.AddTransient<IJwtSecurityTokenService, JwtSecurityTokenService>();
+                services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
+                services.AddHttpClient<IOidcService, OidcService>();
+                services.AddGovUkAuthentication(configuration);
             }
 
             if (config.StubAuthentication.UseStubClaims)
             {
-                services.AddTransient<ICustomClaims, StubFamilyHubsClaims>();
+                services.AddTransient<ICustomClaims, StubClaims>();
             }
             else
             {

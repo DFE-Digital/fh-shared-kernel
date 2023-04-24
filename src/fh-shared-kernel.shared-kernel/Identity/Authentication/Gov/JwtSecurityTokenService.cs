@@ -1,10 +1,14 @@
-﻿using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Services
+namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 {
+    public interface IJwtSecurityTokenService
+    {
+        string CreateToken(string clientId, string audience, ClaimsIdentity claimsIdentity,
+            SigningCredentials signingCredentials);
+    }
     internal class JwtSecurityTokenService : IJwtSecurityTokenService
     {
         public string CreateToken(string clientId, string audience, ClaimsIdentity claimsIdentity,

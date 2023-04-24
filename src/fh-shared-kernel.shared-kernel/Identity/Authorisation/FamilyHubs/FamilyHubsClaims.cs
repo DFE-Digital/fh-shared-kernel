@@ -1,11 +1,10 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Services
+namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 {
     public class FamilyHubsClaims : ICustomClaims
     {
@@ -33,10 +32,10 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
 
             var customClaims = JsonSerializer.Deserialize<List<AccountClaim>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            
+
             var claims = new List<Claim>();
 
-            foreach(var claim in customClaims!)
+            foreach (var claim in customClaims!)
             {
                 claims.Add(new Claim(claim.Name, claim.Value));
             }

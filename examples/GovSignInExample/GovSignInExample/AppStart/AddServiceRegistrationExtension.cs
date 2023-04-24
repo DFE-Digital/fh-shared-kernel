@@ -6,7 +6,7 @@ namespace GovSignInExample.AppStart
     {
         public static void AddServiceRegistration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAndConfigureGovUkAuthentication(configuration, $"{typeof(AddServiceRegistrationExtension).Assembly.GetName().Name}.Auth");
+            services.AddAndConfigureGovUkAuthentication(configuration);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.GovLogin.Models;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
+using FamilyHubs.SharedKernel.Identity.Authorisation;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.KeyVaultExtensions;
@@ -11,8 +11,14 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text.Json;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Services
+namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 {
+    public interface IOidcService
+    {
+        Task<Token?> GetToken(OpenIdConnectMessage openIdConnectMessage);
+        Task PopulateAccountClaims(TokenValidatedContext tokenValidatedContext);
+    }
+
     public class OidcService : IOidcService
     {
         private readonly HttpClient _httpClient;
@@ -116,8 +122,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.Services
 
             var value = _jwtSecurityTokenService.CreateToken(
                 _configuration.Oidc.ClientId,
-                $"{_configuration.Oidc.BaseUrl}/token", 
-                claimsIdentity, 
+                $"{_configuration.Oidc.BaseUrl}/token",
+                claimsIdentity,
                 signingCredentials);
 
             return value;

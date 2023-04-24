@@ -1,9 +1,12 @@
 ﻿using Azure.Core;
 using Azure.Identity;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Services
+namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 {
+    public interface IAzureIdentityService
+    {
+        Task<string> AuthenticationCallback(string authority, string resource, string scope);
+    }
     internal class AzureIdentityService : IAzureIdentityService
     {
         public async Task<string> AuthenticationCallback(string authority, string resource, string scope)
