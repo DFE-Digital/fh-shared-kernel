@@ -11,48 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.UnitTests", "tests\fh-shared-kernel.unit-tests\FamilyHubs.SharedKernel.UnitTests.csproj", "{32B1435A-437F-4F0A-A26C-BF741760B062}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.Razor", "src\FamilyHubs.SharedKernel.Razor\FamilyHubs.SharedKernel.Razor.csproj", "{B3BB7061-A360-4403-AD31-AE9B4211B72B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "familyhubs-frontend", "familyhubs-frontend", "{9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\.npmignore = src\familyhubs-frontend\.npmignore
-		src\familyhubs-frontend\all.min.js = src\familyhubs-frontend\all.min.js
-		src\familyhubs-frontend\all.min.js.map = src\familyhubs-frontend\all.min.js.map
-		src\familyhubs-frontend\gulpfile.js = src\familyhubs-frontend\gulpfile.js
-		src\familyhubs-frontend\index.js = src\familyhubs-frontend\index.js
-		src\familyhubs-frontend\package.json = src\familyhubs-frontend\package.json
-		src\familyhubs-frontend\README.md = src\familyhubs-frontend\README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "styles", "styles", "{C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\styles\all.scss = src\familyhubs-frontend\styles\all.scss
-		src\familyhubs-frontend\styles\_global.scss = src\familyhubs-frontend\styles\_global.scss
-		src\familyhubs-frontend\styles\_overrides.scss = src\familyhubs-frontend\styles\_overrides.scss
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "layout", "layout", "{6C7FC6BE-F768-4541-84C0-64CCD9D0F8C0}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\styles\layout\_header.scss = src\familyhubs-frontend\styles\layout\_header.scss
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FamilyHubs.SharedKernel.Razor.UnitTests", "tests\FamilyHubs.SharedKernel.Razor.UnitTests\FamilyHubs.SharedKernel.Razor.UnitTests.csproj", "{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{13D99E3E-E266-4655-BE64-38C4311E5CF1}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\scripts\familyhubs.ts = src\familyhubs-frontend\scripts\familyhubs.ts
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{94F3E6E4-19EC-43B6-8086-EB4200B1318E}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\scripts\components\analytics.ts = src\familyhubs-frontend\scripts\components\analytics.ts
-		src\familyhubs-frontend\scripts\components\cookie-banner.ts = src\familyhubs-frontend\scripts\components\cookie-banner.ts
-		src\familyhubs-frontend\scripts\components\cookie-functions.ts = src\familyhubs-frontend\scripts\components\cookie-functions.ts
-		src\familyhubs-frontend\scripts\components\cookies-page.ts = src\familyhubs-frontend\scripts\components\cookies-page.ts
-		src\familyhubs-frontend\scripts\components\helpers.ts = src\familyhubs-frontend\scripts\components\helpers.ts
-		src\familyhubs-frontend\scripts\components\postcode.ts = src\familyhubs-frontend\scripts\components\postcode.ts
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{22790A2C-A6DB-4505-849B-7C61AE2AFB6B}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
@@ -61,58 +19,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{86532548-27EB-45BC-A928-E93ACFFA0C08}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "private", "private", "{9F443286-BF8C-46A2-8678-5E2D34DCEE1F}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\private\gulpfile.js = src\familyhubs-frontend\private\gulpfile.js
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wwwroot", "wwwroot", "{33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{8CE0959F-2AA0-4134-BBF4-73D8D208FFE8}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\wwwroot\css\govuk-frontend-ie8-4.5.0.min.css = src\familyhubs-frontend\wwwroot\css\govuk-frontend-ie8-4.5.0.min.css
-		src\familyhubs-frontend\wwwroot\css\govuk-frontend-ie8-4.5.0.min.css.map = src\familyhubs-frontend\wwwroot\css\govuk-frontend-ie8-4.5.0.min.css.map
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{4F3B6A0B-6870-4414-97F9-1B50B51F9177}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\wwwroot\js\govuk-frontend-4.5.0.min.js = src\familyhubs-frontend\wwwroot\js\govuk-frontend-4.5.0.min.js
-		src\familyhubs-frontend\wwwroot\js\govuk-frontend-4.5.0.min.js.map = src\familyhubs-frontend\wwwroot\js\govuk-frontend-4.5.0.min.js.map
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{E19D604D-0631-4171-990B-69A572BBD59A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "govuk", "govuk", "{77D85016-23D4-43C3-AAFD-EDB8CEE37754}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{68873713-D554-4C70-8E31-B35AB1F117E9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{C5B03DCE-3972-426F-984A-7E76B29AF29F}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-affa96571d-v2.woff = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-affa96571d-v2.woff
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-b542beb274-v2.woff2 = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\bold-b542beb274-v2.woff2
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-94a07e06a1-v2.woff2 = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-94a07e06a1-v2.woff2
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-f591b13f7d-v2.woff = src\familyhubs-frontend\wwwroot\lib\govuk\assets\fonts\light-f591b13f7d-v2.woff
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{690F6B66-4002-42E1-8A6C-7FBD6CD2BF7D}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\favicon.ico = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\favicon.ico
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-152x152.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-152x152.png
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-167x167.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-167x167.png
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-180x180.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon-180x180.png
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-apple-touch-icon.png
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest-2x.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest-2x.png
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-crest.png
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-logotype-crown.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-logotype-crown.png
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-mask-icon.svg = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-mask-icon.svg
-		src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-opengraph-image.png = src\familyhubs-frontend\wwwroot\lib\govuk\assets\images\govuk-opengraph-image.png
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{0B0E8E8F-4DDD-4564-9D4A-2052C42679FA}"
-	ProjectSection(SolutionItems) = preProject
-		src\familyhubs-frontend\wwwroot\images\crest.png = src\familyhubs-frontend\wwwroot\images\crest.png
 	EndProjectSection
 EndProject
 Global
@@ -129,14 +35,6 @@ Global
 		{32B1435A-437F-4F0A-A26C-BF741760B062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32B1435A-437F-4F0A-A26C-BF741760B062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32B1435A-437F-4F0A-A26C-BF741760B062}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3BB7061-A360-4403-AD31-AE9B4211B72B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3BB7061-A360-4403-AD31-AE9B4211B72B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3BB7061-A360-4403-AD31-AE9B4211B72B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3BB7061-A360-4403-AD31-AE9B4211B72B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,23 +42,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1477507E-C615-4FFF-A1C9-A8E6265EE51B} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
 		{32B1435A-437F-4F0A-A26C-BF741760B062} = {7D522EFC-2888-443B-9D74-82679CE08792}
-		{B3BB7061-A360-4403-AD31-AE9B4211B72B} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
-		{9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE} = {F6A22F03-7B1D-4140-AB42-12FEBDBAF23C}
-		{C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
-		{6C7FC6BE-F768-4541-84C0-64CCD9D0F8C0} = {C3B9E3CB-BEAA-4D5F-BBA8-459D362AED92}
-		{E6654E83-4E74-4CBC-AB45-D6C157FCEFC4} = {7D522EFC-2888-443B-9D74-82679CE08792}
-		{13D99E3E-E266-4655-BE64-38C4311E5CF1} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
-		{94F3E6E4-19EC-43B6-8086-EB4200B1318E} = {13D99E3E-E266-4655-BE64-38C4311E5CF1}
-		{9F443286-BF8C-46A2-8678-5E2D34DCEE1F} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
-		{33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C} = {9E4BAA50-1252-45DF-BFC8-5DB8108E9DEE}
-		{8CE0959F-2AA0-4134-BBF4-73D8D208FFE8} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
-		{4F3B6A0B-6870-4414-97F9-1B50B51F9177} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
-		{E19D604D-0631-4171-990B-69A572BBD59A} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
-		{77D85016-23D4-43C3-AAFD-EDB8CEE37754} = {E19D604D-0631-4171-990B-69A572BBD59A}
-		{68873713-D554-4C70-8E31-B35AB1F117E9} = {77D85016-23D4-43C3-AAFD-EDB8CEE37754}
-		{C5B03DCE-3972-426F-984A-7E76B29AF29F} = {68873713-D554-4C70-8E31-B35AB1F117E9}
-		{690F6B66-4002-42E1-8A6C-7FBD6CD2BF7D} = {68873713-D554-4C70-8E31-B35AB1F117E9}
-		{0B0E8E8F-4DDD-4564-9D4A-2052C42679FA} = {33C9C91F-7A1D-4DD7-A0EA-DAC69CF1AF2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C201054B-AFD5-490A-AC28-D1877657240E}

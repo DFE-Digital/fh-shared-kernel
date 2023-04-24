@@ -1,1 +1,0 @@
-# FamilyHubs.SharedKernel.Razor
