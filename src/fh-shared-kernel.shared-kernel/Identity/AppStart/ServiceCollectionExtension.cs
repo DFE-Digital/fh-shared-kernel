@@ -26,6 +26,9 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
         public static void AddAndConfigureGovUkAuthentication(
             this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddHttpContextAccessor();
+            services.Configure<GovUkOidcConfiguration>(configuration.GetSection(nameof(GovUkOidcConfiguration)));
+
             var config = configuration.GetGovUkOidcConfiguration(); 
             if(config == null)
             {
