@@ -1,14 +1,10 @@
 using FamilyHubs.SharedKernel.GovLogin.AppStart;
-using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using GovSignInExample.AppStart;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // *****  REQUIRED SECTION START
-builder.Services.AddHttpContextAccessor();
-builder.Services.Configure<GovUkOidcConfiguration>(builder.Configuration.GetSection(nameof(GovUkOidcConfiguration)));
-builder.Services.AddServiceRegistration(builder.Configuration);
+builder.Services.AddAndConfigureGovUkAuthentication(builder.Configuration); ;
 // *****  REQUIRED SECTION END
 
 // *****  CALL_API_EXAMPLE SECTION START

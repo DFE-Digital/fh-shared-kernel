@@ -30,6 +30,4 @@ NOTE- If using the integration environment the a popup will appear requesting us
 
 ================ sign out =================
 
-For Sign out to function direct the users to a page (path must be /Account/signout) which will return the response from 
-HttpContext.GovSignOut().
-This page will not get rendered. The page the user will land on will be the one specified in appsettings - SignedOutRedirect
+For Sign out direct the users to /Account/signout which will redirect to the page specified in appsettings - SignedOutRedirect
