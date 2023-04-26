@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FamilyHubs.SharedKernel.Identity.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace FamilyHubs.SharedKernel.GovLogin.Configuration
 {
@@ -35,6 +36,41 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
             }
 
             return false;
+        }
+
+        public static List<StubUser> GetStubUsers(this GovUkOidcConfiguration configuration)
+        {
+            if(configuration.StubAuthentication.StubUsers != null)
+            {
+                return configuration.StubAuthentication.StubUsers;
+            }
+
+            var stubUsers = new List<StubUser>();
+            stubUsers.Add(CreateStubUser("admin.user@stub.com", "Admin"));
+            stubUsers.Add(CreateStubUser("general.user@stub.com", "Basic"));
+
+            return stubUsers;
+        }
+
+        private static StubUser CreateStubUser(string email, string role)
+        {
+            return new StubUser
+            {
+                User = new GovUkUser
+                {
+                    Email = email,
+                    Sub = email
+                },
+                Claims = new List<AccountClaim>
+                {
+                    new AccountClaim
+                    {
+                        AccountId = email,
+                        Name = "Role",
+                        Value = role
+                    }
+                }
+            };
         }
     }
 }

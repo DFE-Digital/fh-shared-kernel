@@ -1,4 +1,4 @@
-﻿namespace FamilyHubs.SharedKernel.GovLogin.Models
+﻿namespace FamilyHubs.SharedKernel.Identity.Models
 {
     public class AccountClaim
     {

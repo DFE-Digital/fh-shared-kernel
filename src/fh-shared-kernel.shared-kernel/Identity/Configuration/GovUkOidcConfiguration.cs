@@ -1,4 +1,4 @@
-﻿using FamilyHubs.SharedKernel.GovLogin.Models;
+﻿using FamilyHubs.SharedKernel.Identity.Models;
 
 namespace FamilyHubs.SharedKernel.GovLogin.Configuration
 {
@@ -31,8 +31,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public bool UseStubAuthentication { get; set; } = false;
         public bool UseStubClaims { get; set; } = false;
         public string StubDomain { get; set; } = "localhost";
-        public GovUkUser GovUkUser { get; set; } = new GovUkUser { Email = "stub.user@demo.com", Sub = "stubCode" };
+        public List<StubUser>? StubUsers { get; set; }
         public string PrivateKey { get; set; } = "StubPrivateKey123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        public List<AccountClaim> StubClaims { get; set; } = new List<AccountClaim> { new AccountClaim { AccountId = "stub.user@demo.com", Name = "Role", Value = "Admin" } };
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FamilyHubs.SharedKernel.GovLogin.Models
+namespace FamilyHubs.SharedKernel.Identity.Models
 {
     public class Token
     {

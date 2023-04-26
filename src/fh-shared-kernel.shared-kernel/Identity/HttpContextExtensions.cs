@@ -33,5 +33,17 @@ namespace FamilyHubs.SharedKernel.Identity
             string[] schemes = { CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme };
             return new SignOutResult(schemes, authenticationProperties );
         }
+
+        public static string GetUrlQueryValue(this HttpContext httpContext, string key)
+        {
+            var value = httpContext.Request.Query[key].First();
+
+            if(string.IsNullOrEmpty(value))
+            {
+                throw new Exception($"{key} not found in url query parameters");
+            }
+
+            return value;
+        }
     }
 }

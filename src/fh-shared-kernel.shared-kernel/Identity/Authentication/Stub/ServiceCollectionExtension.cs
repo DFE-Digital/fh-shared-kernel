@@ -14,7 +14,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             if (string.IsNullOrWhiteSpace(config.CookieName))
                 throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
 
-
             services
                 .AddAuthentication(sharedOptions =>
                 {

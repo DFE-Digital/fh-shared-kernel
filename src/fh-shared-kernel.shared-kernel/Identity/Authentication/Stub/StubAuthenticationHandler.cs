@@ -1,6 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.GovLogin.Models;
 using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
@@ -35,16 +36,11 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
-            if (string.IsNullOrWhiteSpace(_configuration.CookieName))
-                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
-
-            var json = JsonConvert.SerializeObject(_configuration.StubAuthentication.GovUkUser);
-            _httpContextAccessor.HttpContext!.Response.Cookies.Append(_configuration.CookieName, json);
-
             var request = _httpContextAccessor.HttpContext!.Request;
-            var redirect = $"https://{request.Host}{request.Path}{request.QueryString}";
+            var redirect = HttpUtility.UrlEncode($"https://{request.Host}{request.Path}{request.QueryString}");
+            var stubLoginPage = $"https://{request.Host}{StubConstants.LoginPagePath}{redirect}";
 
-            _httpContextAccessor.HttpContext!.Response.Redirect(redirect);
+            _httpContextAccessor.HttpContext!.Response.Redirect(stubLoginPage);
 
             return Task.CompletedTask;
         }
@@ -87,15 +83,20 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
                 return false;
             }
 
-            var authCookieValue = JsonConvert.DeserializeObject<GovUkUser>(cookieJson);
+            var authCookieValue = JsonConvert.DeserializeObject<StubUser>(cookieJson);
 
             if (authCookieValue == null)
             {
                 return false;
             }
 
-            claims.Add(new Claim(ClaimTypes.Email, authCookieValue.Email));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, authCookieValue.Sub));
+            claims.Add(new Claim(ClaimTypes.Email, authCookieValue.User.Email));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, authCookieValue.User.Sub));
+
+            foreach(var claim in authCookieValue.Claims)
+            {
+                claims.Add(new Claim(claim.Name, claim.Value));
+            }
 
             return true;
         }

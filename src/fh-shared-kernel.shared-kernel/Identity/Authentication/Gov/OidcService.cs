@@ -1,6 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.GovLogin.Models;
 using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.KeyVaultExtensions;
@@ -88,7 +88,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/userinfo")
             {
-
                 Headers =
                 {
                     Authorization = new AuthenticationHeaderValue("Bearer", accessToken)
