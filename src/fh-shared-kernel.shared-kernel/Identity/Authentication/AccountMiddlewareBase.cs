@@ -1,8 +1,10 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication
 {
@@ -13,6 +15,16 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
         public AccountMiddlewareBase(GovUkOidcConfiguration configuration)
         {
             _configuration = configuration;
+        }
+
+        protected bool ShouldSignOut(HttpContext httpContext)
+        {
+            if (httpContext.Request.Path.HasValue && httpContext.Request.Path.Value.Contains(AuthenticationConstants.SignOutPath))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         protected void SetBearerToken(HttpContext httpContext)

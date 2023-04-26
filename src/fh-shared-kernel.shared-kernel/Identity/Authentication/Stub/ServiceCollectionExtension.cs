@@ -21,15 +21,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
                     sharedOptions.DefaultChallengeScheme = config.CookieName;
                 })
                 .AddScheme<AuthenticationSchemeOptions, StubAuthenticationHandler>(config.CookieName, _ => { })
-                .AddCookie(OpenIdConnectDefaults.AuthenticationScheme, options =>
-                {
-                    options.Events.OnSigningOut = c =>
-                    {
-                        c.Response.Cookies.Delete(config.CookieName);
-                        c.Response.Redirect(config.Urls.SignedOutRedirect);
-                        return Task.CompletedTask;
-                    };
-                });
+                .AddCookie(OpenIdConnectDefaults.AuthenticationScheme);
 
             services.AddAuthentication(config.CookieName).AddAuthenticationCookie(config.CookieName, config);
         }

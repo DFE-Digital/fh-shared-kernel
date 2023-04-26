@@ -1,6 +1,5 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.AppStart;
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.Identity.Authorisation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -28,29 +27,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             services
                 .AddOptions<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme)
-                .Configure<IOidcService, IAzureIdentityService, ICustomClaims, GovUkOidcConfiguration>(
-                    (options, oidcService, azureIdentityService, customClaims, config) =>
-                    {
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            AuthenticationType = "private_key_jwt",
-                            IssuerSigningKey = GetIssuerSigningKey(config, azureIdentityService),
-                            ValidateIssuerSigningKey = true,
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            SaveSigninToken = true
-                        };
-                        options.Events.OnAuthorizationCodeReceived = async (ctx) =>
-                        {
-                            var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);
-                            if (token?.AccessToken != null && token.IdToken != null)
-                            {
-                                ctx.HandleCodeRedemption(token.AccessToken, token.IdToken);
-                            }
-                        };
-
-                        options.Events.OnTokenValidated = async ctx => await oidcService.PopulateAccountClaims(ctx);
-                    });
+                .Configure<IOidcService, IAzureIdentityService, GovUkOidcConfiguration>(ConfigureToken);
         }
 
         private static void ConfigureAuthenticationOptions(AuthenticationOptions options)
@@ -98,6 +75,29 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 c.HandleResponse();
                 return Task.CompletedTask;
             };
+        }
+
+        private static void ConfigureToken(OpenIdConnectOptions options, IOidcService oidcService, IAzureIdentityService azureIdentityService, GovUkOidcConfiguration config)
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                AuthenticationType = "private_key_jwt",
+                IssuerSigningKey = GetIssuerSigningKey(config, azureIdentityService),
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                SaveSigninToken = true
+            };
+            options.Events.OnAuthorizationCodeReceived = async (ctx) =>
+            {
+                var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);
+                if (token?.AccessToken != null && token.IdToken != null)
+                {
+                    ctx.HandleCodeRedemption(token.AccessToken, token.IdToken);
+                }
+            };
+
+            options.Events.OnTokenValidated = async ctx => await oidcService.PopulateAccountClaims(ctx);
         }
 
         private static SecurityKey GetIssuerSigningKey(GovUkOidcConfiguration config, IAzureIdentityService azureIdentityService)

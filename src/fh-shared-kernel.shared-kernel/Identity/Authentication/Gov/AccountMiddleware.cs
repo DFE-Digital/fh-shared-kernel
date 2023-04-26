@@ -1,5 +1,7 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 {
@@ -16,6 +18,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
         public async Task InvokeAsync(HttpContext context)
         {
+            if (ShouldSignOut(context))
+            {
+                await SignOut(context);
+                return;
+            }
+
             SetBearerToken(context);
             await _next(context);
         }
@@ -33,6 +41,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             }
 
             return _configuration.Oidc.PrivateKey;
+        }
+
+        private async Task SignOut(HttpContext httpContext)
+        {
+            var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
+            var postLogOutUrl = HttpUtility.UrlEncode($"https://{httpContext.Request.Host}{AuthenticationConstants.AccountLogoutCallback}");
+            var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
+            httpContext.Response.Redirect(logoutRedirect);
         }
     }
 }

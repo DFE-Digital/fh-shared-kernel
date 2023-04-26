@@ -1,6 +1,8 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
@@ -17,6 +19,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
         public async Task InvokeAsync(HttpContext context)
         {
+            if (ShouldSignOut(context))
+            {
+                SignOut(context);
+                return;
+            }
+
             if (StubLoginPage.ShouldRedirectToStubLoginPage(context))
             {
                 await StubLoginPage.RenderStubLoginPage(context, _configuration);
@@ -66,6 +74,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             var redirectUrl = context.GetUrlQueryValue("redirect");
             context.Response.Redirect(redirectUrl);
 
+        }
+        private void SignOut(HttpContext httpContext)
+        {
+            if (string.IsNullOrWhiteSpace(_configuration.CookieName))
+                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
+
+            httpContext.Response.Cookies.Delete(_configuration.CookieName);
+            httpContext.Response.Redirect(_configuration.Urls.SignedOutRedirect);
         }
     }
 }
