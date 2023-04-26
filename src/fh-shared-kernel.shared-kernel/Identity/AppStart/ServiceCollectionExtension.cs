@@ -5,6 +5,7 @@ using FamilyHubs.SharedKernel.Identity.Authentication.Stub;
 using FamilyHubs.SharedKernel.Identity.Authorisation;
 using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
 using FamilyHubs.SharedKernel.Identity.Authorisation.Stub;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,7 +29,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             var config = configuration.GetGovUkOidcConfiguration(); 
             if(config == null)
             {
-                throw new ArgumentNullException(nameof(GovUkOidcConfiguration), "Could not get Section GovUkOidcConfiguration from configuration");
+                throw new AuthConfigurationException("Could not get Section GovUkOidcConfiguration from configuration");
             }
 
             services.AddOptions();
@@ -54,7 +55,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             else
             {
                 if (string.IsNullOrEmpty(config.IdamsApiBaseUrl))
-                    throw new Exception("IdamsApiBaseUrl is not configured, if testing locally and custom claims not required set StubAuthentication.UseStubClaims:true");
+                    throw new AuthConfigurationException("IdamsApiBaseUrl is not configured, if testing locally and custom claims not required set StubAuthentication.UseStubClaims:true");
 
                 services.AddHttpClient(nameof(FamilyHubsClaims), (serviceProvider, httpClient) =>
                 {
@@ -96,7 +97,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 
             var privateKey = config.Oidc.PrivateKey;
             if (string.IsNullOrEmpty(privateKey))
-                throw new Exception("PrivateKey must be configured for AddBearerAuthentication");
+                throw new AuthConfigurationException("PrivateKey must be configured for AddBearerAuthentication");
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(options => {

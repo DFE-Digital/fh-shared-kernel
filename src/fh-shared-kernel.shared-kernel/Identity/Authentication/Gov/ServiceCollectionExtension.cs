@@ -1,5 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.AppStart;
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -18,7 +19,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         {
             var govUkConfiguration = configuration.GetGovUkOidcConfiguration();
             if (string.IsNullOrWhiteSpace(govUkConfiguration.CookieName))
-                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
+                throw new AuthConfigurationException($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
 
             services
                 .AddAuthentication(options => ConfigureAuthenticationOptions(options))

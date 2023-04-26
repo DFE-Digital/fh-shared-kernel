@@ -73,8 +73,13 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
         private Mock<HttpContext> CreateMockHttpContext()
         {
             var mockHttpContext = new Mock<HttpContext>();
+
             var items = new Dictionary<object, object?>();
             mockHttpContext.Setup(m => m.Items).Returns(items);
+
+            var request = new Mock<HttpRequest>();
+            request.SetupGet(m => m.Path).Returns("/somepath/action");
+            mockHttpContext.Setup(m => m.Request).Returns(request.Object);
             return mockHttpContext;
         }
 

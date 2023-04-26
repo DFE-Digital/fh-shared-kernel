@@ -1,4 +1,5 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -67,7 +68,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             var json = JsonConvert.SerializeObject(user);
 
             if (string.IsNullOrWhiteSpace(_configuration.CookieName))
-                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
+                throw new AuthConfigurationException($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
 
             context.Response.Cookies.Append(_configuration.CookieName, json);
 
@@ -78,7 +79,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
         private void SignOut(HttpContext httpContext)
         {
             if (string.IsNullOrWhiteSpace(_configuration.CookieName))
-                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
+                throw new AuthConfigurationException($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
 
             httpContext.Response.Cookies.Delete(_configuration.CookieName);
             httpContext.Response.Redirect(_configuration.Urls.SignedOutRedirect);

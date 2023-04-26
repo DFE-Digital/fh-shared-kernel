@@ -1,4 +1,5 @@
-﻿using FamilyHubs.SharedKernel.Identity.Models;
+﻿using FamilyHubs.SharedKernel.Identity.Exceptions;
+using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace FamilyHubs.SharedKernel.GovLogin.Configuration
@@ -10,7 +11,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
             var config = configuration.GetSection(nameof(GovUkOidcConfiguration)).Get<GovUkOidcConfiguration>();
             if (config == null)
             {
-                throw new ArgumentNullException(nameof(GovUkOidcConfiguration), "Could not get Section GovUkOidcConfiguration from configuration");
+                throw new AuthConfigurationException("Could not get Section GovUkOidcConfiguration from configuration");
             }
             return config;
         }
@@ -22,12 +23,12 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
 
             if (keyVaultConfigIsNull && privateKeyConfigIsNull)
             {
-                throw new ArgumentNullException("Either KeyVaultIdentifier or PrivateKey must be populated, both cannot be null");
+                throw new AuthConfigurationException("Either KeyVaultIdentifier or PrivateKey must be populated, both cannot be null");
             }
 
             if (!keyVaultConfigIsNull && !privateKeyConfigIsNull)
             {
-                throw new ArgumentException("Both KeyVaultIdentifier or PrivateKey must not be populated, only one should be used");
+                throw new AuthConfigurationException("Both KeyVaultIdentifier or PrivateKey must not be populated, only one should be used");
             }
 
             if (!keyVaultConfigIsNull)

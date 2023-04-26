@@ -1,5 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -48,7 +49,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (string.IsNullOrWhiteSpace(_configuration.CookieName))
-                throw new Exception($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
+                throw new AuthConfigurationException($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
 
             var cookieJson = _httpContextAccessor.HttpContext!.Request.Cookies[_configuration.CookieName];
 

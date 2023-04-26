@@ -1,4 +1,5 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System.Web;
@@ -37,7 +38,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             if (string.IsNullOrEmpty(_configuration.Oidc.PrivateKey))
             {
-                throw new ArgumentNullException("Configuration must contain private key to generate a bearer token");
+                throw new AuthConfigurationException("Configuration must contain private key to generate a bearer token");
             }
 
             return _configuration.Oidc.PrivateKey;
