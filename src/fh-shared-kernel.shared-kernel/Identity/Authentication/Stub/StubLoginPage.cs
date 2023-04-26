@@ -1,10 +1,7 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Http;
 using System.Reflection;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
