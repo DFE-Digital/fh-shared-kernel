@@ -1,14 +1,14 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.AppStart;
-using FamilyHubs.SharedKernel.GovLogin.Authentication;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
-using FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers;
+using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
+using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.UnitTests.Identity.TestHelpers;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
-namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.AppStart
+namespace FamilyHubs.SharedKernel.UnitTests.Identity.AppStart
 {
     public class WhenAddingServicesToTheContainer
     {
@@ -17,7 +17,6 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.AppStart
         [InlineData(typeof(IAzureIdentityService))]
         [InlineData(typeof(IJwtSecurityTokenService))]
         [InlineData(typeof(ICustomClaims))]
-        [InlineData(typeof(IStubAuthenticationService))]
         public void Then_The_Dependencies_Are_Correctly_Resolved(Type toResolve)
         {
             var serviceCollection = new ServiceCollection();
@@ -40,7 +39,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.AppStart
             var type = provider.GetServices(typeof(IAuthorizationHandler)).ToList();
 
             Assert.NotNull(type);
-            Assert.IsType<AccountActiveAuthorizationHandler>(type.Single());
+            Assert.IsType<AuthorizationHandler>(type.Single());
         }
 
 
@@ -48,7 +47,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.AppStart
         {
             var configuration = FakeConfiguration.GetConfiguration();
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddAndConfigureGovUkAuthentication(configuration, "authenticationCookieName");
+            serviceCollection.AddAndConfigureGovUkAuthentication(configuration);
         }
 
         public class TestCustomClaims : ICustomClaims

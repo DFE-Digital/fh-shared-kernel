@@ -1,9 +1,9 @@
 ﻿using AutoFixture;
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.GovLogin.Models;
-using FamilyHubs.SharedKernel.GovLogin.Services;
-using FamilyHubs.SharedKernel.GovLogin.Services.Interfaces;
-using FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers;
+using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
+using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.Identity.Models;
+using FamilyHubs.SharedKernel.UnitTests.Identity.TestHelpers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -17,7 +17,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.Services
+namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
 {
     public class OidcServiceTests
     {
@@ -36,13 +36,13 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.Services
             var fixture = new Fixture();
             _clientAssertion = fixture.Create<string>();
             _token = fixture.Create<Token>();
-            _openIdConnectMessage= fixture.Create<OpenIdConnectMessage>();
+            _openIdConnectMessage = fixture.Create<OpenIdConnectMessage>();
             _iConfiguration = FakeConfiguration.GetConfiguration();
             _oidcConfig = _iConfiguration.GetGovUkOidcConfiguration();
             _user = fixture.Create<GovUkUser>();
             _accessToken = fixture.Create<string>();
             _customClaimValue = fixture.Create<string>();
-            
+
             _claimsIdentity = new List<ClaimsIdentity>();
             _claimsIdentity.Add(new ClaimsIdentity());
         }
@@ -82,7 +82,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.Services
                     ),
                     ItExpr.IsAny<CancellationToken>()
                 );
-            Assert.Equivalent(_token, actual );
+            Assert.Equivalent(_token, actual);
         }
 
         [Fact]
@@ -345,7 +345,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.Services
             //Assert
             tokenValidatedContext.Principal.Identities.First().Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email)).Should().BeNull();
         }
-        
+
         private class TestAuthHandler : IAuthenticationHandler
         {
             public Task InitializeAsync(AuthenticationScheme scheme, HttpContext context)

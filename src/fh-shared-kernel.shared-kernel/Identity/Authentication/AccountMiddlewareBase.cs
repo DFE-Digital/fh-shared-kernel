@@ -8,22 +8,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 {
     public abstract class AccountMiddlewareBase
     {
-        private readonly RequestDelegate _next;
         private readonly GovUkOidcConfiguration _configuration;
 
-        public AccountMiddlewareBase(RequestDelegate next, GovUkOidcConfiguration configuration)
+        public AccountMiddlewareBase(GovUkOidcConfiguration configuration)
         {
-            _next = next;
             _configuration = configuration;
         }
 
-        public async Task InvokeAsync(HttpContext context)
-        {
-            SetBearerToken(context);
-            await _next(context);
-        }
-
-        private void SetBearerToken(HttpContext httpContext)
+        protected void SetBearerToken(HttpContext httpContext)
         {
             var user = httpContext.User;
             if (!IsUserAuthenticated(user))

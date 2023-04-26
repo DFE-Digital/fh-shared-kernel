@@ -1,28 +1,28 @@
 ﻿using AutoFixture;
-using FamilyHubs.SharedKernel.GovLogin.Authentication;
-using FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers;
+using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
+using FamilyHubs.SharedKernel.UnitTests.Identity.TestHelpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using System.Security.Claims;
 
-namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.Authentication
+namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
 {
-    public class AccountActiveAuthorizationHandlerTests
+    public class AuthorizationHandlerTests
     {
         private string _role;
         private AccountActiveRequirement _requirement;
-        private SharedKernel.GovLogin.Authentication.AccountActiveAuthorizationHandler _authorizationHandler;
+        private AuthorizationHandler _authorizationHandler;
         private IConfiguration _configuration;
 
-        public AccountActiveAuthorizationHandlerTests()
+        public AuthorizationHandlerTests()
         {
             var fixture = new Fixture();
             _role = fixture.Create<string>();
             _requirement = new AccountActiveRequirement();
             _configuration = FakeConfiguration.GetConfiguration();
-            _authorizationHandler = new SharedKernel.GovLogin.Authentication.AccountActiveAuthorizationHandler(_configuration);
+            _authorizationHandler = new AuthorizationHandler(_configuration);
         }
 
         [Fact]

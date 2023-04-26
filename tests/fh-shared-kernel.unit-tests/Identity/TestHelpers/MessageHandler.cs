@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Moq.Protected;
 
-namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers
+namespace FamilyHubs.SharedKernel.UnitTests.Identity.TestHelpers
 {
     public static class MessageHandler
     {

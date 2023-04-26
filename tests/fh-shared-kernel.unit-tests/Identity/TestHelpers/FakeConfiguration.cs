@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 
-namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers
+namespace FamilyHubs.SharedKernel.UnitTests.Identity.TestHelpers
 {
     internal static class FakeConfiguration
     {
@@ -16,6 +16,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.GovLogin.TestHelpers
                     new("GovUkOidcConfiguration:Oidc:KeyVaultIdentifier", "https://test.com/"),
                     new("GovUkOidcConfiguration:Urls:AccountSuspendedRedirect", "https://familyhubs-test.com/service/account-unavailable"),
                     new("GovUkOidcConfiguration:IdamsApiBaseUrl", "https://test.com/"),
+                    new("GovUkOidcConfiguration:CookieName", "UnitTestCookieName"),
                     new("ResourceEnvironmentName", "AT")
                 }
             };
