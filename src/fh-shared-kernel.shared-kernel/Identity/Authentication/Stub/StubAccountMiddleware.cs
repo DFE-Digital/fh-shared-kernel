@@ -65,6 +65,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             if (user == null)
                 throw new Exception("Invalid user selected");
 
+            user.Claims.Add(new Models.AccountClaim { AccountId= userId, Name=FamilyHubsClaimTypes.LoginTime, Value = DateTime.UtcNow.Ticks.ToString() });
             var json = JsonConvert.SerializeObject(user);
 
             if (string.IsNullOrWhiteSpace(_configuration.CookieName))

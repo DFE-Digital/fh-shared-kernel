@@ -38,7 +38,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             {
                 claims.Add(new Claim(claim.Name, claim.Value));
             }
-
+            claims.Add(new Claim (FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString() ));
             return claims.AsEnumerable();
         }
     }

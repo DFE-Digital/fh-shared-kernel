@@ -1,4 +1,4 @@
-﻿namespace FamilyHubs.SharedKernel
+﻿namespace FamilyHubs.SharedKernel.Identity
 {
     public enum AccountStatus
     {
