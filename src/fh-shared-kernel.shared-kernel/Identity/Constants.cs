@@ -22,4 +22,14 @@
         internal const string LoginPagePath = "/account/stub/loginpage/";
         internal const string RoleSelectedPath = "/account/stub/roleSelected";
     }
+
+    public static class FamilyHubsClaimTypes
+    {
+        public const string Role = "Role";
+        public const string OrganisationId = "OrganisationId";
+        public const string AccountStatus = "AccountStatus";
+        public const string LoginTime = "LoginTime";
+        public const string FirstName = "FirstName";
+        public const string LastName = "LastName";
+    }
 }

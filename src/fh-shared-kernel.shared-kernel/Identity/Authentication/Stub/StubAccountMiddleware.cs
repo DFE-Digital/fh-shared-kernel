@@ -49,7 +49,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
         private static bool ShouldCompleteLogin(HttpContext context)
         {
-            if (context.Request.Path.HasValue && context.Request.Path.Value.Contains(StubConstants.RoleSelectedPath))
+            if (context.Request.Path.HasValue && context.Request.Path.Value.Contains(StubConstants.RoleSelectedPath, StringComparison.CurrentCultureIgnoreCase))
             {
                 return true;
             }

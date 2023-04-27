@@ -19,7 +19,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
         protected bool ShouldSignOut(HttpContext httpContext)
         {
-            if (httpContext.Request.Path.HasValue && httpContext.Request.Path.Value.Contains(AuthenticationConstants.SignOutPath))
+            if (httpContext.Request.Path.HasValue && httpContext.Request.Path.Value.Contains(AuthenticationConstants.SignOutPath, StringComparison.CurrentCultureIgnoreCase))
             {
                 return true;
             }
