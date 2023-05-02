@@ -2,7 +2,7 @@
 {
     public class AccountClaim
     {
-        public required string AccountId { get; set; }
+        public long AccountId { get; set; }
         public required string Name { get; set; }
         public required string Value { get; set; }
     }

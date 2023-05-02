@@ -46,8 +46,11 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.AppStart
         private static void SetupServiceCollection(IServiceCollection serviceCollection)
         {
             var configuration = FakeConfiguration.GetConfiguration();
+            var configManager = new ConfigurationManager();
+            configManager.AddConfiguration(configuration);
+
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddAndConfigureGovUkAuthentication(configuration);
+            serviceCollection.AddAndConfigureGovUkAuthentication(configManager);
         }
 
         public class TestCustomClaims : ICustomClaims

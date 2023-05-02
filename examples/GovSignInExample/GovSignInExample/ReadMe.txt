@@ -3,14 +3,27 @@
 ============= appsettings.json =============
 4 values need to be configured for this example to work
 
-BaseUrl - This is the url to the gov oidc service
-PrivateKey - Key obtained from the private_key.pem
-ClientId - ClientId provided by the gov oneLogin team
-SignedOutRedirect - Must match the path to the signed-out page when the app is running, 
+BaseUrl				- This is the url to the gov oidc service
+PrivateKey			- Key obtained from the private_key.pem
+ClientId			- ClientId provided by the gov oneLogin team
+SignedOutRedirect	- Must match the path to the signed-out page when the app is running, 
 					this is where the ui will redirect to once sign out is complete
 
 Optional
-IdamsApiBaseUrl - This endpoint provides custom claims, if not populated set StubAuthentication.UseStubClaims
+IdamsApiBaseUrl		- This endpoint provides custom claims, if not populated set StubAuthentication.UseStubClaims
+
+Stub Settings
+Note - Stub settings will only be used by a UI logging in. However, a user who has logged in via the stubbed settings will still
+be able to call an API with the generated bearer token as long as the StubPrivateKey matches the Private Key configured in the API
+
+StubAuthentication.UseStubAuthentication	-	If True will on login will display a list of stub users to choose from and log in with
+StubAuthentication.StubUsers				-	If above setting is true the users (along with their claims) configured in this setting 
+											will be returned. This does not need to be configured in the appsettings.json but can be
+											configured in the stubUsers.json to keep the appsettings.json file more readable
+StubAuthentication.UseStubClaims			-	If true will append stubbed claims to a one-login user
+StubAuthentication.StubClaims				-	Only used if the UseStubAuthentication = false and UseStubClaims = true
+StubAuthentication.PrivateKey				-	Private key to be used to sign bearer token
+
 
 
 ================= sign in =================

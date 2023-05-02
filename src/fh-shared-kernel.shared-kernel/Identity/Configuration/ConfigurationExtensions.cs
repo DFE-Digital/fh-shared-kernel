@@ -66,11 +66,11 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
                 },
                 Claims = new List<AccountClaim>
                 {
-                    new AccountClaim { AccountId = email, Name = FamilyHubsClaimTypes.Role, Value = role },
-                    new AccountClaim { AccountId = email, Name = FamilyHubsClaimTypes.FirstName, Value = firstName },
-                    new AccountClaim { AccountId = email, Name = FamilyHubsClaimTypes.LastName, Value = "User" },
-                    new AccountClaim { AccountId = email, Name = FamilyHubsClaimTypes.OrganisationId, Value = "1" },
-                    new AccountClaim { AccountId = email, Name = FamilyHubsClaimTypes.AccountStatus, Value = AccountStatus.Active.ToString() }
+                    new AccountClaim { Name = FamilyHubsClaimTypes.Role, Value = role },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.FirstName, Value = firstName },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.LastName, Value = "User" },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.OrganisationId, Value = "1" },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.AccountStatus, Value = AccountStatus.Active.ToString() }
                 }
             };
         }

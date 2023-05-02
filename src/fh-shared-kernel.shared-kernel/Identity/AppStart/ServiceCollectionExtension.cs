@@ -24,9 +24,16 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
         /// Configures UI to authenticate using Gov Login
         /// </summary>
         public static void AddAndConfigureGovUkAuthentication(
-            this IServiceCollection services, IConfiguration configuration)
+            this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddHttpContextAccessor();
+
+            var useStubAuthentication = configuration.GetValue<bool>("GovUkOidcConfiguration:StubAuthentication:UseStubAuthentication");
+            if (useStubAuthentication)
+            {
+                configuration.AddJsonFile("stubUsers.json", true);
+            }
+
             services.Configure<GovUkOidcConfiguration>(configuration.GetSection(nameof(GovUkOidcConfiguration)));
 
             var config = configuration.GetGovUkOidcConfiguration(); 

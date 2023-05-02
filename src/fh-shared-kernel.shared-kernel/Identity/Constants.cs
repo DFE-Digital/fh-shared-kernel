@@ -1,5 +1,25 @@
 ﻿namespace FamilyHubs.SharedKernel.Identity
 {
+    public static class FamilyHubsClaimTypes
+    {
+        public const string Role = "Role";
+        public const string OrganisationId = "OrganisationId";
+        public const string AccountStatus = "AccountStatus";
+        public const string LoginTime = "LoginTime";
+        public const string FirstName = "FirstName";
+        public const string LastName = "LastName";
+        public const string Email = "Email ";
+        public const string PhoneNumber = "PhoneNumber ";
+    }
+
+    public static class RoleTypes
+    {
+        public const string DfeAdmin = "DfeAdmin";
+        public const string LaAdmin = "LaAdmin";
+        public const string VcsAdmin = "VcsAdmin";
+        public const string Professional = "Professional";
+    }
+
     internal static class AuthenticationConstants
     {
         internal const string BearerToken = "BearerToken";
@@ -21,15 +41,5 @@
     {
         internal const string LoginPagePath = "/account/stub/loginpage/";
         internal const string RoleSelectedPath = "/account/stub/roleSelected";
-    }
-
-    public static class FamilyHubsClaimTypes
-    {
-        public const string Role = "Role";
-        public const string OrganisationId = "OrganisationId";
-        public const string AccountStatus = "AccountStatus";
-        public const string LoginTime = "LoginTime";
-        public const string FirstName = "FirstName";
-        public const string LastName = "LastName";
     }
 }
