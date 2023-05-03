@@ -20,7 +20,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(_httpClient.BaseAddress + $"api/Account/GetAccountClaims?openId={openId}"),
+                RequestUri = new Uri(_httpClient.BaseAddress + $"api/Account/GetAccountClaimsByOpenId?openId={openId}"),
             };
 
             using var response = await _httpClient.SendAsync(request);
