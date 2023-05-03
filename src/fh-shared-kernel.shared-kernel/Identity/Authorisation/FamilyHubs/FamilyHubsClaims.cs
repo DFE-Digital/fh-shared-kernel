@@ -15,12 +15,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
         public async Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
         {
-            var accountId = tokenValidatedContext?.Principal?.Identities.First().Claims
-                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email))?.Value;
+            var openId = tokenValidatedContext?.Principal?.Identities.First().Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(_httpClient.BaseAddress + $"api/Account/GetAccountClaims?accountId={accountId}"),
+                RequestUri = new Uri(_httpClient.BaseAddress + $"api/Account/GetAccountClaimsByOpenId?openId={openId}"),
             };
 
             using var response = await _httpClient.SendAsync(request);
@@ -38,7 +38,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             {
                 claims.Add(new Claim(claim.Name, claim.Value));
             }
-
+            claims.Add(new Claim (FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString() ));
             return claims.AsEnumerable();
         }
     }

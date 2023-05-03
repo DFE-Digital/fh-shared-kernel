@@ -1,7 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
@@ -14,9 +13,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
     {
         private readonly GovUkOidcConfiguration _configuration;
 
-        public AuthorizationHandler(IConfiguration configuration)
+        public AuthorizationHandler(GovUkOidcConfiguration configuration)
         {
-            _configuration = configuration.GetGovUkOidcConfiguration();
+            _configuration = configuration;
         }
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AccountActiveRequirement requirement)
         {

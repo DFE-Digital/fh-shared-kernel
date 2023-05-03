@@ -1,5 +1,4 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Security.Claims;
 
@@ -8,23 +7,22 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.Stub
 {
     public class StubClaims : ICustomClaims
     {
-        private List<AccountClaim> _claims = new List<AccountClaim>();
+        private List<Claim> _claims = new List<Claim>();
 
         public StubClaims(GovUkOidcConfiguration govUkOidcConfiguration)
         {
-            //_claims = govUkOidcConfiguration.StubAuthentication.StubClaims;
+            if(govUkOidcConfiguration.StubAuthentication.StubClaims != null)
+            {
+                foreach (var claim in govUkOidcConfiguration.StubAuthentication.StubClaims)
+                {
+                    _claims.Add(new Claim(claim.Name, claim.Value));
+                }
+            }
         }
 
         public Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
         {
-            var claims = new List<Claim>();
-
-            foreach (var claim in _claims)
-            {
-                claims.Add(new Claim(claim.Name, claim.Value));
-            }
-
-            return Task.FromResult(claims.AsEnumerable());
+            return Task.FromResult(_claims.AsEnumerable());
         }
     }
 }

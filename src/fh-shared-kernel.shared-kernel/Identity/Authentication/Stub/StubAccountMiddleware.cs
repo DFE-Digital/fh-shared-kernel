@@ -1,9 +1,7 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Exceptions;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
@@ -49,7 +47,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
         private static bool ShouldCompleteLogin(HttpContext context)
         {
-            if (context.Request.Path.HasValue && context.Request.Path.Value.Contains(StubConstants.RoleSelectedPath))
+            if (context.Request.Path.HasValue && context.Request.Path.Value.Contains(StubConstants.RoleSelectedPath, StringComparison.CurrentCultureIgnoreCase))
             {
                 return true;
             }
@@ -65,6 +63,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             if (user == null)
                 throw new Exception("Invalid user selected");
 
+            user.Claims.Add(new Models.AccountClaim { Name=FamilyHubsClaimTypes.LoginTime, Value = DateTime.UtcNow.Ticks.ToString() });
             var json = JsonConvert.SerializeObject(user);
 
             if (string.IsNullOrWhiteSpace(_configuration.CookieName))

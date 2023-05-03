@@ -28,11 +28,11 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             ISystemClock clock,
             ICustomClaims customClaims,
             IHttpContextAccessor httpContextAccessor,
-            IConfiguration configuration) : base(options, logger, encoder, clock)
+            GovUkOidcConfiguration configuration) : base(options, logger, encoder, clock)
         {
             _customClaims = customClaims;
             _httpContextAccessor = httpContextAccessor;
-            _configuration = configuration.GetGovUkOidcConfiguration();
+            _configuration = configuration;
         }
 
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)

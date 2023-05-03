@@ -1,4 +1,5 @@
-﻿using FamilyHubs.SharedKernel.Identity.Exceptions;
+﻿using FamilyHubs.SharedKernel.Identity;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.Extensions.Configuration;
 
@@ -47,14 +48,15 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
             }
 
             var stubUsers = new List<StubUser>();
-            stubUsers.Add(CreateStubUser("admin.user@stub.com", "Admin"));
-            stubUsers.Add(CreateStubUser("general.user@stub.com", "Basic"));
+            stubUsers.Add(CreateStubUser("admin", "Admin"));
+            stubUsers.Add(CreateStubUser("general", "Basic"));
 
             return stubUsers;
         }
 
-        private static StubUser CreateStubUser(string email, string role)
+        private static StubUser CreateStubUser(string firstName, string role)
         {
+            var email = $"{firstName}.user@stub.com";
             return new StubUser
             {
                 User = new GovUkUser
@@ -64,12 +66,11 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
                 },
                 Claims = new List<AccountClaim>
                 {
-                    new AccountClaim
-                    {
-                        AccountId = email,
-                        Name = "Role",
-                        Value = role
-                    }
+                    new AccountClaim { Name = FamilyHubsClaimTypes.Role, Value = role },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.FirstName, Value = firstName },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.LastName, Value = "User" },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.OrganisationId, Value = "1" },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.AccountStatus, Value = AccountStatus.Active.ToString() }
                 }
             };
         }

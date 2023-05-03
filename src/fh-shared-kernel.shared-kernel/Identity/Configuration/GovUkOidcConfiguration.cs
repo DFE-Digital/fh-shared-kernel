@@ -30,7 +30,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
     {
         public bool UseStubAuthentication { get; set; } = false;
         public bool UseStubClaims { get; set; } = false;
-        public string StubDomain { get; set; } = "localhost";
+        public List<AccountClaim>? StubClaims { get; set; }
         public List<StubUser>? StubUsers { get; set; }
         public string PrivateKey { get; set; } = "StubPrivateKey123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     }

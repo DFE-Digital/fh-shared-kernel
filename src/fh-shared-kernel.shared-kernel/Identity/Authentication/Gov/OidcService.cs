@@ -31,14 +31,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             HttpClient httpClient,
             IAzureIdentityService azureIdentityService,
             IJwtSecurityTokenService jwtSecurityTokenService,
-            IConfiguration configuration,
+            GovUkOidcConfiguration configuration,
             ICustomClaims customClaims)
         {
             _httpClient = httpClient;
             _azureIdentityService = azureIdentityService;
             _jwtSecurityTokenService = jwtSecurityTokenService;
             _customClaims = customClaims;
-            _configuration = configuration.GetGovUkOidcConfiguration();
+            _configuration = configuration;
             _httpClient.BaseAddress = new Uri(_configuration.Oidc.BaseUrl);
         }
 
