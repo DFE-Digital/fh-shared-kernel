@@ -65,7 +65,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
                     It.Is<ClaimsIdentity>(c => c.HasClaim("sub", _oidcConfig.Oidc.ClientId) && c.Claims.FirstOrDefault(f => f.Type.Equals("jti")) != null),
                     It.Is<SigningCredentials>(c => c.Kid.Equals(_oidcConfig.Oidc.KeyVaultIdentifier) && c.Algorithm.Equals("RS512"))))
                 .Returns(_clientAssertion);
-            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), jwtService.Object, _iConfiguration, Mock.Of<ICustomClaims>());
+            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), jwtService.Object, _oidcConfig, Mock.Of<ICustomClaims>());
 
             //Act
             var actual = await service.GetToken(_openIdConnectMessage);
@@ -103,7 +103,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
                     It.Is<ClaimsIdentity>(c => c.HasClaim("sub", _oidcConfig.Oidc.ClientId) && c.Claims.FirstOrDefault(f => f.Type.Equals("jti")) != null),
                     It.Is<SigningCredentials>(c => c.Kid.Equals(_oidcConfig.Oidc.KeyVaultIdentifier) && c.Algorithm.Equals("RS512"))))
                 .Returns(_clientAssertion);
-            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), jwtService.Object, _iConfiguration, Mock.Of<ICustomClaims>());
+            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), jwtService.Object, _oidcConfig, Mock.Of<ICustomClaims>());
 
             //Act
             await service.GetToken(_openIdConnectMessage);
@@ -152,7 +152,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
                 },
                 Principal = null
             };
-            var service = new OidcService(Mock.Of<HttpClient>(), Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _iConfiguration, Mock.Of<ICustomClaims>());
+            var service = new OidcService(Mock.Of<HttpClient>(), Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _oidcConfig, Mock.Of<ICustomClaims>());
 
             //Act
             await service.PopulateAccountClaims(tokenValidatedContext);
@@ -183,7 +183,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
             {
                 Principal = mockPrincipal.Object
             };
-            var service = new OidcService(Mock.Of<HttpClient>(), Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _iConfiguration, Mock.Of<ICustomClaims>());
+            var service = new OidcService(Mock.Of<HttpClient>(), Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _oidcConfig, Mock.Of<ICustomClaims>());
 
             //Act
             await service.PopulateAccountClaims(tokenValidatedContext);
@@ -221,7 +221,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
                 Principal = mockPrincipal.Object
             };
 
-            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _iConfiguration, Mock.Of<ICustomClaims>());
+            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _oidcConfig, Mock.Of<ICustomClaims>());
 
             //Act
             await service.PopulateAccountClaims(tokenValidatedContext);
@@ -264,7 +264,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
                 Principal = mockPrincipal.Object
             };
 
-            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _iConfiguration, Mock.Of<ICustomClaims>());
+            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _oidcConfig, Mock.Of<ICustomClaims>());
 
             //Act
             await service.PopulateAccountClaims(tokenValidatedContext);
@@ -301,7 +301,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
             customClaims.Setup(x => x.GetClaims(tokenValidatedContext))
                 .ReturnsAsync(new List<Claim> { new Claim("CustomClaim", _customClaimValue) });
 
-            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _iConfiguration, customClaims.Object);
+            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _oidcConfig, customClaims.Object);
 
             //Act
             await service.PopulateAccountClaims(tokenValidatedContext);
@@ -337,7 +337,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
                 Principal = mockPrincipal.Object
             };
 
-            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _iConfiguration, Mock.Of<ICustomClaims>());
+            var service = new OidcService(client, Mock.Of<IAzureIdentityService>(), Mock.Of<IJwtSecurityTokenService>(), _oidcConfig, Mock.Of<ICustomClaims>());
 
             //Act
             await service.PopulateAccountClaims(tokenValidatedContext);

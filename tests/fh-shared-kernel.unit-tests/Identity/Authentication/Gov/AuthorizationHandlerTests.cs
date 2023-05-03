@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
 using FamilyHubs.SharedKernel.UnitTests.Identity.TestHelpers;
 using Microsoft.AspNetCore.Authorization;
@@ -14,14 +15,14 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
         private string _role;
         private AccountActiveRequirement _requirement;
         private AuthorizationHandler _authorizationHandler;
-        private IConfiguration _configuration;
+        private GovUkOidcConfiguration _configuration;
 
         public AuthorizationHandlerTests()
         {
             var fixture = new Fixture();
             _role = fixture.Create<string>();
             _requirement = new AccountActiveRequirement();
-            _configuration = FakeConfiguration.GetConfiguration();
+            _configuration = FakeConfiguration.GetOidcConfiguration();
             _authorizationHandler = new AuthorizationHandler(_configuration);
         }
 
