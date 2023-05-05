@@ -45,9 +45,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             options.MetadataAddress = $"{govUkConfiguration.Oidc.BaseUrl}/.well-known/openid-configuration";
             options.ResponseType = "code";
             options.AuthenticationMethod = OpenIdConnectRedirectBehavior.RedirectGet;
-            options.SignedOutRedirectUri = "/Account/logout-callback";
-            options.SignedOutCallbackPath = "/Account/logout-callback";
-            options.CallbackPath = "/Account/login-callback";
+            options.SignedOutRedirectUri = $"{govUkConfiguration.AppHost}/Account/logout-callback";
+            options.SignedOutCallbackPath = $"{govUkConfiguration.AppHost}/Account/logout-callback";
+            options.CallbackPath = $"{govUkConfiguration.AppHost}/Account/login-callback";
             options.ResponseMode = string.Empty;
             options.SaveTokens = true;
 
