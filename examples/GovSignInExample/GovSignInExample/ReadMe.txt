@@ -1,13 +1,14 @@
 ﻿Read Me
 
 ============= appsettings.json =============
-4 values need to be configured for this example to work
+5 values need to be configured for this example to work
 
 BaseUrl				- This is the url to the gov oidc service
 PrivateKey			- Key obtained from the private_key.pem
 ClientId			- ClientId provided by the gov oneLogin team
 SignedOutRedirect	- Must match the path to the signed-out page when the app is running, 
 					this is where the ui will redirect to once sign out is complete
+AppHost				- This is the Host path of the current app, used to redirect back to after login
 
 Optional
 IdamsApiBaseUrl		- This endpoint provides custom claims, if not populated set StubAuthentication.UseStubClaims

@@ -38,8 +38,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
             var request = _httpContextAccessor.HttpContext!.Request;
-            var redirect = HttpUtility.UrlEncode($"https://{request.Host}{request.Path}{request.QueryString}");
-            var stubLoginPage = $"https://{request.Host}{StubConstants.LoginPagePath}{redirect}";
+            var redirect = HttpUtility.UrlEncode($"{_configuration.AppHost}{request.Path}{request.QueryString}");
+            var stubLoginPage = $"{_configuration.AppHost}{StubConstants.LoginPagePath}{redirect}";
 
             _httpContextAccessor.HttpContext!.Response.Redirect(stubLoginPage);
 

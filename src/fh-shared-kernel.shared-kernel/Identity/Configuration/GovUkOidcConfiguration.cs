@@ -10,6 +10,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public int ExpiryInMinutes { get; set; } = 15;
         public string? IdamsApiBaseUrl { get; set; }
         public string? CookieName { get; set; }
+        public string? AppHost { get; set; }
     }
 
     public class Oidc

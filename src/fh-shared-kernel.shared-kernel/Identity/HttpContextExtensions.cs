@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using FamilyHubs.SharedKernel.Identity.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace FamilyHubs.SharedKernel.Identity
 {
@@ -44,6 +46,52 @@ namespace FamilyHubs.SharedKernel.Identity
             }
 
             return value;
+        }
+
+        public static FamilyHubsUser GetFamilyHubsUser(this HttpContext httpContext)
+        {
+            var user = new FamilyHubsUser
+            {
+                Role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role),
+                OrganisationId = GetClaimValue(httpContext, FamilyHubsClaimTypes.OrganisationId),
+                AccountStatus = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountStatus),
+                FirstName = GetClaimValue(httpContext, FamilyHubsClaimTypes.FirstName),
+                LastName = GetClaimValue(httpContext, FamilyHubsClaimTypes.LastName),
+                LoginTime = GetDataTimeClaimValue(httpContext, FamilyHubsClaimTypes.LoginTime),
+                Email = GetClaimValue(httpContext, FamilyHubsClaimTypes.Email),
+                PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber),
+            };
+
+
+
+            return user;
+
+        }
+
+        private static string GetClaimValue(HttpContext httpContext, string key)
+        {
+
+            var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == key);
+            if (claim != null)
+            {
+                return claim.Value;
+            }
+
+            return string.Empty;
+        }
+
+        private static DateTime? GetDataTimeClaimValue(HttpContext httpContext, string key)
+        {
+
+            var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == FamilyHubsClaimTypes.LoginTime);
+
+
+            if (claim != null && long.TryParse(claim.Value, out var utcNumber))
+            {
+                return new DateTime(utcNumber);
+            }
+
+            return null;
         }
     }
 }

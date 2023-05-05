@@ -47,7 +47,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         private async Task SignOut(HttpContext httpContext)
         {
             var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
-            var postLogOutUrl = HttpUtility.UrlEncode($"https://{httpContext.Request.Host}{AuthenticationConstants.AccountLogoutCallback}");
+            var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{AuthenticationConstants.AccountLogoutCallback}");
             var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
             httpContext.Response.Redirect(logoutRedirect);
         }
