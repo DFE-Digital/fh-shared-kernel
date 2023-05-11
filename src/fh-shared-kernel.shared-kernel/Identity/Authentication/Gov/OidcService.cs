@@ -3,6 +3,7 @@ using FamilyHubs.SharedKernel.Identity.Authorisation;
 using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.KeyVaultExtensions;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -26,13 +27,15 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         private readonly IJwtSecurityTokenService _jwtSecurityTokenService;
         private readonly ICustomClaims _customClaims;
         private readonly GovUkOidcConfiguration _configuration;
+        private readonly ILogger<OidcService> _logger;
 
         public OidcService(
             HttpClient httpClient,
             IAzureIdentityService azureIdentityService,
             IJwtSecurityTokenService jwtSecurityTokenService,
             GovUkOidcConfiguration configuration,
-            ICustomClaims customClaims)
+            ICustomClaims customClaims,
+            ILogger<OidcService> logger)
         {
             _httpClient = httpClient;
             _azureIdentityService = azureIdentityService;
@@ -40,10 +43,13 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             _customClaims = customClaims;
             _configuration = configuration;
             _httpClient.BaseAddress = new Uri(_configuration.Oidc.BaseUrl);
+            _logger = logger;
         }
 
         public async Task<Token?> GetToken(OpenIdConnectMessage openIdConnectMessage)
         {
+            _logger.LogDebug("OidcService.GetToken:Entering");
+
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, "/token")
             {
                 Headers =
@@ -53,7 +59,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                         new MediaTypeWithQualityHeaderValue("*/*"),
                         new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded")
                     },
-                    UserAgent = {new ProductInfoHeaderValue("DfEApprenticeships", "1")},
+                    UserAgent = {new ProductInfoHeaderValue("DfE", "1")},
                 }
             };
 
@@ -71,16 +77,25 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
 
             var response = await _httpClient.SendAsync(httpRequestMessage);
-            var valueString = await response.Content.ReadAsStringAsync();
+
+            if(response == null || !response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"Failed to retreive token from OneLogin StatusCode:{response?.StatusCode} Content:{response?.Content.ReadAsStringAsync()}");
+            }
+
+            var valueString = await response!.Content.ReadAsStringAsync();
             var content = JsonSerializer.Deserialize<Token>(valueString);
 
+            _logger.LogDebug("OidcService.GetToken:Exiting");
             return content;
         }
 
         public async Task PopulateAccountClaims(TokenValidatedContext tokenValidatedContext)
         {
+            _logger.LogDebug("OidcService.PopulateAccountClaims:Entering");
             if (tokenValidatedContext.TokenEndpointResponse == null || tokenValidatedContext.Principal == null)
             {
+                _logger.LogWarning("OidcService.PopulateAccountClaims:Exiting due to null TokenEndpointResponse or Principal");
                 return;
             }
 
@@ -104,6 +119,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             tokenValidatedContext.Principal.Identities.First()
                 .AddClaims(await _customClaims.GetClaims(tokenValidatedContext));
 
+            _logger.LogDebug("OidcService.PopulateAccountClaims:Exiting");
         }
 
         private string CreateJwtAssertion()
@@ -132,6 +148,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         {
             if (_configuration.UseKeyVault())
             {
+                _logger.LogDebug("OidcService retrieving privateKey from KeyVault");
                 return new SigningCredentials(
                     new KeyVaultSecurityKey(_configuration.Oidc.KeyVaultIdentifier,
                         _azureIdentityService.AuthenticationCallback), "RS512")
@@ -143,6 +160,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 };
             }
 
+            _logger.LogDebug("OidcService retrieving privateKey from LocalConfig");
             var unencodedKey = _configuration.Oidc.PrivateKey!;
             var privateKeyBytes = Convert.FromBase64String(unencodedKey);
 
@@ -158,5 +176,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             var key = new RsaSecurityKey(rsa);
             return new SigningCredentials(key, "RS256");
         }
+
     }
 }
