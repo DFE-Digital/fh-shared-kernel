@@ -8,7 +8,6 @@
         public const string LoginTime = "LoginTime";
         public const string FirstName = "FirstName";
         public const string LastName = "LastName";
-        public const string Email = "Email ";
         public const string PhoneNumber = "PhoneNumber ";
     }
 

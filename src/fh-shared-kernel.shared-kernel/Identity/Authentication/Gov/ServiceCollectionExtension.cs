@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.KeyVaultExtensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
@@ -23,7 +24,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             services
                 .AddAuthentication(options => ConfigureAuthenticationOptions(options))
-                .AddOpenIdConnect(options => ConfigureOpenIdConnect(options, govUkConfiguration, govUkConfiguration.CookieName))
+                .AddOpenIdConnect(options => ConfigureOpenIdConnect(options, govUkConfiguration))
                 .AddAuthenticationCookie(govUkConfiguration.CookieName, govUkConfiguration);
 
             services
@@ -39,7 +40,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             options.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
         }
 
-        private static void ConfigureOpenIdConnect(OpenIdConnectOptions options, GovUkOidcConfiguration govUkConfiguration, string authenticationCookieName)
+        private static void ConfigureOpenIdConnect(OpenIdConnectOptions options, GovUkOidcConfiguration govUkConfiguration)
         {
             options.ClientId = govUkConfiguration.Oidc.ClientId;
             options.MetadataAddress = $"{govUkConfiguration.Oidc.BaseUrl}/.well-known/openid-configuration";
@@ -83,11 +84,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             options.Events.OnSignedOutCallbackRedirect = c =>
             {
-                c.Response.Cookies.Delete(authenticationCookieName);
+                c.Response.Cookies.Delete(govUkConfiguration.CookieName!);
                 c.Response.Redirect(govUkConfiguration.Urls.SignedOutRedirect);
                 c.HandleResponse();
                 return Task.CompletedTask;
             };
+
         }
 
         private static void ConfigureToken(OpenIdConnectOptions options, IOidcService oidcService, IAzureIdentityService azureIdentityService, GovUkOidcConfiguration config)

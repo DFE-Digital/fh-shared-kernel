@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.Identity
 {
@@ -58,7 +58,7 @@ namespace FamilyHubs.SharedKernel.Identity
                 FirstName = GetClaimValue(httpContext, FamilyHubsClaimTypes.FirstName),
                 LastName = GetClaimValue(httpContext, FamilyHubsClaimTypes.LastName),
                 LoginTime = GetDataTimeClaimValue(httpContext, FamilyHubsClaimTypes.LoginTime),
-                Email = GetClaimValue(httpContext, FamilyHubsClaimTypes.Email),
+                Email = GetClaimValue(httpContext, ClaimTypes.Email),
                 PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber),
             };
 
