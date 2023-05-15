@@ -11,6 +11,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string? IdamsApiBaseUrl { get; set; }
         public string? CookieName { get; set; }
         public string? AppHost { get; set; }
+        public bool EnableDebugLogging { get; set; } = false;
     }
 
     public class Oidc
