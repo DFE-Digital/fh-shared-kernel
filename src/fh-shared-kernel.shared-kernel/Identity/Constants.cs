@@ -24,6 +24,9 @@
         internal const string BearerToken = "BearerToken";
         internal const string IdToken = "id_token";
 
+
+        internal const string AccountPaths = "Account/";
+
         /// <summary>
         /// This is the path called from the browser to trigger the sign-out process
         /// </summary>

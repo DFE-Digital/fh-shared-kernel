@@ -62,10 +62,7 @@ namespace FamilyHubs.SharedKernel.Identity
                 PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber),
             };
 
-
-
             return user;
-
         }
 
         private static string GetClaimValue(HttpContext httpContext, string key)
