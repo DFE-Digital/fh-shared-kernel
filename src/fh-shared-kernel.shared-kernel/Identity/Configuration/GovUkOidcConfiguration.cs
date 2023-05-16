@@ -12,6 +12,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string? CookieName { get; set; }
         public string? AppHost { get; set; }
         public bool EnableDebugLogging { get; set; } = false;
+        public string BearerTokenSigningKey { get; set; } = default!;
+
     }
 
     public class Oidc
