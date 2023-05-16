@@ -4,6 +4,6 @@ namespace FamilyHubs.SharedKernel.Identity.SigningKey
 {
     public interface ISigningKeyProvider
     {
-        public SecurityKey GetSecurityKey();
+        public SecurityKey GetBearerTokenSigningKey();
     }
 }

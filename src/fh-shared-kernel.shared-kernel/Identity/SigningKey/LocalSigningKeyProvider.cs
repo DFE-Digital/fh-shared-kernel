@@ -1,6 +1,5 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 
 namespace FamilyHubs.SharedKernel.Identity.SigningKey
 {
@@ -9,20 +8,16 @@ namespace FamilyHubs.SharedKernel.Identity.SigningKey
     /// </summary>
     public class LocalSigningKeyProvider : ISigningKeyProvider
     {
-        private byte[] _bytes;
+        private readonly string _privateKey;
 
         public LocalSigningKeyProvider(GovUkOidcConfiguration govUkOidcConfiguration)
         {
-            var unencodedKey = govUkOidcConfiguration.Oidc.PrivateKey!;
-            _bytes = Convert.FromBase64String(unencodedKey);
+            _privateKey = govUkOidcConfiguration.Oidc.PrivateKey!;
         }
 
-        public SecurityKey GetSecurityKey()
+        public SecurityKey GetBearerTokenSigningKey()
         {
-            var rsa = RSA.Create();
-            rsa.ImportPkcs8PrivateKey(_bytes, out _);
-            var key = new RsaSecurityKey(rsa);
-            return key;
+            return new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(_privateKey));
         }
     }
 }

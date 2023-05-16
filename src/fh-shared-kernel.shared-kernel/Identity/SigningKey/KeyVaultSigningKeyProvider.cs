@@ -1,7 +1,10 @@
-﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+﻿using Azure.Identity;
+using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
+using Microsoft.Azure.KeyVault;
 using Microsoft.IdentityModel.KeyVaultExtensions;
 using Microsoft.IdentityModel.Tokens;
+using System.Net;
 
 namespace FamilyHubs.SharedKernel.Identity.SigningKey
 {
@@ -16,8 +19,9 @@ namespace FamilyHubs.SharedKernel.Identity.SigningKey
             _azureIdentityService = azureIdentityService;
         }
 
-        public SecurityKey GetSecurityKey()
+        public SecurityKey GetBearerTokenSigningKey()
         {
+
             return new KeyVaultSecurityKey(_configuration.Oidc.KeyVaultIdentifier, _azureIdentityService.AuthenticationCallback);
         }
     }

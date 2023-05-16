@@ -37,7 +37,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
             if (!IsUserAuthenticated(user))
                 return;
 
-            var key = _signingKeyProvider.GetSecurityKey();
+            var key = _signingKeyProvider.GetBearerTokenSigningKey();
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(

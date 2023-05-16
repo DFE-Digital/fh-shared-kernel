@@ -12,7 +12,7 @@ namespace FamilyHubs.SharedKernel.Identity.SigningKey
             _key = govUkOidcConfiguration.StubAuthentication.PrivateKey;
         }
 
-        public SecurityKey GetSecurityKey()
+        public SecurityKey GetBearerTokenSigningKey()
         {
             return new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(_key));
         }
