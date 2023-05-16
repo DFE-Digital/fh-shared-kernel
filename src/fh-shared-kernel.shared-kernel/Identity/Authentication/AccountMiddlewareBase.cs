@@ -12,6 +12,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
     {
         private readonly GovUkOidcConfiguration _configuration;
 
+
         public AccountMiddlewareBase(GovUkOidcConfiguration configuration)
         {
             _configuration = configuration;
@@ -33,7 +34,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
             if (!IsUserAuthenticated(user))
                 return;
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(GetPrivateKey()));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(_configuration.BearerTokenSigningKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
@@ -44,8 +45,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
             httpContext.Items.Add(AuthenticationConstants.BearerToken, new JwtSecurityTokenHandler().WriteToken(token));
         }
-
-        protected abstract string GetPrivateKey();
 
         private static bool IsUserAuthenticated(ClaimsPrincipal? user)
         {

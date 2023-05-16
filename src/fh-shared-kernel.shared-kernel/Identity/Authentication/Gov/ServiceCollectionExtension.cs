@@ -117,6 +117,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
         private static SecurityKey GetIssuerSigningKey(GovUkOidcConfiguration config, IAzureIdentityService azureIdentityService)
         {
+
+
             if (config.UseKeyVault())
             {
                 return new KeyVaultSecurityKey(config.Oidc.KeyVaultIdentifier, azureIdentityService.AuthenticationCallback);

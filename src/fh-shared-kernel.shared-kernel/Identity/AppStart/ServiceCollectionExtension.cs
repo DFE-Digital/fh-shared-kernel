@@ -105,9 +105,9 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
         {
             var config = configuration.GetGovUkOidcConfiguration();
 
-            var privateKey = config.Oidc.PrivateKey;
+            var privateKey = config.BearerTokenSigningKey;
             if (string.IsNullOrEmpty(privateKey))
-                throw new AuthConfigurationException("PrivateKey must be configured for AddBearerAuthentication");
+                throw new AuthConfigurationException("BearerTokenSigningKey must be configured for AddBearerAuthentication");
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(options => {

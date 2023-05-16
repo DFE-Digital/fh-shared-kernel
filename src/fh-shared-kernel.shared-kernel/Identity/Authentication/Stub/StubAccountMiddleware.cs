@@ -10,7 +10,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
         private readonly RequestDelegate _next;
         private readonly GovUkOidcConfiguration _configuration;
 
-        public StubAccountMiddleware(RequestDelegate next, GovUkOidcConfiguration configuration) : base(configuration)
+        public StubAccountMiddleware(
+            RequestDelegate next, 
+            GovUkOidcConfiguration configuration) : base(configuration)
         {
             _next = next;
             _configuration = configuration;
@@ -38,11 +40,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
             SetBearerToken(context);
             await _next(context);
-        }
-
-        protected override string GetPrivateKey()
-        {
-            return _configuration.StubAuthentication.PrivateKey;
         }
 
         private static bool ShouldCompleteLogin(HttpContext context)

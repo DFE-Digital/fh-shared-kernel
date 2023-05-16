@@ -1,5 +1,4 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.Identity.Exceptions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -13,7 +12,10 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         private readonly GovUkOidcConfiguration _configuration;
         private readonly ILogger<AccountMiddleware> _logger;
 
-        public AccountMiddleware(RequestDelegate next, GovUkOidcConfiguration configuration, ILogger<AccountMiddleware> logger): base(configuration)
+        public AccountMiddleware(
+            RequestDelegate next, 
+            GovUkOidcConfiguration configuration, 
+            ILogger<AccountMiddleware> logger) : base(configuration)
         {
             _next = next;
             _configuration = configuration;
@@ -32,21 +34,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             SetBearerToken(context);
             await _next(context);
-        }
-
-        protected override string GetPrivateKey()
-        {
-            if (_configuration.StubAuthentication.UseStubAuthentication)
-            {
-                return _configuration.StubAuthentication.PrivateKey;
-            }
-
-            if (string.IsNullOrEmpty(_configuration.Oidc.PrivateKey))
-            {
-                throw new AuthConfigurationException("Configuration must contain private key to generate a bearer token");
-            }
-
-            return _configuration.Oidc.PrivateKey;
         }
 
         private async Task SignOut(HttpContext httpContext)

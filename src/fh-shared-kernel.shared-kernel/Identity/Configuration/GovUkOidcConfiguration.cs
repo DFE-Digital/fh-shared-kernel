@@ -12,6 +12,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string? CookieName { get; set; }
         public string? AppHost { get; set; }
         public bool EnableDebugLogging { get; set; } = false;
+        public string BearerTokenSigningKey { get; set; } = default!;
+
     }
 
     public class Oidc
@@ -34,6 +36,5 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public bool UseStubClaims { get; set; } = false;
         public List<AccountClaim>? StubClaims { get; set; }
         public List<StubUser>? StubUsers { get; set; }
-        public string PrivateKey { get; set; } = "StubPrivateKey123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     }
 }
