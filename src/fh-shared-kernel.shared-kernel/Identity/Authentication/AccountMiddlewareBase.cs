@@ -1,4 +1,5 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity.SigningKey;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
@@ -11,10 +12,13 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
     public abstract class AccountMiddlewareBase
     {
         private readonly GovUkOidcConfiguration _configuration;
+        private readonly ISigningKeyProvider _signingKeyProvider;
 
-        public AccountMiddlewareBase(GovUkOidcConfiguration configuration)
+
+        public AccountMiddlewareBase(GovUkOidcConfiguration configuration, ISigningKeyProvider signingKeyProvider)
         {
             _configuration = configuration;
+            _signingKeyProvider = signingKeyProvider;
         }
 
         protected bool ShouldSignOut(HttpContext httpContext)
@@ -33,7 +37,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
             if (!IsUserAuthenticated(user))
                 return;
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(GetPrivateKey()));
+            var key = _signingKeyProvider.GetSecurityKey();
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
             var token = new JwtSecurityToken(
@@ -44,8 +48,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
             httpContext.Items.Add(AuthenticationConstants.BearerToken, new JwtSecurityTokenHandler().WriteToken(token));
         }
-
-        protected abstract string GetPrivateKey();
 
         private static bool IsUserAuthenticated(ClaimsPrincipal? user)
         {

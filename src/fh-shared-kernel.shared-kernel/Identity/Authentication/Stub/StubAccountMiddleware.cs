@@ -1,5 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Exceptions;
+using FamilyHubs.SharedKernel.Identity.SigningKey;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -10,7 +11,10 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
         private readonly RequestDelegate _next;
         private readonly GovUkOidcConfiguration _configuration;
 
-        public StubAccountMiddleware(RequestDelegate next, GovUkOidcConfiguration configuration) : base(configuration)
+        public StubAccountMiddleware(
+            RequestDelegate next, 
+            GovUkOidcConfiguration configuration,
+            ISigningKeyProvider signingKeyProvider) : base(configuration, signingKeyProvider)
         {
             _next = next;
             _configuration = configuration;
@@ -38,11 +42,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
             SetBearerToken(context);
             await _next(context);
-        }
-
-        protected override string GetPrivateKey()
-        {
-            return _configuration.StubAuthentication.PrivateKey;
         }
 
         private static bool ShouldCompleteLogin(HttpContext context)
