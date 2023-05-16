@@ -18,6 +18,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
         public AccountMiddlewareTests()
         {
             _configuration = new GovUkOidcConfiguration { Oidc = new Oidc() };
+            _configuration.BearerTokenSigningKey = Guid.NewGuid().ToString();
             _configuration.Oidc.PrivateKey = Guid.NewGuid().ToString();
             _nextMock = Mock.Of<RequestDelegate>();
             _mockedLogger = Mock.Of<ILogger<AccountMiddleware>>();
