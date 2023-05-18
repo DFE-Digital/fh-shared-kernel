@@ -6,8 +6,7 @@
         public const string OrganisationId = "OrganisationId";
         public const string AccountStatus = "AccountStatus";
         public const string LoginTime = "LoginTime";
-        public const string FirstName = "FirstName";
-        public const string LastName = "LastName";
+        public const string FullName = "FullName";
         public const string PhoneNumber = "PhoneNumber ";
     }
 

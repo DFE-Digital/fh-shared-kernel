@@ -54,9 +54,9 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
             return stubUsers;
         }
 
-        private static StubUser CreateStubUser(string firstName, string role)
+        private static StubUser CreateStubUser(string name, string role)
         {
-            var email = $"{firstName}.user@stub.com";
+            var email = $"{name}.user@stub.com";
             return new StubUser
             {
                 User = new GovUkUser
@@ -67,8 +67,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
                 Claims = new List<AccountClaim>
                 {
                     new AccountClaim { Name = FamilyHubsClaimTypes.Role, Value = role },
-                    new AccountClaim { Name = FamilyHubsClaimTypes.FirstName, Value = firstName },
-                    new AccountClaim { Name = FamilyHubsClaimTypes.LastName, Value = "User" },
+                    new AccountClaim { Name = FamilyHubsClaimTypes.FullName, Value = name },
                     new AccountClaim { Name = FamilyHubsClaimTypes.OrganisationId, Value = "1" },
                     new AccountClaim { Name = FamilyHubsClaimTypes.AccountStatus, Value = AccountStatus.Active.ToString() }
                 }

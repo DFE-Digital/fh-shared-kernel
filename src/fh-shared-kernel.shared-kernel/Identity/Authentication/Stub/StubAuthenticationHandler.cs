@@ -5,7 +5,6 @@ using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -38,7 +37,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
             var request = _httpContextAccessor.HttpContext!.Request;
-            var redirect = HttpUtility.UrlEncode($"{_configuration.AppHost}{request.Path}{request.QueryString}");
+            var redirect = HttpUtility.UrlEncode($"{request.Path}{request.QueryString}");
             var stubLoginPage = $"{_configuration.AppHost}{StubConstants.LoginPagePath}{redirect}";
 
             _httpContextAccessor.HttpContext!.Response.Redirect(stubLoginPage);
