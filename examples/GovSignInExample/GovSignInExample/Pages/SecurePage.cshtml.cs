@@ -14,8 +14,7 @@ namespace GovSignInExample.Pages
             Console.WriteLine($"OrganisationId:{user.OrganisationId}");
             Console.WriteLine($"AccountStatus:{user.AccountStatus}");
             Console.WriteLine($"LoginTime:{user.LoginTime}");
-            Console.WriteLine($"FirstName:{user.FirstName}");
-            Console.WriteLine($"LastName:{user.LastName}");
+            Console.WriteLine($"FullName:{user.FullName}");
             Console.WriteLine($"Email:{user.Email}");
             Console.WriteLine($"PhoneNumber:{user.PhoneNumber}");
         }
