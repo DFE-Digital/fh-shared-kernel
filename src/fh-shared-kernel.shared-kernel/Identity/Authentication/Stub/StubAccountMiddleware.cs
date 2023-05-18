@@ -1,4 +1,5 @@
-﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+﻿using Azure.Core;
+using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -69,6 +70,11 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             context.Response.Cookies.Append(_configuration.CookieName, json);
 
             var redirectUrl = context.GetUrlQueryValue("redirect");
+            if (!redirectUrl.StartsWith("/"))
+            {
+                redirectUrl = $"/{redirectUrl}";
+            }
+
             context.Response.Redirect(redirectUrl);
 
         }
