@@ -15,12 +15,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
         public async Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
         {
-            var openId = tokenValidatedContext?.Principal?.Identities.First().Claims
-                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
+            var email = tokenValidatedContext?.Principal?.Identities.First().Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email))?.Value;
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(_httpClient.BaseAddress + $"api/Account/GetAccountClaimsByOpenId?openId={openId}"),
+                RequestUri = new Uri(_httpClient.BaseAddress + $"api/Account/GetAccountClaimsByEmail?email={email}"),
             };
 
             using var response = await _httpClient.SendAsync(request);

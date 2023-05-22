@@ -7,7 +7,7 @@
         public const string AccountStatus = "AccountStatus";
         public const string LoginTime = "LoginTime";
         public const string FullName = "FullName";
-        public const string PhoneNumber = "PhoneNumber ";
+        public const string PhoneNumber = "PhoneNumber";
     }
 
     public static class RoleTypes

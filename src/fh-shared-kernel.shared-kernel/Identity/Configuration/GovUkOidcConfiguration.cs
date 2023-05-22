@@ -22,6 +22,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string ClientId { get; set; } = default!;
         public string? KeyVaultIdentifier { get; set; }
         public string? PrivateKey { get; set; }
+        public bool TwoFactorEnabled { get; set; } = true;
     }
 
     public class Urls

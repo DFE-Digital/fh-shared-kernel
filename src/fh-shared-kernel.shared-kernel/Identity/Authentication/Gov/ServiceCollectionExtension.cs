@@ -61,6 +61,13 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             options.Events.OnRedirectToIdentityProvider = c =>
             {
+                if (!govUkConfiguration.Oidc.TwoFactorEnabled)
+                {
+                    // If TwoFactorDisabled this parameter will lower the authenitcation level and not
+                    // require a two-factor code
+                    c.ProtocolMessage.SetParameter("vtr", "[\"Cl\"]");
+                }
+                
                 c.ProtocolMessage.RedirectUri = $"{govUkConfiguration.AppHost}/Account/login-callback";
                 return Task.CompletedTask;
             };
