@@ -30,6 +30,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
         protected void SetBearerToken(HttpContext httpContext)
         {
+            if (httpContext.Items.ContainsKey(AuthenticationConstants.BearerToken))
+                return;
+
             var user = httpContext.User;
             if (!IsUserAuthenticated(user))
                 return;

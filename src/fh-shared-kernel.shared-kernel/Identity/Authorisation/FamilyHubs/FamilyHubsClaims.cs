@@ -20,7 +20,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(_httpClient.BaseAddress + $"api/Account/GetAccountClaimsByEmail?email={email}"),
+                RequestUri = new Uri(_httpClient.BaseAddress + $"api/AccountClaims/GetAccountClaimsByEmail?email={email}"),
             };
 
             using var response = await _httpClient.SendAsync(request);
@@ -36,7 +36,10 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
             foreach (var claim in customClaims!)
             {
-                claims.Add(new Claim(claim.Name, claim.Value));
+                if(!string.IsNullOrEmpty(claim.Name) && claim.Value != null)
+                {
+                    claims.Add(new Claim(claim.Name, claim.Value));
+                }
             }
             claims.Add(new Claim (FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString() ));
             return claims.AsEnumerable();

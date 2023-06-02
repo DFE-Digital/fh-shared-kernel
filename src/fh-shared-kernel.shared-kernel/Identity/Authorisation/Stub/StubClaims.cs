@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Security.Claims;
 
-
 namespace FamilyHubs.SharedKernel.Identity.Authorisation.Stub
 {
     public class StubClaims : ICustomClaims
