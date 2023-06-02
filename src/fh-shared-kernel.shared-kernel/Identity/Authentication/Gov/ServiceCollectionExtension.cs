@@ -67,7 +67,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                     // require a two-factor code
                     c.ProtocolMessage.SetParameter("vtr", "[\"Cl\"]");
                 }
-                
+
+                c.ProtocolMessage.SetParameter("prompt", "login");
+
                 c.ProtocolMessage.RedirectUri = $"{govUkConfiguration.AppHost}/Account/login-callback";
                 return Task.CompletedTask;
             };

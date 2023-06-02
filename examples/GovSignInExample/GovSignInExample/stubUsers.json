@@ -9,7 +9,7 @@
           },
           "Claims": [
             {
-              "Name": "Role",
+              "Name": "role",
               "Value": "DfeAdmin"
             },
             {
@@ -37,7 +37,7 @@
           },
           "Claims": [
             {
-              "Name": "Role",
+              "Name": "role",
               "Value": "LaAdmin"
             },
             {
@@ -65,7 +65,7 @@
           },
           "Claims": [
             {
-              "Name": "Role",
+              "Name": "role",
               "Value": "VcsAdmin"
             },
             {

@@ -2,20 +2,23 @@
 {
     public static class FamilyHubsClaimTypes
     {
-        public const string Role = "Role";
+        public const string Role = "role";
         public const string OrganisationId = "OrganisationId";
         public const string AccountStatus = "AccountStatus";
         public const string LoginTime = "LoginTime";
-        public const string FullName = "FullName";
+        public const string FullName = "Name";
         public const string PhoneNumber = "PhoneNumber";
     }
 
     public static class RoleTypes
     {
         public const string DfeAdmin = "DfeAdmin";
-        public const string LaAdmin = "LaAdmin";
-        public const string VcsAdmin = "VcsAdmin";
-        public const string Professional = "Professional";
+        public const string LaManager = "LaManager";
+        public const string VcsManager = "VcsManager";
+        public const string LaProfessional = "LaProfessional";
+        public const string VcsProfessional = "VcsProfessional";
+        public const string VcsDualRole = "VcsDualRole";
+        public const string LaDualRole = "LaDualRole";
     }
 
     internal static class AuthenticationConstants
