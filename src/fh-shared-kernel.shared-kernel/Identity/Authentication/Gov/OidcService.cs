@@ -36,7 +36,7 @@ public class OidcService : IOidcService
         ICustomClaims customClaims,
         ILogger<OidcService> logger)
     {
-        logger.LogInformation("OidcService:constructor BaseUrl={BaseUrl}", _configuration?.Oidc.BaseUrl);
+        logger.LogTrace("OidcService:constructor BaseUrl={BaseUrl}", _configuration?.Oidc.BaseUrl);
 
         _httpClient = httpClient;
         _azureIdentityService = azureIdentityService;
