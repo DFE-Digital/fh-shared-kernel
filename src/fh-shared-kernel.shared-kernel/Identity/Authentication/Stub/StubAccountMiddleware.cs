@@ -1,8 +1,10 @@
 ﻿using Azure.Core;
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Exceptions;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
@@ -66,10 +68,16 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
             if (string.IsNullOrWhiteSpace(_configuration.CookieName))
                 throw new AuthConfigurationException($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
-
             context.Response.Cookies.Append(_configuration.CookieName, json);
 
-            var redirectUrl = context.GetUrlQueryValue("redirect");
+            var redirectUrl = context.Request.Query["redirect"].First();
+
+            if(string.IsNullOrWhiteSpace(redirectUrl))
+            {
+                context.Response.Redirect(_configuration.AppHost!);
+                return;
+            }
+
             if (!redirectUrl.StartsWith("/"))
             {
                 redirectUrl = $"/{redirectUrl}";
