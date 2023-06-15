@@ -1,5 +1,7 @@
-﻿using FamilyHubs.SharedKernel.Identity.Models;
+﻿using Azure;
+using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -15,8 +17,16 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
         public async Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
         {
+            var json = await CallClaimsApi(tokenValidatedContext);
+            var claims = ExtractClaimsFromResponse(json);
+
+            return claims;
+        }
+
+        private async Task<string> CallClaimsApi(TokenValidatedContext tokenValidatedContext)
+        {
             var email = tokenValidatedContext?.Principal?.Identities.First().Claims
-                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email))?.Value;
+                    .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email))?.Value;
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
@@ -25,26 +35,31 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
             using var response = await _httpClient.SendAsync(request);
 
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            {
+                return "[]";
+            }
             response.EnsureSuccessStatusCode();
-
             var json = await response.Content.ReadAsStringAsync();
 
-            var customClaims = JsonSerializer.Deserialize<List<AccountClaim>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return json;
+        }
 
+        private IEnumerable<Claim> ExtractClaimsFromResponse(string json)
+        {
+            var customClaims = JsonSerializer.Deserialize<List<AccountClaim>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             var claims = new List<Claim>();
 
             foreach (var claim in customClaims!)
             {
-                if(!string.IsNullOrEmpty(claim.Name) && claim.Value != null)
+                if (!string.IsNullOrEmpty(claim.Name) && claim.Value != null)
                 {
                     claims.Add(new Claim(claim.Name, claim.Value));
                 }
             }
-            claims.Add(new Claim (FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString() ));
+            claims.Add(new Claim(FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString()));
             return claims.AsEnumerable();
         }
     }
-
-
 }

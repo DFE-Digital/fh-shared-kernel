@@ -28,6 +28,34 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
             return false;
         }
 
+        protected bool ShouldRedirectToNoClaims(HttpContext httpContext)
+        {
+            if (string.IsNullOrEmpty(_configuration.Urls.NoClaimsRedirect))
+            {
+                return false; // If a redirect setting does not exist we dont need to redirect
+            }
+
+            if (_configuration.Urls.NoClaimsRedirect.Contains(httpContext.Request.Path))
+            {
+                return false; // If we are already redirecting to the NoClaimsPage no need to redirect again
+            }
+
+            if (!httpContext.IsUserLoggedIn())
+            {
+                return false; // We only redirect to NoClaims page if user is logged in and doesn't have claims
+            }
+
+            var user = httpContext.GetFamilyHubsUser();
+
+            if(string.IsNullOrEmpty(user.Role) || string.IsNullOrEmpty(user.OrganisationId) || string.IsNullOrEmpty(user.FullName))
+            {
+                return true;  // Missing required claims, redirect to NoClaims page
+            }
+
+            return false;
+        }
+
+
         protected void SetBearerToken(HttpContext httpContext)
         {
             if (httpContext.Items.ContainsKey(AuthenticationConstants.BearerToken))

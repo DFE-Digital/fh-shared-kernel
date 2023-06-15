@@ -12,7 +12,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string? CookieName { get; set; }
         public string? AppHost { get; set; }
         public bool EnableDebugLogging { get; set; } = false;
-        public string BearerTokenSigningKey { get; set; } = default!;
+        public string BearerTokenSigningKey { get; set; } = string.Empty;
 
     }
 
@@ -27,8 +27,9 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
 
     public class Urls
     {
-        public string SignedOutRedirect { get; set; } = default!;
-        public string AccountSuspendedRedirect { get; set; } = default!;
+        public string SignedOutRedirect { get; set; } = string.Empty;
+        public string AccountSuspendedRedirect { get; set; } = string.Empty;
+        public string NoClaimsRedirect { get; set; } = string.Empty;
     }
 
     public class StubAuthentication
