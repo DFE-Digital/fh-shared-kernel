@@ -64,6 +64,40 @@ namespace FamilyHubs.SharedKernel.Identity
             return user;
         }
 
+        public static bool IsUserLoggedIn(this HttpContext httpContext)
+        {
+            return httpContext.User?.Identity?.IsAuthenticated == true;
+        }
+
+        public static bool IsUserDfeAdmin(this HttpContext httpContext)
+        {
+            return GetClaimValue(httpContext, FamilyHubsClaimTypes.Role) == RoleTypes.DfeAdmin;
+        }
+
+        public static bool IsUserLaManager(this HttpContext httpContext)
+        {
+            var role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role);
+
+            if(role == RoleTypes.LaManager || role == RoleTypes.LaDualRole)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static long GetUserOrganisationId(this HttpContext httpContext)
+        {
+            var organisationId = GetClaimValue(httpContext, FamilyHubsClaimTypes.OrganisationId);
+
+            if(long.TryParse(organisationId, out var result))
+            {
+                return result;
+            }
+
+            throw new Exception("Could not parse OrganisationId from claim");
+        }
+
         private static string GetClaimValue(HttpContext httpContext, string key)
         {
 
@@ -89,5 +123,6 @@ namespace FamilyHubs.SharedKernel.Identity
 
             return null;
         }
+
     }
 }

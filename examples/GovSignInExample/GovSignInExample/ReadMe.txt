@@ -13,6 +13,7 @@ AppHost					- This is the Host path of the current app, used to redirect back to
 
 Optional
 IdamsApiBaseUrl			- This endpoint provides custom claims, if not populated set StubAuthentication.UseStubClaims
+Urls.NoClaimsRedirect	- If this is populated the middleware will redirect to this url when no claims are present
 
 Stub Settings
 Note - Stub settings will only be used by a UI logging in. However, a user who has logged in via the stubbed settings will still
