@@ -54,11 +54,12 @@ namespace FamilyHubs.SharedKernel.Identity
             {
                 Role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role),
                 OrganisationId = GetClaimValue(httpContext, FamilyHubsClaimTypes.OrganisationId),
+                AccountId = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountId),
                 AccountStatus = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountStatus),
                 FullName = GetClaimValue(httpContext, FamilyHubsClaimTypes.FullName),
                 LoginTime = GetDataTimeClaimValue(httpContext, FamilyHubsClaimTypes.LoginTime),
                 Email = GetClaimValue(httpContext, ClaimTypes.Email),
-                PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber),
+                PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber)
             };
 
             return user;
