@@ -4,6 +4,7 @@
     {
         public const string Role = "role";
         public const string OrganisationId = "OrganisationId";
+        public const string AccountId = "AccountId";
         public const string AccountStatus = "AccountStatus";
         public const string LoginTime = "LoginTime";
         public const string FullName = "Name";
