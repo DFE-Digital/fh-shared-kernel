@@ -48,17 +48,10 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
         private IEnumerable<Claim> ExtractClaimsFromResponse(string json)
         {
             var customClaims = JsonSerializer.Deserialize<List<AccountClaim>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var claims = customClaims.ConvertToSecurityClaim();
 
-            var claims = new List<Claim>();
-
-            foreach (var claim in customClaims!)
-            {
-                if (!string.IsNullOrEmpty(claim.Name) && claim.Value != null)
-                {
-                    claims.Add(new Claim(claim.Name, claim.Value));
-                }
-            }
             claims.Add(new Claim(FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString()));
+
             return claims.AsEnumerable();
         }
     }

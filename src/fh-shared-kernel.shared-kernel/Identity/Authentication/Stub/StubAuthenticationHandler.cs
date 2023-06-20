@@ -83,19 +83,19 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
                 return false;
             }
 
-            var authCookieValue = JsonConvert.DeserializeObject<StubUser>(cookieJson);
+            var cookieClaims = JsonConvert.DeserializeObject<StubClaimsCookie>(cookieJson);
 
-            if (authCookieValue == null)
+            if (cookieClaims == null || cookieClaims.Claims == null)
             {
                 return false;
             }
 
-            claims.Add(new Claim(ClaimTypes.Email, authCookieValue.User.Email));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, authCookieValue.User.Sub));
-
-            foreach(var claim in authCookieValue.Claims)
+            foreach (var claim in cookieClaims.Claims)
             {
-                claims.Add(new Claim(claim.Name, claim.Value));
+                if (!string.IsNullOrEmpty(claim.Name) && claim.Value != null)
+                {
+                    claims.Add(new Claim(claim.Name, claim.Value));
+                }
             }
 
             return true;
