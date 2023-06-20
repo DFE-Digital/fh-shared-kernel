@@ -1,10 +1,12 @@
 ﻿using Azure.Core;
 using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Exceptions;
+using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 {
@@ -63,8 +65,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
             if (user == null)
                 throw new Exception("Invalid user selected");
 
-            user.Claims.Add(new Models.AccountClaim { Name=FamilyHubsClaimTypes.LoginTime, Value = DateTime.UtcNow.Ticks.ToString() });
-            var json = JsonConvert.SerializeObject(user);
+            var claims = user.Claims.ConvertToSecurityClaim();
+            claims.Add(new Claim(FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString() ));
+            claims.Add(new Claim(ClaimTypes.Email, user.User.Email));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.User.Sub));
+
+            var json = JsonConvert.SerializeObject(new StubClaimsCookie(claims));
 
             if (string.IsNullOrWhiteSpace(_configuration.CookieName))
                 throw new AuthConfigurationException($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");

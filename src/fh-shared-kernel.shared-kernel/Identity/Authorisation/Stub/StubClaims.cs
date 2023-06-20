@@ -16,6 +16,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.Stub
                 {
                     _claims.Add(new Claim(claim.Name, claim.Value));
                 }
+                _claims.AddRoleClaim();
             }
         }
 
