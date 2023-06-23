@@ -22,6 +22,12 @@
         public const string LaDualRole = "LaDualRole";
     }
 
+    public static class RoleGroups
+    {
+        public const string LaProfessionalOrDualRole = RoleTypes.LaProfessional + "," + RoleTypes.LaDualRole;
+        public const string VcsProfessionalOrDualRole = RoleTypes.VcsProfessional + "," + RoleTypes.VcsDualRole;
+    }
+
     internal static class AuthenticationConstants
     {
         internal const string BearerToken = "BearerToken";
