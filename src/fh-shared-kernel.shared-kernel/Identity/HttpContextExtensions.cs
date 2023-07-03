@@ -52,7 +52,7 @@ namespace FamilyHubs.SharedKernel.Identity
         {
             var user = new FamilyHubsUser
             {
-                Role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role),
+                Role = GetRole(httpContext),
                 OrganisationId = GetClaimValue(httpContext, FamilyHubsClaimTypes.OrganisationId),
                 AccountId = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountId),
                 AccountStatus = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountStatus),
@@ -72,12 +72,12 @@ namespace FamilyHubs.SharedKernel.Identity
 
         public static bool IsUserDfeAdmin(this HttpContext httpContext)
         {
-            return GetClaimValue(httpContext, FamilyHubsClaimTypes.Role) == RoleTypes.DfeAdmin;
+            return GetRole(httpContext) == RoleTypes.DfeAdmin;
         }
 
         public static bool IsUserLaManager(this HttpContext httpContext)
         {
-            var role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role);
+            var role = GetRole(httpContext);
 
             if(role == RoleTypes.LaManager || role == RoleTypes.LaDualRole)
             {
@@ -123,6 +123,17 @@ namespace FamilyHubs.SharedKernel.Identity
             }
 
             return null;
+        }
+
+        private static string GetRole(HttpContext httpContext)
+        {
+            var role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role);
+            if (string.IsNullOrEmpty(role))
+            {
+                role = GetClaimValue(httpContext, ClaimTypes.Role);
+            }
+
+            return role;
         }
 
     }
