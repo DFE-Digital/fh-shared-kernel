@@ -42,7 +42,7 @@ namespace FamilyHubs.SharedKernel.Identity
 
             if(string.IsNullOrEmpty(value))
             {
-                throw new Exception($"{key} not found in url query parameters");
+                throw new ArgumentException($"{key} not found in url query parameters");
             }
 
             return value;
@@ -96,7 +96,7 @@ namespace FamilyHubs.SharedKernel.Identity
                 return result;
             }
 
-            throw new Exception("Could not parse OrganisationId from claim");
+            throw new ArgumentException("Could not parse OrganisationId from claim");
         }
 
         private static string GetClaimValue(HttpContext httpContext, string key)
@@ -114,7 +114,7 @@ namespace FamilyHubs.SharedKernel.Identity
         private static DateTime? GetDataTimeClaimValue(HttpContext httpContext, string key)
         {
 
-            var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == FamilyHubsClaimTypes.LoginTime);
+            var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == key);
 
 
             if (claim != null && long.TryParse(claim.Value, out var utcNumber))
