@@ -4,7 +4,13 @@ using System.Text;
 
 namespace FamilyHubs.SharedKernel.Security;
 
-public class Crypto
+public interface ICrypto
+{
+    string EncryptData(string data);
+    string DecryptData(string encryptedData);
+}
+
+public class Crypto : ICrypto
 {
     public string _publicKey {  get; set; }
     public string _privateKey { get; set; }
@@ -12,7 +18,7 @@ public class Crypto
     public Crypto(IConfiguration configuration) 
     { 
         _publicKey = configuration["Crypto:PublicKey"] ?? string.Empty;
-        _privateKey = configuration["Crypto:PublicKey"] ?? string.Empty;
+        _privateKey = configuration["Crypto:PrivateKey"] ?? string.Empty;
     }
 
     public string EncryptData(string data)
