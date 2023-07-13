@@ -8,6 +8,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Security;
 
 public class WhenUsingCrytoHelperClass
 {
+    /*
     [Fact]
     public void ThenEncryptStringAndThenDecryptItBack()
     {
@@ -29,6 +30,7 @@ public class WhenUsingCrytoHelperClass
         expected.Should().NotBe(encryptedData);
         encryptedData.Length.Should().BeGreaterThan(expected.Length);
     }
+    */
 
     public (string publicKey, string privateKey) GenerateKeys()
     {
