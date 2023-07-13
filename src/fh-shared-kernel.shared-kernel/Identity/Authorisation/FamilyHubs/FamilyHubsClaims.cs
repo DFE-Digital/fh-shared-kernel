@@ -1,4 +1,5 @@
 ﻿using Azure;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Net.Http;
@@ -17,16 +18,41 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
         public async Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
         {
-            var json = await CallClaimsApi(tokenValidatedContext);
+            var email = tokenValidatedContext?.Principal?.Identities.First().Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email))?.Value;
+
+            if (string.IsNullOrEmpty(email))
+                throw new OneLoginException("Invalid TokenValidatedContext returned from OneLogin: Email claim not present");
+
+            var json = await CallClaimsApi(email);
             var claims = ExtractClaimsFromResponse(json);
 
             return claims;
         }
 
-        private async Task<string> CallClaimsApi(TokenValidatedContext tokenValidatedContext)
+        public async Task<IEnumerable<Claim>> RefreshClaims(string email, List<Claim> currentClaims)
         {
-            var email = tokenValidatedContext?.Principal?.Identities.First().Claims
-                    .FirstOrDefault(c => c.Type.Equals(ClaimTypes.Email))?.Value;
+            var json = await CallClaimsApi(email);
+            var upToDateClaims = ExtractClaimsFromResponse(json);
+
+            //  Get Updated Claims
+            var refreshedClaims = upToDateClaims.ToList();
+
+            //  Add any claims that dont come from our claims endpoint (some come from one login, these will already be in the current claims)
+            foreach(var currentClaim in currentClaims)
+            {
+                if(!refreshedClaims.Where(x=>x.Type == currentClaim.Type).Any())
+                {
+                    refreshedClaims.Add(currentClaim);
+                }
+            }
+
+            return refreshedClaims;
+        }
+
+        private async Task<string> CallClaimsApi(string email)
+        {
+
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,

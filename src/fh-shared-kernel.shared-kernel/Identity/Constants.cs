@@ -32,7 +32,7 @@
     {
         internal const string BearerToken = "BearerToken";
         internal const string IdToken = "id_token";
-
+        internal const string RefreshClaimsCookie = "RefreshClaims";
 
         internal const string AccountPaths = "Account/";
 
