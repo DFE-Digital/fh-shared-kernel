@@ -173,7 +173,7 @@ public class OidcService : IOidcService
         }
         catch (Exception ex)
         {
-            var foo = ex.Message;
+            System.Diagnostics.Debug.WriteLine(ex.Message);
         }
         var key = new RsaSecurityKey(rsa);
         return new SigningCredentials(key, "RS256");
