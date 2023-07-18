@@ -1,8 +1,7 @@
-﻿using Azure;
+﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Exceptions;
 using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -11,9 +10,11 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
     public class FamilyHubsClaims : ICustomClaims
     {
         private HttpClient _httpClient;
-        public FamilyHubsClaims(IHttpClientFactory httpClientFactory)
+        private readonly int _claimsRefreshTimerMinutes;
+        public FamilyHubsClaims(IHttpClientFactory httpClientFactory, GovUkOidcConfiguration govUkOidcConfiguration)
         {
             _httpClient = httpClientFactory?.CreateClient(nameof(FamilyHubsClaims))!;
+            _claimsRefreshTimerMinutes = govUkOidcConfiguration.ClaimsRefreshTimerMinutes;
         }
 
         public async Task<IEnumerable<Claim>> GetClaims(TokenValidatedContext tokenValidatedContext)
@@ -76,9 +77,15 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             var customClaims = JsonSerializer.Deserialize<List<AccountClaim>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             var claims = customClaims.ConvertToSecurityClaim();
 
-            claims.Add(new Claim(FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString()));
+            claims.Add(CreateRefreshClaim());
 
             return claims.AsEnumerable();
+        }
+
+        private Claim CreateRefreshClaim()
+        {
+            var refreshTime = DateTime.UtcNow.AddMinutes(_claimsRefreshTimerMinutes).Ticks.ToString();
+            return new Claim(FamilyHubsClaimTypes.ClaimsValidTillTime, refreshTime);
         }
     }
 }

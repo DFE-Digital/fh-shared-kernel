@@ -59,6 +59,11 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.AppStart
             {
                 throw new NotImplementedException();
             }
+
+            public Task<IEnumerable<Claim>> RefreshClaims(string email, List<Claim> currentClaims)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

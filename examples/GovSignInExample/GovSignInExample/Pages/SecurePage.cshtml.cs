@@ -13,7 +13,7 @@ namespace GovSignInExample.Pages
             Console.WriteLine($"Role:{user.Role}");
             Console.WriteLine($"OrganisationId:{user.OrganisationId}");
             Console.WriteLine($"AccountStatus:{user.AccountStatus}");
-            Console.WriteLine($"LoginTime:{user.LoginTime}");
+            Console.WriteLine($"ClaimsValidTillTime:{user.ClaimsValidTillTime}");
             Console.WriteLine($"FullName:{user.FullName}");
             Console.WriteLine($"Email:{user.Email}");
             Console.WriteLine($"PhoneNumber:{user.PhoneNumber}");

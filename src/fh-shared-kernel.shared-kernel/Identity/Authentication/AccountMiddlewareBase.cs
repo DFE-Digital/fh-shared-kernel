@@ -12,7 +12,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
     {
         private readonly GovUkOidcConfiguration _configuration;
 
-
         public AccountMiddlewareBase(GovUkOidcConfiguration configuration)
         {
             _configuration = configuration;
@@ -54,7 +53,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
             return false;
         }
-
 
         protected void SetBearerToken(HttpContext httpContext)
         {

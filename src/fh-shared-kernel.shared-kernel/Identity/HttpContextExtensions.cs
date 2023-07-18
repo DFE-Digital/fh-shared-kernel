@@ -1,9 +1,13 @@
-﻿using FamilyHubs.SharedKernel.Identity.Models;
+﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
+using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.Identity
@@ -57,7 +61,7 @@ namespace FamilyHubs.SharedKernel.Identity
                 AccountId = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountId),
                 AccountStatus = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountStatus),
                 FullName = GetClaimValue(httpContext, FamilyHubsClaimTypes.FullName),
-                LoginTime = GetDataTimeClaimValue(httpContext, FamilyHubsClaimTypes.LoginTime),
+                ClaimsValidTillTime = GetDataTimeClaimValue(httpContext, FamilyHubsClaimTypes.ClaimsValidTillTime),
                 Email = GetClaimValue(httpContext, ClaimTypes.Email),
                 PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber)
             };
@@ -97,6 +101,14 @@ namespace FamilyHubs.SharedKernel.Identity
             }
 
             throw new ArgumentException("Could not parse OrganisationId from claim");
+        }
+
+        /// <summary>
+        /// Effects take place on next request
+        /// </summary>
+        public static void RefreshClaims(this HttpContext httpContext)
+        {
+            httpContext.Response.Cookies.Append(AuthenticationConstants.RefreshClaimsCookie, "true");
         }
 
         private static string GetClaimValue(HttpContext httpContext, string key)
