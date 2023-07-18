@@ -29,17 +29,34 @@ public class KeyProvider : IKeyProvider
             return _configuration.GetValue<string>("Crypto:PublicKey") ?? throw new ArgumentException("PublicKey value missing.");
         }
 
-        string publicKeySecretName = _configuration.GetValue<string>("Crypto:PublicKeySecretName") ?? throw new ArgumentException("PublicKeySecretName value missing.");
-        string keyVaultIdentifier = _configuration.GetValue<string>("Crypto:KeyVaultIdentifier") ?? throw new ArgumentException("KeyVaultIdentifier value missing.");
-        string tenantId = _configuration.GetValue<string>("Crypto:tenantId") ?? throw new ArgumentException("teanantId value missing.");
-        string clientId = _configuration.GetValue<string>("Crypto:clientId") ?? throw new ArgumentException("clientId value missing.");
-        string clientSecret = _configuration.GetValue<string>("Crypto:clientSecret") ?? throw new ArgumentException("clientSecret value missing.");
-
-
-        if (string.IsNullOrEmpty(publicKeySecretName) || string.IsNullOrEmpty(keyVaultIdentifier) ||
-            string.IsNullOrEmpty(tenantId) || string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
+        string? publicKeySecretName = _configuration.GetValue<string>("Crypto:PublicKeySecretName");
+        if (string.IsNullOrEmpty(publicKeySecretName))
         {
-            throw new ArgumentException("One or more key configuration values are missing.");
+            throw new ArgumentException("PublicKeySecretName value missing.");
+        }
+
+        string? keyVaultIdentifier = _configuration.GetValue<string>("Crypto:KeyVaultIdentifier");
+        if (string.IsNullOrEmpty(keyVaultIdentifier))
+        {
+            throw new ArgumentException("KeyVaultIdentifier value missing.");
+        }
+
+        string? tenantId = _configuration.GetValue<string>("Crypto:tenantId");
+        if (string.IsNullOrEmpty(tenantId))
+        {
+            throw new ArgumentException("tenantId value missing.");
+        }
+
+        string? clientId = _configuration.GetValue<string>("Crypto:clientId");
+        if (string.IsNullOrEmpty(clientId))
+        {
+            throw new ArgumentException("clientId value missing.");
+        }
+
+        string? clientSecret = _configuration.GetValue<string>("Crypto:clientSecret");
+        if (string.IsNullOrEmpty(clientSecret))
+        {
+            throw new ArgumentException("clientSecret value missing.");
         }
 
         return await GetKeyValue(keyVaultIdentifier, publicKeySecretName, tenantId, clientId, clientSecret);
@@ -53,16 +70,30 @@ public class KeyProvider : IKeyProvider
             return _configuration.GetValue<string>("Crypto:PrivateKey") ?? throw new ArgumentException("PrivateKey value missing.");
         }
 
-        string privateKeySecretName = _configuration.GetValue<string>("Crypto:PrivateKeySecretName") ?? throw new ArgumentException("PrivateKeySecretName value missing.");
-        string keyVaultIdentifier = _configuration.GetValue<string>("Crypto:KeyVaultIdentifier") ?? throw new ArgumentException("KeyVaultIdentifier value missing.");
-        string tenantId = _configuration.GetValue<string>("Crypto:tenantId") ?? throw new ArgumentException("teanantId value missing.");
-        string clientId = _configuration.GetValue<string>("Crypto:clientId") ?? throw new ArgumentException("clientId value missing.");
-        string clientSecret = _configuration.GetValue<string>("Crypto:clientSecret") ?? throw new ArgumentException("clientSecret value missing.");
-
-        if (string.IsNullOrEmpty(privateKeySecretName) || string.IsNullOrEmpty(keyVaultIdentifier) ||
-            string.IsNullOrEmpty(tenantId) || string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
+        string? privateKeySecretName = _configuration.GetValue<string>("Crypto:PrivateKeySecretName");
+        if (string.IsNullOrEmpty(privateKeySecretName))
         {
-            throw new ArgumentException("One or more key configuration values are missing.");
+            throw new ArgumentException("PrivateKeySecretName value missing.");
+        }
+        string? keyVaultIdentifier = _configuration.GetValue<string>("Crypto:KeyVaultIdentifier");
+        if (string.IsNullOrEmpty(keyVaultIdentifier))
+        {
+            throw new ArgumentException("KeyVaultIdentifier value missing.");
+        }
+        string? tenantId = _configuration.GetValue<string>("Crypto:tenantId");
+        if (string.IsNullOrEmpty(tenantId))
+        {
+            throw new ArgumentException("tenantId value missing.");
+        }
+        string? clientId = _configuration.GetValue<string>("Crypto:clientId");
+        if (string.IsNullOrEmpty(clientId))
+        {
+            throw new ArgumentException("clientId value missing.");
+        }
+        string? clientSecret = _configuration.GetValue<string>("Crypto:clientSecret");
+        if (string.IsNullOrEmpty(clientSecret))
+        {
+            throw new ArgumentException("clientSecret value missing.");
         }
 
         return await GetKeyValue(keyVaultIdentifier, privateKeySecretName, tenantId, clientId, clientSecret);

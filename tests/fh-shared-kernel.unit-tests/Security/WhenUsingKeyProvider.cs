@@ -1,5 +1,7 @@
 ﻿using Azure;
 using Azure.Security.KeyVault.Secrets;
+using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
+using FamilyHubs.SharedKernel.Identity.Authorisation;
 using FamilyHubs.SharedKernel.Security;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +20,7 @@ public class WhenUsingKeyProvider
             {"Crypto:UseKeyVault", "True"},
             {"Crypto:PublicKey", "public_key"},
             {"Crypto:PrivateKey", "private_key"},
-            
+
         };
 
         _configuration = new ConfigurationBuilder()
@@ -57,7 +59,7 @@ public class WhenUsingKeyProvider
         // Arrange
         var inMemorySettings = new Dictionary<string, string?> {
             {"Crypto:UseKeyVault", "False"},
-            {"Crypto:PrivateKey", "prrivate_key"},
+            {"Crypto:PrivateKey", "private_key"},
         };
 
         _configuration = new ConfigurationBuilder()
@@ -71,7 +73,75 @@ public class WhenUsingKeyProvider
         string publicKey = await _keyProvider.GetPrivateKey();
 
         // Assert
-        publicKey.Should().Be("prrivate_key");
+        publicKey.Should().Be("private_key");
+    }
+
+    [Theory]
+    [InlineData("Crypto:PublicKeySecretName", "PublicKeySecretName value missing.")]
+    [InlineData("Crypto:KeyVaultIdentifier", "KeyVaultIdentifier value missing.")]
+    [InlineData("Crypto:tenantId", "tenantId value missing.")]
+    [InlineData("Crypto:clientId", "clientId value missing.")]
+    [InlineData("Crypto:clientSecret", "clientSecret value missing.")]
+    public async Task GetPublicKey_ShouldThrowArgumentException_WhenConfigIsMissing(string configKeyToDelete, string expectedExceptionString)
+    {
+        var inMemorySettings = new Dictionary<string, string?> {
+            {"Crypto:UseKeyVault", "True"},
+            {"Crypto:PublicKeySecretName", "PublicKeySecretName"},
+            {"Crypto:KeyVaultIdentifier", "KeyVaultIdentifier"},
+            {"Crypto:tenantId", "tenantId"},
+            {"Crypto:clientId", "clientId"},
+            {"Crypto:clientSecret", "clientSecret"}
+        };
+
+        bool keyRemoved = inMemorySettings.Remove(configKeyToDelete);
+
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        _keyProvider = new KeyProvider(_configuration);
+
+
+        // Act
+        Func<Task> act = async () => await _keyProvider.GetPublicKey();
+
+        // Assert
+        keyRemoved.Should().BeTrue();
+        await act.Should().ThrowAsync<ArgumentException>().WithMessage(expectedExceptionString);
+    }
+
+    [Theory]
+    [InlineData("Crypto:PrivateKeySecretName", "PrivateKeySecretName value missing.")]
+    [InlineData("Crypto:KeyVaultIdentifier", "KeyVaultIdentifier value missing.")]
+    [InlineData("Crypto:tenantId", "tenantId value missing.")]
+    [InlineData("Crypto:clientId", "clientId value missing.")]
+    [InlineData("Crypto:clientSecret", "clientSecret value missing.")]
+    public async Task GetPrivateKey_ShouldThrowArgumentException_WhenConfigIsMissing(string configKeyToDelete, string expectedExceptionString)
+    {
+        var inMemorySettings = new Dictionary<string, string?> {
+            {"Crypto:UseKeyVault", "True"},
+            {"Crypto:PrivateKeySecretName", "PrivateKeySecretName"},
+            {"Crypto:KeyVaultIdentifier", "KeyVaultIdentifier"},
+            {"Crypto:tenantId", "tenantId"},
+            {"Crypto:clientId", "clientId"},
+            {"Crypto:clientSecret", "clientSecret"}
+        };
+
+        bool keyRemoved = inMemorySettings.Remove(configKeyToDelete);
+
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        _keyProvider = new KeyProvider(_configuration);
+
+
+        // Act
+        Func<Task> act = async () => await _keyProvider.GetPrivateKey();
+
+        // Assert
+        keyRemoved.Should().BeTrue();
+        await act.Should().ThrowAsync<ArgumentException>().WithMessage(expectedExceptionString);
     }
 
     [Fact]
