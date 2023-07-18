@@ -1,5 +1,10 @@
 ﻿using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.Identity.Exceptions;
 using FamilyHubs.SharedKernel.Identity.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.Identity
@@ -38,8 +43,55 @@ namespace FamilyHubs.SharedKernel.Identity
                 }
             }
             claims.AddRoleClaim();
-
             return claims;
+        }
+
+        /// <summary>
+        /// Refreshes the claims on an interval or when manually trigged
+        /// </summary>
+        public static Task RefreshClaims(this CookieValidatePrincipalContext context)
+        {
+            var user = context.Principal;
+            var claims = user!.Claims.ToList();
+
+            if (!ShouldRefreshClaims(context.HttpContext, claims))
+            {
+                return Task.CompletedTask; // claims still valid, return without refreshing
+            }
+
+            context.HttpContext.Response.Cookies.Delete(AuthenticationConstants.RefreshClaimsCookie);
+            context.ShouldRenew = true;
+
+            var emailClaim = claims.Where(x => x.Type == ClaimTypes.Email).First();
+
+            var customClaims = context.HttpContext.RequestServices.GetService<ICustomClaims>();
+            var refreshedClaims = customClaims?.RefreshClaims(emailClaim.Value, claims).GetAwaiter().GetResult();
+
+            var newIdentity = new ClaimsIdentity(refreshedClaims, "Cookie");
+            context.ReplacePrincipal(new ClaimsPrincipal(newIdentity));
+
+            return Task.CompletedTask;
+        }
+
+        private static bool ShouldRefreshClaims(HttpContext httpContext, List<Claim>? claims)
+        {
+            var refreshCookie = httpContext.Request.Cookies.Where(x => x.Key == AuthenticationConstants.RefreshClaimsCookie).FirstOrDefault();
+            var claim = claims?.Where(x=>x.Type == FamilyHubsClaimTypes.ClaimsValidTillTime).FirstOrDefault();
+
+
+            if (claim == null)
+            {
+                throw new ClaimsException($"{FamilyHubsClaimTypes.ClaimsValidTillTime} claim missing from user claims");
+            }
+
+            var claimsValidTillTime = long.Parse(claim.Value);
+
+            if (refreshCookie.Value != null || claimsValidTillTime < DateTime.UtcNow.Ticks)
+            {
+                return true; 
+            }
+
+            return false;
         }
     }
 }

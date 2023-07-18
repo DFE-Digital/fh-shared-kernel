@@ -24,5 +24,11 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.Stub
         {
             return Task.FromResult(_claims.AsEnumerable());
         }
+
+        public Task<IEnumerable<Claim>> RefreshClaims(string email, List<Claim> currentClaims)
+        {
+            //  For stub dont refresh claim, just return currentClaims
+            return Task.FromResult((IEnumerable<Claim>)currentClaims);
+        }
     }
 }

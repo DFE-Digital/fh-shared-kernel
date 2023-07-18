@@ -66,7 +66,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
                 throw new Exception("Invalid user selected");
 
             var claims = user.Claims.ConvertToSecurityClaim();
-            claims.Add(new Claim(FamilyHubsClaimTypes.LoginTime, DateTime.UtcNow.Ticks.ToString() ));
+            claims.Add(new Claim(FamilyHubsClaimTypes.ClaimsValidTillTime, DateTime.UtcNow.AddMinutes(_configuration.ClaimsRefreshTimerMinutes).Ticks.ToString() ));//Not actually used in stub mode
             claims.Add(new Claim(ClaimTypes.Email, user.User.Email));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.User.Sub));
 

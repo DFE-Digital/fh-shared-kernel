@@ -38,6 +38,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             options.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+
         }
 
         private static void ConfigureOpenIdConnect(OpenIdConnectOptions options, GovUkOidcConfiguration govUkConfiguration)

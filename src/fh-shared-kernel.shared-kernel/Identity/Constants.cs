@@ -6,7 +6,7 @@
         public const string OrganisationId = "OrganisationId";
         public const string AccountId = "AccountId";
         public const string AccountStatus = "AccountStatus";
-        public const string LoginTime = "LoginTime";
+        public const string ClaimsValidTillTime = "ClaimsValidTillTime";
         public const string FullName = "Name";
         public const string PhoneNumber = "PhoneNumber";
     }
@@ -32,7 +32,7 @@
     {
         internal const string BearerToken = "BearerToken";
         internal const string IdToken = "id_token";
-
+        internal const string RefreshClaimsCookie = "RefreshClaims";
 
         internal const string AccountPaths = "Account/";
 

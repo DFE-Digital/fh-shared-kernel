@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 {
@@ -137,7 +138,13 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.CookieManager = new ChunkingCookieManager { ChunkSize = 3000 };
                 options.LogoutPath = "/account/signout";
+                options.Events.OnValidatePrincipal = context => { 
+                    return context.RefreshClaims();
+                };
+
+
             });
         }
+
     }
 }
