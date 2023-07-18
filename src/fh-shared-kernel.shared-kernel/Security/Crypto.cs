@@ -1,56 +1,62 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace FamilyHubs.SharedKernel.Security;
 
+public enum CryptoKey
+{
+    PublicKey,
+    PrivateKey
+}
+
 public interface ICrypto
 {
-    string EncryptData(string data);
-    string DecryptData(string encryptedData);
+    Task<string> EncryptData(string data);
+    Task<string> DecryptData(string encryptedData);
 }
 
 public class Crypto : ICrypto
 {
-    public string _publicKey {  get; set; }
-    public string _privateKey { get; set; }
 
-    public Crypto(IConfiguration configuration) 
-    { 
-        _publicKey = configuration["Crypto:PublicKey"] ?? string.Empty;
-        _privateKey = configuration["Crypto:PrivateKey"] ?? string.Empty;
+    private readonly IKeyProvider _keyProvider;
+
+    public Crypto(IKeyProvider keyProvider)
+    {
+        _keyProvider = keyProvider;
     }
 
-    public string EncryptData(string data)
+    public async Task<string> EncryptData(string data)
     {
-        if (string.IsNullOrEmpty(_publicKey) || string.IsNullOrEmpty(_privateKey))
+        string publicKey = await _keyProvider.GetPublicKey();
+        if (string.IsNullOrEmpty(publicKey))
         {
-            throw new ArgumentException("Public / Private keys have not been found in the configuration");
+            throw new ArgumentException("Private key has not been found.");
         }
 
         byte[] dataBytes = Encoding.UTF8.GetBytes(data);
 
         using (var rsa = RSA.Create())
         {
-            rsa.FromXmlString(_publicKey);
+            rsa.FromXmlString(publicKey);
             byte[] encryptedBytes = rsa.Encrypt(dataBytes, RSAEncryptionPadding.OaepSHA256);
             string encryptedData = Convert.ToBase64String(encryptedBytes);
             return encryptedData;
         }
     }
 
-    public string DecryptData(string encryptedData)
+    public async Task<string> DecryptData(string encryptedData)
     {
-        if (string.IsNullOrEmpty(_publicKey) || string.IsNullOrEmpty(_privateKey))
+        string privateKey = await _keyProvider.GetPrivateKey();
+        if (string.IsNullOrEmpty(privateKey))
         {
-            throw new ArgumentException("Public / Private keys have not been found in the configuration");
+            throw new ArgumentException("Private key has not been found.");
         }
 
         byte[] encryptedBytes = Convert.FromBase64String(encryptedData);
 
         using (var rsa = RSA.Create())
         {
-            rsa.FromXmlString(_privateKey);
+            rsa.FromXmlString(privateKey);
             byte[] decryptedBytes = rsa.Decrypt(encryptedBytes, RSAEncryptionPadding.OaepSHA256);
             string decryptedData = Encoding.UTF8.GetString(decryptedBytes);
             return decryptedData;
