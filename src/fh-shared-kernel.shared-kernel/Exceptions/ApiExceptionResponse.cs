@@ -2,7 +2,12 @@
 
 namespace FamilyHubs.SharedKernel.Exceptions
 {
-    public class ApiExceptionResponse
+    public class ApiExceptionResponse : ApiExceptionResponse<object>
+    {
+
+    }
+
+    public class ApiExceptionResponse<T>
     {
         [JsonPropertyName("title")]
         public string Title { get; set; } = string.Empty;
@@ -14,7 +19,7 @@ namespace FamilyHubs.SharedKernel.Exceptions
         public string Detail { get; set; } = string.Empty;
 
         [JsonPropertyName("errors")]
-        public IEnumerable<object> Errors { get; set; } = new List<object>();
+        public IEnumerable<T> Errors { get; set; } = new List<T>();
 
         [JsonPropertyName("errorCode")]
         public string ErrorCode { get; set; } = string.Empty;
