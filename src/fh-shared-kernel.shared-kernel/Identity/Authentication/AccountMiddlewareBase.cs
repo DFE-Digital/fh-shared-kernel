@@ -1,10 +1,9 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication
 {
@@ -12,7 +11,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
     {
         private readonly GovUkOidcConfiguration _configuration;
 
-        public AccountMiddlewareBase(GovUkOidcConfiguration configuration)
+        protected AccountMiddlewareBase(GovUkOidcConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -29,6 +28,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
         protected bool ShouldRedirectToNoClaims(HttpContext httpContext)
         {
+            var endpoint = httpContext.GetEndpoint();
+            var isAuthorized = endpoint?.Metadata.GetMetadata<IAuthorizeData>() != null;
+
+            if (!isAuthorized)
+            {
+                return false;
+            }
+
             if (string.IsNullOrEmpty(_configuration.Urls.NoClaimsRedirect))
             {
                 return false; // If a redirect setting does not exist we dont need to redirect
