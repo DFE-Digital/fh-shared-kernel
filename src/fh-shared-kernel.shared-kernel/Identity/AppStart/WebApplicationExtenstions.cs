@@ -19,8 +19,14 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             });
 
             var config = webApplication.Configuration.GetGovUkOidcConfiguration();
+            if (!config.StubAuthentication.UseStubAuthentication)
+            {
+                webApplication.UseMiddleware<AccountMiddleware401Check>();
+            }
+
             webApplication.UseAuthentication();
             webApplication.UseAuthorization();
+
             if (config.StubAuthentication.UseStubAuthentication)
             {
                 webApplication.UseMiddleware<StubAccountMiddleware>();
