@@ -28,37 +28,39 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
         protected bool ShouldRedirectToNoClaims(HttpContext httpContext)
         {
-            var endpoint = httpContext.GetEndpoint();
-            var isAuthorized = endpoint?.Metadata.GetMetadata<IAuthorizeData>() != null;
-
-            if (!isAuthorized)
+            if (!PageRequiresAuthorization(httpContext))
             {
                 return false;
             }
 
             if (string.IsNullOrEmpty(_configuration.Urls.NoClaimsRedirect))
             {
-                return false; // If a redirect setting does not exist we dont need to redirect
+                // If a redirect setting does not exist we don't need to redirect
+                return false;
             }
 
-            if (_configuration.Urls.NoClaimsRedirect.Contains(httpContext.Request.Path))
+            if (httpContext.Request.Path.Value?.StartsWith(_configuration.Urls.NoClaimsRedirect) == true)
             {
-                return false; // If we are already redirecting to the NoClaimsPage no need to redirect again
+                // If we are already redirecting to the NoClaimsPage no need to redirect again
+                return false;
             }
 
             if (!httpContext.IsUserLoggedIn())
             {
-                return false; // We only redirect to NoClaims page if user is logged in and doesn't have claims
+                // We only redirect to NoClaims page if user is logged in and doesn't have claims
+                return false;
             }
 
             var user = httpContext.GetFamilyHubsUser();
 
-            if(string.IsNullOrEmpty(user.Role) || string.IsNullOrEmpty(user.OrganisationId) || string.IsNullOrEmpty(user.FullName))
-            {
-                return true;  // Missing required claims, redirect to NoClaims page
-            }
+            // if role, organisationId or full name is missing redirect to 401 page
+            return string.IsNullOrEmpty(user.Role) || string.IsNullOrEmpty(user.OrganisationId) || string.IsNullOrEmpty(user.FullName);
+        }
 
-            return false;
+        private bool PageRequiresAuthorization(HttpContext httpContext)
+        {
+            var endpoint = httpContext.GetEndpoint();
+            return endpoint?.Metadata.GetMetadata<IAuthorizeData>() != null;
         }
 
         protected void SetBearerToken(HttpContext httpContext)
