@@ -38,10 +38,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
             }
 
-            if (context.IsUserLoggedIn())
-            {
-                SetBearerToken(context);
-            }
+            SetBearerToken(context);
 
             await _next(context);
         }
