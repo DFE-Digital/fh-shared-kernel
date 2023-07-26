@@ -28,13 +28,31 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
         protected bool ShouldRedirectToNoClaims(HttpContext httpContext)
         {
-            var endpoint = httpContext.GetEndpoint();
-            var requiresAuthorization = endpoint?.Metadata.GetMetadata<IAuthorizeData>() != null;
-
-            if (!requiresAuthorization
-                || string.IsNullOrEmpty(_configuration.Urls.NoClaimsRedirect)  // If a redirect setting does not exist we don't need to redirect
-                || httpContext.Request.Path.Value?.StartsWith(_configuration.Urls.NoClaimsRedirect) == true) // If we are already redirecting to the NoClaimsPage no need to redirect again
+            if (!httpContext.IsUserLoggedIn())
             {
+                return false; // We only redirect to NoClaims page if user is logged in and doesn't have claims
+            }
+
+            if (!PageRequiresAuthorization(httpContext))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(_configuration.Urls.NoClaimsRedirect))
+            {
+                // If a redirect setting does not exist we don't need to redirect
+                return false;
+            }
+
+            if (httpContext.Request.Path.Value?.StartsWith(_configuration.Urls.NoClaimsRedirect) == true)
+            {
+                // If we are already redirecting to the NoClaimsPage no need to redirect again
+                return false;
+            }
+
+            if (!httpContext.IsUserLoggedIn())
+            {
+                // We only redirect to NoClaims page if user is logged in and doesn't have claims
                 return false;
             }
 
@@ -42,6 +60,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
             // if role, organisationId or full name is missing redirect to 401 page
             return string.IsNullOrEmpty(user.Role) || string.IsNullOrEmpty(user.OrganisationId) || string.IsNullOrEmpty(user.FullName);
+        }
+
+        private bool PageRequiresAuthorization(HttpContext httpContext)
+        {
+            var endpoint = httpContext.GetEndpoint();
+            return endpoint?.Metadata.GetMetadata<IAuthorizeData>() != null;
         }
 
         protected void SetBearerToken(HttpContext httpContext)
