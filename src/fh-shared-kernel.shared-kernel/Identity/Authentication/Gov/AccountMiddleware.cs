@@ -26,15 +26,15 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         {
             LogAccountRequests(context);
 
-            if (ShouldRedirectToNoClaims(context))
-            {
-                context.Response.Redirect(_configuration.Urls.NoClaimsRedirect);
-                return;
-            }
-
             if (ShouldSignOut(context))
             {
                 await SignOut(context);
+                return;
+            }
+
+            if (ShouldRedirectToNoClaims(context))
+            {
+                context.Response.Redirect(_configuration.Urls.NoClaimsRedirect);
                 return;
             }
 
