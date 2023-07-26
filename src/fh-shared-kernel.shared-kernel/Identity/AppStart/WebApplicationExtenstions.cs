@@ -19,7 +19,6 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             });
 
             webApplication.UseAuthentication();
-            webApplication.UseAuthorization();
 
             var config = webApplication.Configuration.GetGovUkOidcConfiguration();
             if (config.StubAuthentication.UseStubAuthentication)
@@ -30,6 +29,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             {
                 webApplication.UseMiddleware<AccountMiddleware>();
             }
+
+            webApplication.UseAuthorization();
 
             return webApplication;
         }
