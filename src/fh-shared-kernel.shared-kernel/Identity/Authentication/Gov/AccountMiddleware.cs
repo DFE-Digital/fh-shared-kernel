@@ -46,6 +46,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             await _next(context);
         }
 
+        private async Task SignOut(HttpContext httpContext)
+        {
+            var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
+            var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{AuthenticationConstants.AccountLogoutCallback}");
+            var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
+            httpContext.Response.Redirect(logoutRedirect);
+        }
+
         /// <summary>
         /// Only logs requests related to account activity
         /// </summary>
@@ -61,14 +69,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
 
             _logger.LogInformation("Account Request Path:{path} Headers:{@headers}", httpContext.Request.Path.Value, httpContext.Request.Headers);
-        }
-
-        private async Task SignOut(HttpContext httpContext)
-        {
-            var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
-            var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{AuthenticationConstants.AccountLogoutCallback}");
-            var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
-            httpContext.Response.Redirect(logoutRedirect);
         }
     }
 }
