@@ -6,16 +6,16 @@ using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 {
-    public class AccountMiddleware401Check : AccountMiddlewareBase
+    public class AccountMiddleware : AccountMiddlewareBase
     {
         private readonly RequestDelegate _next;
         private readonly GovUkOidcConfiguration _configuration;
-        private readonly ILogger<AccountMiddleware401Check> _logger;
+        private readonly ILogger<AccountMiddleware> _logger;
 
-        public AccountMiddleware401Check(
+        public AccountMiddleware(
             RequestDelegate next,
             GovUkOidcConfiguration configuration,
-            ILogger<AccountMiddleware401Check> logger) : base(configuration)
+            ILogger<AccountMiddleware> logger) : base(configuration)
         {
             _next = next;
             _configuration = configuration;
@@ -30,6 +30,17 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             {
                 context.Response.Redirect(_configuration.Urls.NoClaimsRedirect);
                 return;
+            }
+
+            if (ShouldSignOut(context))
+            {
+                await SignOut(context);
+                return;
+            }
+
+            if (context.IsUserLoggedIn())
+            {
+                SetBearerToken(context);
             }
 
             await _next(context);
@@ -50,39 +61,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
 
             _logger.LogInformation("Account Request Path:{path} Headers:{@headers}", httpContext.Request.Path.Value, httpContext.Request.Headers);
-        }
-    }
-
-    public class AccountMiddleware : AccountMiddlewareBase
-    {
-        private readonly RequestDelegate _next;
-        private readonly GovUkOidcConfiguration _configuration;
-        private readonly ILogger<AccountMiddleware> _logger;
-
-        public AccountMiddleware(
-            RequestDelegate next,
-            GovUkOidcConfiguration configuration,
-            ILogger<AccountMiddleware> logger) : base(configuration)
-        {
-            _next = next;
-            _configuration = configuration;
-            _logger = logger;
-        }
-
-        public async Task InvokeAsync(HttpContext context)
-        {
-            if (ShouldSignOut(context))
-            {
-                await SignOut(context);
-                return;
-            }
-
-            if (context.IsUserLoggedIn())
-            {
-                SetBearerToken(context);
-            }
-
-            await _next(context);
         }
 
         private async Task SignOut(HttpContext httpContext)
