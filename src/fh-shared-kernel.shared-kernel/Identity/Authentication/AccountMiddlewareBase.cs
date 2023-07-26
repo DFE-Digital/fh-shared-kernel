@@ -28,11 +28,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
         protected bool ShouldRedirectToNoClaims(HttpContext httpContext)
         {
-            if (!httpContext.IsUserLoggedIn())
-            {
-                return false; // We only redirect to NoClaims page if user is logged in and doesn't have claims
-            }
-
             if (!PageRequiresAuthorization(httpContext))
             {
                 return false;
