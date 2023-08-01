@@ -28,7 +28,8 @@ public static class DataProtectionExtension
         // Add a DbContext to store your Database Keys
         services.AddDbContext<DataProtectionKeysContext>(options =>
             options.UseSqlServer(
-                configuration.GetConnectionString("DataProtectionKeysConnection")));
+                configuration.GetConnectionString("DataProtectionKeysConnection"),
+                ob => ob.MigrationsAssembly(typeof(DataProtectionKeysContext).Assembly.ToString())));
 
         using (var scope = services.BuildServiceProvider().CreateScope())
         {
