@@ -4,6 +4,7 @@ using Azure.Identity;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using FamilyHubs.SharedKernel.EntityFramework;
+using Azure.Core;
 
 namespace FamilyHubs.SharedKernel.DataProtection;
 
@@ -16,15 +17,6 @@ public static class DataProtectionExtension
 {
     public static void AddDataProtection(this IServiceCollection services, IConfiguration configuration, string appName)
     {
-        // reuse same config?
-        // put both in own section??
-        string? keyVaultIdentifier = configuration["Crypto:KeyVaultIdentifier"];
-        if (string.IsNullOrEmpty(keyVaultIdentifier))
-        {
-            //todo: use config exception
-            throw new ArgumentException("Crypto:KeyVaultIdentifier value missing.");
-        }
-
         // Add a DbContext to store your Database Keys
         services.AddDbContext<DataProtectionKeysContext>(options =>
             options.UseSqlServer(
@@ -37,9 +29,34 @@ public static class DataProtectionExtension
             MigrationUtility.ApplyMigrations(dbContext);
         }
 
+        // reuse same config? have an interface that the config section implements, then have a config to give the section name?
+        // put both in own section??
+        string? keyVaultIdentifier = configuration["Crypto:KeyVaultIdentifier"];
+        if (string.IsNullOrEmpty(keyVaultIdentifier))
+        {
+            //todo: use config exception
+            throw new ArgumentException("Crypto:KeyVaultIdentifier value missing.");
+        }
+
+        string? tenantId = configuration.GetValue<string>("Crypto:tenantId");
+        if (string.IsNullOrEmpty(tenantId))
+        {
+            throw new ArgumentException("tenantId value missing.");
+        }
+        string? clientId = configuration.GetValue<string>("Crypto:clientId");
+        if (string.IsNullOrEmpty(clientId))
+        {
+            throw new ArgumentException("clientId value missing.");
+        }
+        string? clientSecret = configuration.GetValue<string>("Crypto:clientSecret");
+        if (string.IsNullOrEmpty(clientSecret))
+        {
+            throw new ArgumentException("clientSecret value missing.");
+        }
+
         services.AddDataProtection()
             .SetApplicationName(appName)
             .PersistKeysToDbContext<DataProtectionKeysContext>()
-            .ProtectKeysWithAzureKeyVault(new Uri(keyVaultIdentifier), new DefaultAzureCredential());
+            .ProtectKeysWithAzureKeyVault(new Uri(keyVaultIdentifier), new ClientSecretCredential(tenantId, clientId, clientSecret));
     }
 }
