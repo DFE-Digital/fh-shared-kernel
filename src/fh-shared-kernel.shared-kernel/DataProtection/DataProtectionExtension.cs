@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FamilyHubs.SharedKernel.DataProtection
 {
+    //https://stackoverflow.com/questions/72010688/asp-net-core-3-1-unable-to-unprotect-the-message-state-running-in-debugger
     /// <remarks>
     /// https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-7.0
     /// https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/implementation/key-storage-providers?view=aspnetcore-7.0&tabs=visual-studio#entity-framework-core

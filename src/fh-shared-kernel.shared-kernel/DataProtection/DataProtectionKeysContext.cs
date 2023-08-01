@@ -5,8 +5,6 @@ namespace FamilyHubs.SharedKernel.DataProtection;
 
 class DataProtectionKeysContext : DbContext, IDataProtectionKeyContext
 {
-    // A recommended constructor overload when using EF Core 
-    // with dependency injection.
     public DataProtectionKeysContext(DbContextOptions<DataProtectionKeysContext> options)
         : base(options)
     {
