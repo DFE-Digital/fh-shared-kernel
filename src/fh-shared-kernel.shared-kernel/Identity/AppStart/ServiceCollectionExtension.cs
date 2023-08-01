@@ -15,12 +15,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 {
     public static class ServiceCollectionExtension
     {
+        private const string Error403Page = "/Error/403";
+
         /// <summary>
         /// Configures UI to authenticate using Gov Login
         /// </summary>
@@ -130,7 +131,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 
             services.AddCookie(options =>
             {
-                options.AccessDeniedPath = new PathString("/error/403");
+                options.AccessDeniedPath = new PathString(Error403Page);
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(config.ExpiryInMinutes);
                 options.Cookie.Name = cookieName;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -141,10 +142,18 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 options.Events.OnValidatePrincipal = context => { 
                     return context.RefreshClaims();
                 };
-
-
+                options.Events.OnRedirectToAccessDenied = context => ReplaceDomainForAccessDenied(context, config.AppHost);
             });
         }
 
+        private static Task ReplaceDomainForAccessDenied(RedirectContext<CookieAuthenticationOptions> context, string? appHost)
+        {
+            if (!context.Request.Path.StartsWithSegments(Error403Page))
+            {
+                context.Response.Redirect($"{appHost}{Error403Page}");
+            }
+
+            return Task.CompletedTask;
+        }
     }
 }
