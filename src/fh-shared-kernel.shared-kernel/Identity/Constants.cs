@@ -20,6 +20,7 @@
         public const string VcsProfessional = "VcsProfessional";
         public const string VcsDualRole = "VcsDualRole";
         public const string LaDualRole = "LaDualRole";
+        public const string ServiceAccount = "ServiceAccount";
     }
 
     public static class RoleGroups
