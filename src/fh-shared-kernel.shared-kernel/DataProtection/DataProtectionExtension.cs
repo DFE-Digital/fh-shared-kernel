@@ -15,45 +15,27 @@ public static class DataProtectionExtension
 {
     public static void AddFamilyHubsDataProtection(this IServiceCollection services, IConfiguration configuration, string appName)
     {
+        //todo: put the MigrationsHistoryTable and the DataProtectionKeys table in a "sharedkernel" schema
+        const string schemaName = "dbo";
+
         // Add a DbContext to store your Database Keys
         services.AddDbContext<DataProtectionKeysContext>(options =>
             options.UseSqlServer(
                 configuration.GetConnectionString("SharedKernelConnection"),
                 ob =>
                 {
-                    ob.MigrationsHistoryTable("SharedKernelMigrationsHistory", "dbo");
-                    ob.MigrationsAssembly(typeof(DataProtectionKeysContext).Assembly.ToString());
+                    ob.MigrationsHistoryTable("SharedKernelMigrationsHistory", schemaName)
+                        .MigrationsAssembly(typeof(DataProtectionKeysContext).Assembly.ToString());
                 }));
 
-        // reuse same config? have an interface that the config section implements, then have a config to give the section name?
-        // put both in own section??
-        // we need the kv id to be a valid uri, so we can't reuse this..
-        string? keyVaultIdentifier = configuration["Crypto:KeyVaultIdentifier"];
-        if (string.IsNullOrEmpty(keyVaultIdentifier))
-        {
-            //todo: use config exception
-            throw new ArgumentException("Crypto:KeyVaultIdentifier value missing.");
-        }
+        var dpOptions = configuration.GetSection("DataProtection").Get<DataProtectionOptions>()
+            ?? throw new ArgumentException("DataProtection section missing from configuration.");
 
-        string? tenantId = configuration.GetValue<string>("Crypto:tenantId");
-        if (string.IsNullOrEmpty(tenantId))
-        {
-            throw new ArgumentException("tenantId value missing.");
-        }
-        string? clientId = configuration.GetValue<string>("Crypto:clientId");
-        if (string.IsNullOrEmpty(clientId))
-        {
-            throw new ArgumentException("clientId value missing.");
-        }
-        string? clientSecret = configuration.GetValue<string>("Crypto:clientSecret");
-        if (string.IsNullOrEmpty(clientSecret))
-        {
-            throw new ArgumentException("clientSecret value missing.");
-        }
+        dpOptions.Validate();
 
         services.AddDataProtection()
             .SetApplicationName(appName)
             .PersistKeysToDbContext<DataProtectionKeysContext>()
-            .ProtectKeysWithAzureKeyVault(new Uri(keyVaultIdentifier), new ClientSecretCredential(tenantId, clientId, clientSecret));
+            .ProtectKeysWithAzureKeyVault(new Uri(dpOptions.KeyIdentifier!), new ClientSecretCredential(dpOptions.TenantId!, dpOptions.ClientId!, dpOptions.ClientSecret!));
     }
 }

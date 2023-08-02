@@ -14,8 +14,16 @@ class DataProtectionKeysContext : DbContext, IDataProtectionKeyContext
     {
     }
 
-    // This maps to the table that stores keys.
     public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
+
+    //todo: put the MigrationsHistoryTable and the DataProtectionKeys table in a "sharedkernel" schema
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    const string schemaName = "sharedkernel";
+
+    //    modelBuilder.Entity<DataProtectionKey>()
+    //        .ToTable("DataProtectionKeys", schemaName);
+    //}
 
     //todo: use IDesignTimeDbContextFactory instead for safety?
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
