@@ -18,8 +18,12 @@ public static class DataProtectionExtension
         // Add a DbContext to store your Database Keys
         services.AddDbContext<DataProtectionKeysContext>(options =>
             options.UseSqlServer(
-                configuration.GetConnectionString("DataProtectionKeysConnection"),
-                ob => ob.MigrationsAssembly(typeof(DataProtectionKeysContext).Assembly.ToString())));
+                configuration.GetConnectionString("SharedKernelConnection"),
+                ob =>
+                {
+                    ob.MigrationsHistoryTable("SharedKernelMigrationsHistory", "dbo");
+                    ob.MigrationsAssembly(typeof(DataProtectionKeysContext).Assembly.ToString());
+                }));
 
         // reuse same config? have an interface that the config section implements, then have a config to give the section name?
         // put both in own section??
