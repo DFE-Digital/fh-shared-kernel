@@ -8,9 +8,16 @@ class DataProtectionKeysContext : DbContext, IDataProtectionKeyContext
     public DataProtectionKeysContext(DbContextOptions<DataProtectionKeysContext> options)
         : base(options)
     {
-        DataProtectionKeys = Set<DataProtectionKey>();
     }
 
     // This maps to the table that stores keys.
-    public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
+    public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=FamilyHubs.Referral.Database;Integrated Security=True;MultipleActiveResultSets=True;Pooling=False;TrustServerCertificate=True");
+        }
+    }
 }
