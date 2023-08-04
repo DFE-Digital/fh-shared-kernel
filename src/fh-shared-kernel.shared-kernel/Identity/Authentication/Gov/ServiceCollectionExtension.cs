@@ -71,6 +71,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
                 c.ProtocolMessage.SetParameter("prompt", "login");
 
+                // the real RedirectUri is already populated. are we implementing an integration point for the consumer?
                 c.ProtocolMessage.RedirectUri = $"{govUkConfiguration.AppHost}/Account/login-callback";
                 return Task.CompletedTask;
             };
@@ -115,6 +116,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             };
             options.Events.OnAuthorizationCodeReceived = async (ctx) =>
             {
+                //multicast instead?
+                //ctx.Properties!.RedirectUri = $"/referrals{ctx.Properties.Items[".redirect"]}";
+
+                // the real RedirectUri is here at this point
+                ctx.Properties!.RedirectUri = $"/referrals{ctx.Properties!.RedirectUri}";
+
                 var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);
                 if (token?.AccessToken != null && token.IdToken != null)
                 {
