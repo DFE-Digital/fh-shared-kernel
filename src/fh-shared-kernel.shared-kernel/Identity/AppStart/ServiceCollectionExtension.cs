@@ -146,9 +146,11 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             });
         }
 
-        private static Task ReplaceDomainForAccessDenied(RedirectContext<CookieAuthenticationOptions> context, string? appHost)
+        private static Task ReplaceDomainForAccessDenied(
+            RedirectContext<CookieAuthenticationOptions> context,
+            string? appHost)
         {
-            if (!context.Request.Path.StartsWithSegments(Error403Page))
+            if (!context.Request.Path.ToString().Contains(Error403Page))
             {
                 context.Response.Redirect($"{appHost}{Error403Page}");
             }
