@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.KeyVaultExtensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
@@ -47,9 +46,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             options.MetadataAddress = $"{govUkConfiguration.Oidc.BaseUrl}/.well-known/openid-configuration";
             options.ResponseType = "code";
             options.AuthenticationMethod = OpenIdConnectRedirectBehavior.RedirectGet;
-            options.SignedOutRedirectUri = $"{govUkConfiguration.AppHost}/Account/logout-callback";
-            options.SignedOutCallbackPath = "/Account/logout-callback";
-            options.CallbackPath = "/Account/login-callback";
+            options.SignedOutRedirectUri = AbsoluteUrlFromPath("/Account/logout-callback", govUkConfiguration);
+            options.SignedOutCallbackPath = FullPathFromPath("/Account/logout-callback", govUkConfiguration);
+            options.CallbackPath = FullPathFromPath("/Account/login-callback", govUkConfiguration);
             options.ResponseMode = string.Empty;
             options.SaveTokens = true;
 
@@ -71,13 +70,15 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
                 c.ProtocolMessage.SetParameter("prompt", "login");
 
-                c.ProtocolMessage.RedirectUri = $"{govUkConfiguration.AppHost}/Account/login-callback";
+                c.ProtocolMessage.RedirectUri =
+                    AbsoluteUrlFromPath("/Account/login-callback", govUkConfiguration);
                 return Task.CompletedTask;
             };
 
             options.Events.OnRedirectToIdentityProviderForSignOut = c =>
             {
-                c.ProtocolMessage.RedirectUri = $"{govUkConfiguration.AppHost}/Account/logout-callback";
+                c.ProtocolMessage.RedirectUri =
+                    AbsoluteUrlFromPath("/Account/logout-callback", govUkConfiguration);
                 return Task.CompletedTask;
             };
 
@@ -85,6 +86,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             {
                 if (c.Failure != null && c.Failure.Message.Contains("Correlation failed"))
                 {
+                    // the homepage seems a sensible place to redirect, even if user is signing-in to a path routed page
                     c.Response.Redirect("/");
                     c.HandleResponse();
                 }
@@ -95,11 +97,33 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             options.Events.OnSignedOutCallbackRedirect = c =>
             {
                 c.Response.Cookies.Delete(govUkConfiguration.CookieName!);
-                c.Response.Redirect(govUkConfiguration.Urls.SignedOutRedirect);
+                c.Response.Redirect(AbsoluteUrl(govUkConfiguration.Urls.SignedOutRedirect, govUkConfiguration));
                 c.HandleResponse();
                 return Task.CompletedTask;
             };
+        }
 
+        private static string FullPathFromPath(string path, GovUkOidcConfiguration config)
+        {
+            return $"{config.AppBasePath}{path}";
+        }
+
+        private static string AbsoluteUrlFromPath(string path, GovUkOidcConfiguration config)
+        {
+            return $"{config.AppHost}{FullPathFromPath(path, config)}";
+        }
+
+        //todo: move somewhere central
+        //todo: use in more places?
+        // support absolute and relative urls in config
+        private static string AbsoluteUrl(string relativeOrAbsoluteUrl, GovUkOidcConfiguration config)
+        {
+            if (new Uri(relativeOrAbsoluteUrl).IsAbsoluteUri)
+            {
+                return relativeOrAbsoluteUrl;
+            }
+
+            return AbsoluteUrlFromPath(relativeOrAbsoluteUrl, config);
         }
 
         private static void ConfigureToken(OpenIdConnectOptions options, IOidcService oidcService, IAzureIdentityService azureIdentityService, GovUkOidcConfiguration config)

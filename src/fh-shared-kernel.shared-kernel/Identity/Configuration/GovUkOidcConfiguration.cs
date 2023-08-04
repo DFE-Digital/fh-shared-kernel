@@ -12,6 +12,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string? IdamsApiBaseUrl { get; set; }
         public string? CookieName { get; set; }
         public string? AppHost { get; set; }
+        public string? AppBasePath { get; set; }
         public bool EnableDebugLogging { get; set; } = false;
         public string BearerTokenSigningKey { get; set; } = string.Empty;
 

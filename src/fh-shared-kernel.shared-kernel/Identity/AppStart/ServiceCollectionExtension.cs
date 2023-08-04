@@ -131,28 +131,29 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
 
             services.AddCookie(options =>
             {
-                options.AccessDeniedPath = new PathString(Error403Page);
+                options.AccessDeniedPath = new PathString($"{config.AppBasePath}{Error403Page}");
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(config.ExpiryInMinutes);
                 options.Cookie.Name = cookieName;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.SlidingExpiration = true;
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.CookieManager = new ChunkingCookieManager { ChunkSize = 3000 };
-                options.LogoutPath = "/account/signout";
+                options.LogoutPath = $"{config.AppBasePath}/account/signout";
                 options.Events.OnValidatePrincipal = context => { 
                     return context.RefreshClaims();
                 };
-                options.Events.OnRedirectToAccessDenied = context => ReplaceDomainForAccessDenied(context, config.AppHost);
+                options.Events.OnRedirectToAccessDenied = context => ReplaceDomainForAccessDenied(context, config.AppHost, config.AppBasePath);
             });
         }
 
         private static Task ReplaceDomainForAccessDenied(
             RedirectContext<CookieAuthenticationOptions> context,
-            string? appHost)
+            string? appHost,
+            string? appBasePath)
         {
             if (!context.Request.Path.ToString().Contains(Error403Page))
             {
-                context.Response.Redirect($"{appHost}{Error403Page}");
+                context.Response.Redirect($"{appHost}{appBasePath}{Error403Page}");
             }
 
             return Task.CompletedTask;
