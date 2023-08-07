@@ -6,16 +6,22 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
     {
         public Oidc Oidc { get; set; } = default!;
         public Urls Urls { get; set; } = default!;
+        public PathBasedRouting? PathBasedRouting { get; set; }
         public StubAuthentication StubAuthentication { get; set; } = new StubAuthentication();
         public int ExpiryInMinutes { get; set; } = 15;
         public int ClaimsRefreshTimerMinutes { get; set; } = 5;
         public string? IdamsApiBaseUrl { get; set; }
         public string? CookieName { get; set; }
         public string? AppHost { get; set; }
-        public string? AppBasePath { get; set; }
         public bool EnableDebugLogging { get; set; } = false;
         public string BearerTokenSigningKey { get; set; } = string.Empty;
 
+    }
+
+    public class PathBasedRouting
+    {
+        public string? DiscriminatorPath { get; set; }
+        public string? SubSiteTriggerPaths { get; set; }
     }
 
     public class Oidc

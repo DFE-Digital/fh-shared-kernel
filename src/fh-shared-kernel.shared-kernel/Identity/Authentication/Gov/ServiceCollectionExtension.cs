@@ -116,11 +116,21 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             };
             options.Events.OnAuthorizationCodeReceived = async (ctx) =>
             {
-                //multicast instead?
-                //ctx.Properties!.RedirectUri = $"/referrals{ctx.Properties.Items[".redirect"]}";
-
+                // multicast instead?
                 // the real RedirectUri is here at this point
-                ctx.Properties!.RedirectUri = $"{config.AppBasePath}{ctx.Properties!.RedirectUri}";
+                string? discriminatorPath = config.PathBasedRouting?.DiscriminatorPath;
+                if (!string.IsNullOrEmpty(discriminatorPath))
+                {
+                    var subSiteTriggerPaths = config.PathBasedRouting!.SubSiteTriggerPaths?.Split(',');
+                    foreach (var subSiteTriggerPath in subSiteTriggerPaths!)
+                    {
+                        if (ctx.Properties!.RedirectUri!.StartsWith(subSiteTriggerPath))
+                        {
+                            ctx.Properties!.RedirectUri = $"{config.PathBasedRouting.DiscriminatorPath}{ctx.Properties!.RedirectUri}";
+                            break;
+                        }
+                    }
+                }
 
                 var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);
                 if (token?.AccessToken != null && token.IdToken != null)
