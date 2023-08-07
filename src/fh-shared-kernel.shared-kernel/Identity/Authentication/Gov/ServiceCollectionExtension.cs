@@ -120,7 +120,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 //ctx.Properties!.RedirectUri = $"/referrals{ctx.Properties.Items[".redirect"]}";
 
                 // the real RedirectUri is here at this point
-                ctx.Properties!.RedirectUri = $"/referrals{ctx.Properties!.RedirectUri}";
+                ctx.Properties!.RedirectUri = $"{config.AppBasePath}{ctx.Properties!.RedirectUri}";
 
                 var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);
                 if (token?.AccessToken != null && token.IdToken != null)
