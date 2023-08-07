@@ -71,7 +71,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
                 c.ProtocolMessage.SetParameter("prompt", "login");
 
-                // the real RedirectUri is already populated. are we implementing an integration point for the consumer?
                 c.ProtocolMessage.RedirectUri = $"{govUkConfiguration.AppHost}/Account/login-callback";
                 return Task.CompletedTask;
             };
@@ -116,7 +115,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             };
             options.Events.OnAuthorizationCodeReceived = async (ctx) =>
             {
-                // multicast instead?
                 // the real RedirectUri is here at this point
                 string? discriminatorPath = config.PathBasedRouting?.DiscriminatorPath;
                 if (!string.IsNullOrEmpty(discriminatorPath))
