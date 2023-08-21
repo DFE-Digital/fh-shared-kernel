@@ -122,7 +122,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                     var subSiteTriggerPaths = config.PathBasedRouting!.SubSiteTriggerPaths?.Split(',');
                     foreach (var subSiteTriggerPath in subSiteTriggerPaths!)
                     {
-                        if (ctx.Properties!.RedirectUri!.StartsWith(subSiteTriggerPath))
+                        if (ctx.Properties!.RedirectUri!.StartsWith(subSiteTriggerPath, StringComparison.InvariantCultureIgnoreCase))
                         {
                             ctx.Properties!.RedirectUri = $"{config.PathBasedRouting.DiscriminatorPath}{ctx.Properties!.RedirectUri}";
                             break;
