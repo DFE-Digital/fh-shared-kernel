@@ -15,18 +15,27 @@ public interface IKeyProvider
 public class KeyProvider : IKeyProvider
 {
     private readonly IConfiguration _configuration;
+    private string? _publicKey;
+    private string? _privateKey;
 
     public KeyProvider(IConfiguration configuration)
     {
         _configuration = configuration;
+
     }
 
     public async Task<string> GetPublicKey()
     {
+        if (!string.IsNullOrEmpty(_publicKey)) 
+        { 
+            return _publicKey;
+        }
+
         bool useKeyVault = _configuration.GetValue<bool>("Crypto:UseKeyVault");
         if (!useKeyVault) 
         {
-            return _configuration.GetValue<string>("Crypto:PublicKey") ?? throw new ArgumentException("PublicKey value missing.");
+            _publicKey = _configuration.GetValue<string>("Crypto:PublicKey") ?? throw new ArgumentException("PublicKey value missing.");
+            return _publicKey;
         }
 
         string? publicKeySecretName = _configuration.GetValue<string>("Crypto:PublicKeySecretName");
@@ -59,15 +68,22 @@ public class KeyProvider : IKeyProvider
             throw new ArgumentException("clientSecret value missing.");
         }
 
-        return await GetKeyValue(keyVaultIdentifier, publicKeySecretName, tenantId, clientId, clientSecret);
+        _publicKey = await GetKeyValue(keyVaultIdentifier, publicKeySecretName, tenantId, clientId, clientSecret);
+        return _publicKey;
     }
 
     public async Task<string> GetPrivateKey()
     {
+        if (!string.IsNullOrEmpty(_privateKey))
+        {
+            return _privateKey;
+        }
+
         bool useKeyVault = _configuration.GetValue<bool>("Crypto:UseKeyVault");
         if (!useKeyVault)
         {
-            return _configuration.GetValue<string>("Crypto:PrivateKey") ?? throw new ArgumentException("PrivateKey value missing.");
+            _privateKey = _configuration.GetValue<string>("Crypto:PrivateKey") ?? throw new ArgumentException("PrivateKey value missing.");
+            return _privateKey;
         }
 
         string? privateKeySecretName = _configuration.GetValue<string>("Crypto:PrivateKeySecretName");
@@ -96,7 +112,8 @@ public class KeyProvider : IKeyProvider
             throw new ArgumentException("clientSecret value missing.");
         }
 
-        return await GetKeyValue(keyVaultIdentifier, privateKeySecretName, tenantId, clientId, clientSecret);
+        _privateKey = await GetKeyValue(keyVaultIdentifier, privateKeySecretName, tenantId, clientId, clientSecret);
+        return _privateKey;
     }
 
     private async Task<string> GetKeyValue(string keyVaultName, string keyName, string tenantId, string clientId, string clientSecret)
