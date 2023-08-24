@@ -2,6 +2,7 @@
 using FamilyHubs.SharedKernel.Identity;
 using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Security.Claims;
@@ -77,6 +78,15 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
         private Mock<HttpContext> CreateMockHttpContext()
         {
             var mockHttpContext = new Mock<HttpContext>();
+
+            var features = new Mock<IFeatureCollection>();
+            var endpointFeature = new Mock<IEndpointFeature>();
+
+            endpointFeature.Setup(ef => ef.Endpoint).Returns((Endpoint?)null);
+
+            features.Setup(f => f.Get<IEndpointFeature>())
+                .Returns(endpointFeature.Object);
+            mockHttpContext.Setup(c => c.Features).Returns(features.Object);
 
             var items = new Dictionary<object, object?>();
             mockHttpContext.Setup(m => m.Items).Returns(items);

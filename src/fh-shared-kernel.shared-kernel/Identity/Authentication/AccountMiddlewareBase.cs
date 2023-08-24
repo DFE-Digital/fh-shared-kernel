@@ -1,10 +1,9 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication
 {
@@ -12,7 +11,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
     {
         private readonly GovUkOidcConfiguration _configuration;
 
-        public AccountMiddlewareBase(GovUkOidcConfiguration configuration)
+        protected AccountMiddlewareBase(GovUkOidcConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -29,29 +28,39 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
 
         protected bool ShouldRedirectToNoClaims(HttpContext httpContext)
         {
-            if (string.IsNullOrEmpty(_configuration.Urls.NoClaimsRedirect))
+            if (!PageRequiresAuthorization(httpContext))
             {
-                return false; // If a redirect setting does not exist we dont need to redirect
+                return false;
             }
 
-            if (_configuration.Urls.NoClaimsRedirect.Contains(httpContext.Request.Path))
+            if (string.IsNullOrEmpty(_configuration.Urls.NoClaimsRedirect))
             {
-                return false; // If we are already redirecting to the NoClaimsPage no need to redirect again
+                // If a redirect setting does not exist we don't need to redirect
+                return false;
+            }
+
+            if (httpContext.Request.Path.Value?.StartsWith(_configuration.Urls.NoClaimsRedirect) == true)
+            {
+                // If we are already redirecting to the NoClaimsPage no need to redirect again
+                return false;
             }
 
             if (!httpContext.IsUserLoggedIn())
             {
-                return false; // We only redirect to NoClaims page if user is logged in and doesn't have claims
+                // We only redirect to NoClaims page if user is logged in and doesn't have claims
+                return false;
             }
 
             var user = httpContext.GetFamilyHubsUser();
 
-            if(string.IsNullOrEmpty(user.Role) || string.IsNullOrEmpty(user.OrganisationId) || string.IsNullOrEmpty(user.FullName))
-            {
-                return true;  // Missing required claims, redirect to NoClaims page
-            }
+            // if role, organisationId or full name is missing redirect to 401 page
+            return string.IsNullOrEmpty(user.Role) || string.IsNullOrEmpty(user.OrganisationId) || string.IsNullOrEmpty(user.FullName);
+        }
 
-            return false;
+        private bool PageRequiresAuthorization(HttpContext httpContext)
+        {
+            var endpoint = httpContext.GetEndpoint();
+            return endpoint?.Metadata.GetMetadata<IAuthorizeData>() != null;
         }
 
         protected void SetBearerToken(HttpContext httpContext)

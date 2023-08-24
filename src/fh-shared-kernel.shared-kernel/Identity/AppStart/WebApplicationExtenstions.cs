@@ -18,9 +18,9 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 Secure = CookieSecurePolicy.Always
             });
 
-            var config = webApplication.Configuration.GetGovUkOidcConfiguration();
             webApplication.UseAuthentication();
-            webApplication.UseAuthorization();
+
+            var config = webApplication.Configuration.GetGovUkOidcConfiguration();
             if (config.StubAuthentication.UseStubAuthentication)
             {
                 webApplication.UseMiddleware<StubAccountMiddleware>();
@@ -29,6 +29,8 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             {
                 webApplication.UseMiddleware<AccountMiddleware>();
             }
+
+            webApplication.UseAuthorization();
 
             return webApplication;
         }

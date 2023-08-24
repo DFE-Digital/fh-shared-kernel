@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
 using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
@@ -14,8 +13,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         private readonly ILogger<AccountMiddleware> _logger;
 
         public AccountMiddleware(
-            RequestDelegate next, 
-            GovUkOidcConfiguration configuration, 
+            RequestDelegate next,
+            GovUkOidcConfiguration configuration,
             ILogger<AccountMiddleware> logger) : base(configuration)
         {
             _next = next;
@@ -33,13 +32,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
             }
 
-            if(ShouldRedirectToNoClaims(context))
+            if (ShouldRedirectToNoClaims(context))
             {
                 context.Response.Redirect(_configuration.Urls.NoClaimsRedirect);
                 return;
             }
 
             SetBearerToken(context);
+
             await _next(context);
         }
 
@@ -66,7 +66,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
 
             _logger.LogInformation("Account Request Path:{path} Headers:{@headers}", httpContext.Request.Path.Value, httpContext.Request.Headers);
-
         }
     }
 }
