@@ -1,13 +1,9 @@
-﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
-using FamilyHubs.SharedKernel.Identity.Exceptions;
-using FamilyHubs.SharedKernel.Identity.Models;
+﻿using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace FamilyHubs.SharedKernel.Identity
@@ -56,7 +52,7 @@ namespace FamilyHubs.SharedKernel.Identity
         {
             var user = new FamilyHubsUser
             {
-                Role = GetRole(httpContext),
+                Role = httpContext.GetRole(),
                 OrganisationId = GetClaimValue(httpContext, FamilyHubsClaimTypes.OrganisationId),
                 AccountId = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountId),
                 AccountStatus = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountStatus),
@@ -76,12 +72,12 @@ namespace FamilyHubs.SharedKernel.Identity
 
         public static bool IsUserDfeAdmin(this HttpContext httpContext)
         {
-            return GetRole(httpContext) == RoleTypes.DfeAdmin;
+            return httpContext.GetRole() == RoleTypes.DfeAdmin;
         }
 
         public static bool IsUserLaManager(this HttpContext httpContext)
         {
-            var role = GetRole(httpContext);
+            var role = httpContext.GetRole();
 
             if(role == RoleTypes.LaManager || role == RoleTypes.LaDualRole)
             {
@@ -128,7 +124,6 @@ namespace FamilyHubs.SharedKernel.Identity
 
             var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == key);
 
-
             if (claim != null && long.TryParse(claim.Value, out var utcNumber))
             {
                 return new DateTime(utcNumber);
@@ -137,7 +132,7 @@ namespace FamilyHubs.SharedKernel.Identity
             return null;
         }
 
-        private static string GetRole(HttpContext httpContext)
+        public static string GetRole(this HttpContext httpContext)
         {
             var role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role);
             if (string.IsNullOrEmpty(role))
@@ -147,6 +142,5 @@ namespace FamilyHubs.SharedKernel.Identity
 
             return role;
         }
-
     }
 }
