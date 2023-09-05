@@ -40,7 +40,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             if (ShouldRedirectToTermsAndConditions(context))
             {
-                var returnPath = HttpUtility.UrlEncode($"{context.Request.Path}{context.Request.QueryString}");
+                var returnPath = HttpUtility.UrlEncode(GetReturnPath(context));
                 context.Response.Redirect($"{_configuration.Urls.TermsAndConditionsRedirect}?returnpath={returnPath}");
                 return;
             }
@@ -73,6 +73,27 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
 
             _logger.LogInformation("Account Request Path:{path} Headers:{@headers}", httpContext.Request.Path.Value, httpContext.Request.Headers);
+        }
+
+        private string GetReturnPath(HttpContext context)
+        {
+            var path = context.Request.Path.ToString();
+            var discriminatorPath = _configuration.PathBasedRouting?.DiscriminatorPath;
+
+            if (!string.IsNullOrEmpty(discriminatorPath))
+            {
+                var subSiteTriggerPaths = _configuration.PathBasedRouting!.SubSiteTriggerPaths?.Split(',');
+                foreach (var subSiteTriggerPath in subSiteTriggerPaths!)
+                {
+                    if (path.StartsWith(subSiteTriggerPath, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        path = $"{_configuration.PathBasedRouting.DiscriminatorPath}{path}";
+                        break;
+                    }
+                }
+            }
+
+            return $"{path}{context.Request.QueryString}";
         }
     }
 }
