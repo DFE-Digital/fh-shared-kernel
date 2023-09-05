@@ -38,6 +38,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.Configuration
         public string SignedOutRedirect { get; set; } = string.Empty;
         public string AccountSuspendedRedirect { get; set; } = string.Empty;
         public string NoClaimsRedirect { get; set; } = string.Empty;
+        public string TermsAndConditionsRedirect { get; set; } = string.Empty;
     }
 
     public class StubAuthentication

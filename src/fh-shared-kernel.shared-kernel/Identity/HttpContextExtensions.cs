@@ -59,7 +59,8 @@ namespace FamilyHubs.SharedKernel.Identity
                 FullName = GetClaimValue(httpContext, FamilyHubsClaimTypes.FullName),
                 ClaimsValidTillTime = GetDataTimeClaimValue(httpContext, FamilyHubsClaimTypes.ClaimsValidTillTime),
                 Email = GetClaimValue(httpContext, ClaimTypes.Email),
-                PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber)
+                PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber),
+                TermsAndConditionsAccepted = TermsAndConditionsAccepted(httpContext)
             };
 
             return user;
@@ -99,6 +100,27 @@ namespace FamilyHubs.SharedKernel.Identity
             throw new ArgumentException("Could not parse OrganisationId from claim");
         }
 
+        public static bool TermsAndConditionsAccepted(this HttpContext httpContext)
+        {
+            var termsAndConditionsAccepted = GetClaimValue(httpContext, FamilyHubsClaimTypes.TermsAndConditionsAccepted);
+
+            if (string.IsNullOrEmpty(termsAndConditionsAccepted))
+                return false;
+
+            return true;
+        }
+
+        public static string GetRole(this HttpContext httpContext)
+        {
+            var role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role);
+            if (string.IsNullOrEmpty(role))
+            {
+                role = GetClaimValue(httpContext, ClaimTypes.Role);
+            }
+
+            return role;
+        }
+
         /// <summary>
         /// Effects take place on next request
         /// </summary>
@@ -132,15 +154,5 @@ namespace FamilyHubs.SharedKernel.Identity
             return null;
         }
 
-        public static string GetRole(this HttpContext httpContext)
-        {
-            var role = GetClaimValue(httpContext, FamilyHubsClaimTypes.Role);
-            if (string.IsNullOrEmpty(role))
-            {
-                role = GetClaimValue(httpContext, ClaimTypes.Role);
-            }
-
-            return role;
-        }
     }
 }

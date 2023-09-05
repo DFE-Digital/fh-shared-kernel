@@ -57,6 +57,39 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
             return string.IsNullOrEmpty(user.Role) || string.IsNullOrEmpty(user.OrganisationId) || string.IsNullOrEmpty(user.FullName);
         }
 
+        protected bool ShouldRedirectToTermsAndConditions(HttpContext httpContext)
+        {
+            if (!PageRequiresAuthorization(httpContext))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(_configuration.Urls.TermsAndConditionsRedirect))
+            {
+                // If a redirect setting does not exist we don't need to redirect
+                return false;
+            }
+
+            if (httpContext.Request.Path.Value?.StartsWith(_configuration.Urls.TermsAndConditionsRedirect) == true)
+            {
+                // If we are already redirecting to the TermsAndConditions no need to redirect again
+                return false;
+            }
+
+            if (!httpContext.IsUserLoggedIn())
+            {
+                // We only redirect to TermsAndConditions page if user is logged in and doesn't have claims
+                return false;
+            }
+
+            if (httpContext.TermsAndConditionsAccepted())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private bool PageRequiresAuthorization(HttpContext httpContext)
         {
             var endpoint = httpContext.GetEndpoint();

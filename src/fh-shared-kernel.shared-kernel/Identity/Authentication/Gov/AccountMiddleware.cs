@@ -38,6 +38,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
             }
 
+            if (ShouldRedirectToTermsAndConditions(context))
+            {
+                context.Response.Redirect(_configuration.Urls.TermsAndConditionsRedirect);
+                return;
+            }
+
             SetBearerToken(context);
 
             await _next(context);

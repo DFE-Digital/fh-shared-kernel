@@ -17,6 +17,7 @@ namespace GovSignInExample.Pages
             Console.WriteLine($"FullName:{user.FullName}");
             Console.WriteLine($"Email:{user.Email}");
             Console.WriteLine($"PhoneNumber:{user.PhoneNumber}");
+            Console.WriteLine($"TermsAndConditionsAccepted:{user.TermsAndConditionsAccepted}");
 
             Console.WriteLine($"IsUserDfeAdmin:{HttpContext.IsUserDfeAdmin()}");
             Console.WriteLine($"IsUserLaManager:{HttpContext.IsUserLaManager()}");
