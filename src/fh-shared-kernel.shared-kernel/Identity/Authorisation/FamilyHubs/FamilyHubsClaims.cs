@@ -9,7 +9,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 {
     public class FamilyHubsClaims : ICustomClaims
     {
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
         private readonly int _claimsRefreshTimerMinutes;
         public FamilyHubsClaims(IHttpClientFactory httpClientFactory, GovUkOidcConfiguration govUkOidcConfiguration)
         {

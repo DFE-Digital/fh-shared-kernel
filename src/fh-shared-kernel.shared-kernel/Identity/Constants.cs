@@ -9,6 +9,7 @@
         public const string ClaimsValidTillTime = "ClaimsValidTillTime";
         public const string FullName = "Name";
         public const string PhoneNumber = "PhoneNumber";
+        public const string TermsAndConditionsAccepted = "TermsAndConditionsAccepted";
     }
 
     public static class RoleTypes

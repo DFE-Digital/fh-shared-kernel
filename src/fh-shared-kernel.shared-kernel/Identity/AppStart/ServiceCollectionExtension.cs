@@ -63,6 +63,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             if (config.StubAuthentication.UseStubClaims)
             {
                 services.AddTransient<ICustomClaims, StubClaims>();
+                services.AddSingleton<ITermsAndConditionsService, StubTermsAndConditionsService>();
             }
             else
             {
@@ -75,6 +76,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 });
 
                 services.AddTransient<ICustomClaims, FamilyHubsClaims>();
+                services.AddSingleton<ITermsAndConditionsService, TermsAndConditionsService>();
             }
 
         }
