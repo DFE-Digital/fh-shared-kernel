@@ -8,15 +8,23 @@ namespace GovSignInExample.Pages
     {
         private readonly ITermsAndConditionsService _termsAndConditionsService;
 
+        [BindProperty]
+        public string ReturnPath { get; set; } = string.Empty;
+
         public TermsAndConditionsPageModel(ITermsAndConditionsService termsAndConditionsService)
         {
             _termsAndConditionsService = termsAndConditionsService;
         }
 
+        public void OnGet(string returnPath)
+        {
+            ReturnPath = returnPath;
+        }
+
         public async Task<IActionResult> OnPost()
         {
             await _termsAndConditionsService.AcceptTermsAndConditions();
-            return RedirectToPage("SecurePage");
+            return Redirect(ReturnPath);
         }
     }
 }

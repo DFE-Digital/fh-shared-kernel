@@ -40,7 +40,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             if (ShouldRedirectToTermsAndConditions(context))
             {
-                context.Response.Redirect(_configuration.Urls.TermsAndConditionsRedirect);
+                var returnPath = HttpUtility.UrlEncode($"{context.Request.Path}{context.Request.QueryString}");
+                context.Response.Redirect($"{_configuration.Urls.TermsAndConditionsRedirect}?returnpath={returnPath}");
                 return;
             }
 
