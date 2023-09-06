@@ -1,4 +1,5 @@
-﻿using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
+﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
 using FamilyHubs.SharedKernel.Identity.Exceptions;
 using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Http;
@@ -24,11 +25,13 @@ namespace FamilyHubs.SharedKernel.Identity
     {
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly GovUkOidcConfiguration _configuration;
 
-        public TermsAndConditionsService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+        public TermsAndConditionsService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor, GovUkOidcConfiguration configuration)
         {
             _httpClient = httpClientFactory?.CreateClient(nameof(FamilyHubsClaims))!;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         public async Task AcceptTermsAndConditions()
@@ -67,7 +70,7 @@ namespace FamilyHubs.SharedKernel.Identity
             var claim = new AccountClaim
             {
                 AccountId = accountId,
-                Name = FamilyHubsClaimTypes.TermsAndConditionsAccepted,
+                Name = $"{FamilyHubsClaimTypes.TermsAndConditionsAccepted}-{_configuration.AppHost}",
                 Value = DateTime.UtcNow.ToString()
             };
 

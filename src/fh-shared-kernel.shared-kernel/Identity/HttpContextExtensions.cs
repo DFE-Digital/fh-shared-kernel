@@ -10,6 +10,8 @@ namespace FamilyHubs.SharedKernel.Identity
 {
     public static class HttpContextExtensions
     {
+        internal static string AppHost { get; set; } = string.Empty;
+
         public static string GetBearerToken(this HttpContext httpContext)
         {
             if (!httpContext.Items.ContainsKey(AuthenticationConstants.BearerToken))
@@ -102,7 +104,7 @@ namespace FamilyHubs.SharedKernel.Identity
 
         public static bool TermsAndConditionsAccepted(this HttpContext httpContext)
         {
-            var termsAndConditionsAccepted = GetClaimValue(httpContext, FamilyHubsClaimTypes.TermsAndConditionsAccepted);
+            var termsAndConditionsAccepted = GetClaimValue(httpContext, $"{FamilyHubsClaimTypes.TermsAndConditionsAccepted}-{AppHost}");
 
             if (string.IsNullOrEmpty(termsAndConditionsAccepted))
                 return false;

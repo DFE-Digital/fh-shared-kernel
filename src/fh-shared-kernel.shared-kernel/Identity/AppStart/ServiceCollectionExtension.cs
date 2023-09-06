@@ -43,6 +43,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             {
                 throw new AuthConfigurationException("Could not get Section GovUkOidcConfiguration from configuration");
             }
+            HttpContextExtensions.AppHost = config.AppHost!;
 
             services.AddOptions();
             services.AddSingleton(c => c.GetService<IOptions<GovUkOidcConfiguration>>()!.Value); 
