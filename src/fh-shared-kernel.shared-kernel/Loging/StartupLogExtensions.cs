@@ -18,9 +18,11 @@ public static class StartupLogExtensions
 
             var parsed = Enum.TryParse<LogEventLevel>(logLevelString, out var logLevel);
 
-            var blobStorrageConnectionString = builder.Configuration["BlobStorrageConnectionString"];
+            var blobStorrageConnectionString = builder.Configuration["BlobStorageConnectionString"];
             ArgumentNullException.ThrowIfNull(blobStorrageConnectionString);
-            loggerConfiguration.WriteTo.AzureBlobStorage(connectionString: blobStorrageConnectionString, restrictedToMinimumLevel: parsed ? logLevel : LogEventLevel.Warning, storageFileName: "{yyyy}/{MM}/{dd}/log.txt");
+            var storageFileName = builder.Configuration["BlobStorageFilename"];
+            ArgumentNullException.ThrowIfNull(storageFileName);
+            loggerConfiguration.WriteTo.AzureBlobStorage(connectionString: blobStorrageConnectionString, restrictedToMinimumLevel: parsed ? logLevel : LogEventLevel.Warning, storageFileName: storageFileName);
 
             loggerConfiguration.WriteTo.ApplicationInsights(
                 services.GetRequiredService<TelemetryConfiguration>(),
