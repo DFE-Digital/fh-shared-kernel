@@ -50,14 +50,14 @@ public class WhenUsingCrytoHelperClass
             {
                 items.Add(item.ToString());
             }
-            string dbEncryptionKey = string.Join(',', items.ToArray());
+            string dbEncryptionIVKey = string.Join(',', items.ToArray());
             items.Clear();
 
             foreach (var item in result.Key)
             {
                 items.Add(item.ToString());
             }
-            string dbEncryptionIVKey = string.Join(',', items.ToArray());
+            string dbEncryptionKey = string.Join(',', items.ToArray());
 
             return (publicKey, privateKey, dbEncryptionKey, dbEncryptionIVKey);
         }
