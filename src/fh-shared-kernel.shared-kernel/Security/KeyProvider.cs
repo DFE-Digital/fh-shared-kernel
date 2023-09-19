@@ -10,6 +10,8 @@ public interface IKeyProvider
 {
     Task<string> GetPublicKey();
     Task<string> GetPrivateKey();
+    Task<string> GetDbEncryptionKey();
+    Task<string> GetDbEncryptionIVKey();
 }
 
 public class KeyProvider : IKeyProvider
@@ -17,11 +19,65 @@ public class KeyProvider : IKeyProvider
     private readonly IConfiguration _configuration;
     private string? _publicKey;
     private string? _privateKey;
+    private string? _dbEncryptionKey;
+    private string? _dbEncryptionIVKey;
 
     public KeyProvider(IConfiguration configuration)
     {
         _configuration = configuration;
 
+    }
+
+    public async Task<string> GetDbEncryptionKey()
+    {
+        if (!string.IsNullOrEmpty(_dbEncryptionKey))
+        {
+            return _dbEncryptionKey;
+        }
+
+        bool useKeyVault = _configuration.GetValue<bool>("Crypto:UseKeyVault");
+        if (!useKeyVault)
+        {
+            _dbEncryptionKey = _configuration.GetValue<string>("Crypto:DbEncryptionKey") ?? throw new ArgumentException("DbEncryptionKey value missing.");
+            return _dbEncryptionKey;
+        }
+
+        string? publicSecretName = _configuration.GetValue<string>("Crypto:DbEncryptionKeySecretName");
+        if (string.IsNullOrEmpty(publicSecretName))
+        {
+            throw new ArgumentException("DbEncryptionKeySecretName value missing.");
+        }
+
+        KeyVaultValues kvv = GetKeyVaultValues();
+
+        _dbEncryptionKey = await GetKeyValue(kvv.KeyVaultIdentifier, publicSecretName, kvv.TenantId, kvv.ClientId, kvv.ClientSecret);
+        return _dbEncryptionKey;
+    }
+
+    public async Task<string> GetDbEncryptionIVKey()
+    {
+        if (!string.IsNullOrEmpty(_dbEncryptionIVKey))
+        {
+            return _dbEncryptionIVKey;
+        }
+
+        bool useKeyVault = _configuration.GetValue<bool>("Crypto:UseKeyVault");
+        if (!useKeyVault)
+        {
+            _dbEncryptionIVKey = _configuration.GetValue<string>("Crypto:DbEncryptionIVKey") ?? throw new ArgumentException("DbEncryptionIVKey value missing.");
+            return _dbEncryptionIVKey;
+        }
+
+        string? publicSecretName = _configuration.GetValue<string>("Crypto:DbEncryptionIVKeySecretName");
+        if (string.IsNullOrEmpty(publicSecretName))
+        {
+            throw new ArgumentException("DbEncryptionIVKeySecretName value missing.");
+        }
+
+        KeyVaultValues kvv = GetKeyVaultValues();
+
+        _dbEncryptionIVKey = await GetKeyValue(kvv.KeyVaultIdentifier, publicSecretName, kvv.TenantId, kvv.ClientId, kvv.ClientSecret);
+        return _dbEncryptionIVKey;
     }
 
     public async Task<string> GetPublicKey()
@@ -44,31 +100,9 @@ public class KeyProvider : IKeyProvider
             throw new ArgumentException("PublicKeySecretName value missing.");
         }
 
-        string? keyVaultIdentifier = _configuration.GetValue<string>("Crypto:KeyVaultIdentifier");
-        if (string.IsNullOrEmpty(keyVaultIdentifier))
-        {
-            throw new ArgumentException("KeyVaultIdentifier value missing.");
-        }
+        KeyVaultValues kvv = GetKeyVaultValues();
 
-        string? tenantId = _configuration.GetValue<string>("Crypto:tenantId");
-        if (string.IsNullOrEmpty(tenantId))
-        {
-            throw new ArgumentException("tenantId value missing.");
-        }
-
-        string? clientId = _configuration.GetValue<string>("Crypto:clientId");
-        if (string.IsNullOrEmpty(clientId))
-        {
-            throw new ArgumentException("clientId value missing.");
-        }
-
-        string? clientSecret = _configuration.GetValue<string>("Crypto:clientSecret");
-        if (string.IsNullOrEmpty(clientSecret))
-        {
-            throw new ArgumentException("clientSecret value missing.");
-        }
-
-        _publicKey = await GetKeyValue(keyVaultIdentifier, publicKeySecretName, tenantId, clientId, clientSecret);
+        _publicKey = await GetKeyValue(kvv.KeyVaultIdentifier, publicKeySecretName, kvv.TenantId, kvv.ClientId, kvv.ClientSecret);
         return _publicKey;
     }
 
@@ -91,6 +125,15 @@ public class KeyProvider : IKeyProvider
         {
             throw new ArgumentException("PrivateKeySecretName value missing.");
         }
+        
+        KeyVaultValues kvv = GetKeyVaultValues();
+
+        _privateKey = await GetKeyValue(kvv.KeyVaultIdentifier, privateKeySecretName, kvv.TenantId, kvv.ClientId, kvv.ClientSecret);
+        return _privateKey;
+    }
+
+    private KeyVaultValues GetKeyVaultValues()
+    {
         string? keyVaultIdentifier = _configuration.GetValue<string>("Crypto:KeyVaultIdentifier");
         if (string.IsNullOrEmpty(keyVaultIdentifier))
         {
@@ -112,8 +155,15 @@ public class KeyProvider : IKeyProvider
             throw new ArgumentException("clientSecret value missing.");
         }
 
-        _privateKey = await GetKeyValue(keyVaultIdentifier, privateKeySecretName, tenantId, clientId, clientSecret);
-        return _privateKey;
+        KeyVaultValues keyVaultValues = new KeyVaultValues
+        {
+            KeyVaultIdentifier = keyVaultIdentifier,
+            TenantId = tenantId,
+            ClientId = clientId,
+            ClientSecret = clientSecret
+        };
+
+        return keyVaultValues;
     }
 
     private async Task<string> GetKeyValue(string keyVaultName, string keyName, string tenantId, string clientId, string clientSecret)

@@ -1,7 +1,5 @@
 ﻿using Azure;
 using Azure.Security.KeyVault.Secrets;
-using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
-using FamilyHubs.SharedKernel.Identity.Authorisation;
 using FamilyHubs.SharedKernel.Security;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +18,8 @@ public class WhenUsingKeyProvider
             {"Crypto:UseKeyVault", "True"},
             {"Crypto:PublicKey", "public_key"},
             {"Crypto:PrivateKey", "private_key"},
+            {"Crypto:DbEncryptionKey", "DbEncryptionKey"},
+            {"Crypto:DbEncryptionIVKey", "DbEncryptionIVKey"},
 
         };
 
@@ -28,6 +28,52 @@ public class WhenUsingKeyProvider
             .Build();
 
         _keyProvider = new KeyProvider(_configuration);
+    }
+
+    [Fact]
+    public async Task GetDbEncryptionKey_ShouldReturnKey_WhenUseKeyVaultIsFalse()
+    {
+        // Arrange
+        var inMemorySettings = new Dictionary<string, string?> {
+            {"Crypto:UseKeyVault", "False"},
+            {"Crypto:DbEncryptionKey", "DbEncryptionKey"},
+        };
+
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        _keyProvider = new KeyProvider(_configuration);
+
+
+        // Act
+        string publicKey = await _keyProvider.GetDbEncryptionKey();
+
+        // Assert
+        publicKey.Should().Be("DbEncryptionKey");
+    }
+
+    [Fact]
+    public async Task GetDbEncryptionIVKey_ShouldReturnIVKey_WhenUseKeyVaultIsFalse()
+    {
+        // Arrange
+        var inMemorySettings = new Dictionary<string, string?> {
+            {"Crypto:UseKeyVault", "False"},
+            {"Crypto:DbEncryptionIVKey", "DbEncryptionIVKey"},
+        };
+
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        _keyProvider = new KeyProvider(_configuration);
+
+
+        // Act
+        string publicKey = await _keyProvider.GetDbEncryptionIVKey();
+
+        // Assert
+        publicKey.Should().Be("DbEncryptionIVKey");
     }
 
     [Fact]
