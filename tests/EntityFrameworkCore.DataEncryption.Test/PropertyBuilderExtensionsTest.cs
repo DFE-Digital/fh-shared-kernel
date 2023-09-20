@@ -71,7 +71,7 @@ public class PropertyBuilderExtensionsTest
             Assert.Null(u.EmptyString);
         }
     }
-
+#pragma warning disable EF1001 // Internal EF Core API usage.
     private static void AssertPropertyAnnotations(IProperty property, bool shouldBeEncrypted, StorageFormat expectedStorageFormat)
     {
         Assert.NotNull(property);
@@ -93,11 +93,12 @@ public class PropertyBuilderExtensionsTest
             Assert.Null(property.FindAnnotation(PropertyAnnotations.StorageFormat));
         }
     }
-
+#pragma warning restore EF1001 // Internal EF Core API usage.
     private class UserEntity
     {
+#pragma warning disable S3459
         public int Id { get; set; }
-
+#pragma warning restore S3459
         // Encrypted as default (Base64)
         public string Name { get; set; }
 
@@ -117,7 +118,7 @@ public class PropertyBuilderExtensionsTest
     private class FluentDbContext : DbContext
     {
         private readonly IEncryptionProvider _encryptionProvider;
-
+#pragma warning disable S3459, S1144
         public DbSet<UserEntity> Users { get; set; }
 
         public FluentDbContext(DbContextOptions options)
@@ -129,7 +130,7 @@ public class PropertyBuilderExtensionsTest
         {
             _encryptionProvider = encryptionProvider;
         }
-
+#pragma warning restore S3459, S1144
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var userEntityBuilder = modelBuilder.Entity<UserEntity>();

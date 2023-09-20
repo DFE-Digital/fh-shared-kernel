@@ -120,12 +120,12 @@ public static class ModelBuilderExtensions
             }
 
             IAnnotation encryptedAnnotation = property.FindAnnotation(PropertyAnnotations.IsEncrypted);
-
+#pragma warning disable S1125
             if (encryptedAnnotation != null && (bool)encryptedAnnotation.Value == true)
             {
                 storageFormat = (StorageFormat)property.FindAnnotation(PropertyAnnotations.StorageFormat)?.Value;
             }
-
+#pragma warning restore S1125
             return storageFormat.HasValue ? new EncryptedProperty(property, storageFormat.Value) : null;
         }
     }

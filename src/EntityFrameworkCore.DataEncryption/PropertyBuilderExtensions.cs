@@ -10,6 +10,14 @@ namespace Microsoft.EntityFrameworkCore.DataEncryption;
 /// </summary>
 public static class PropertyBuilderExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TProperty"></typeparam>
+    /// <param name="builder"></param>
+    /// <param name="storageFormat"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static PropertyBuilder<TProperty> IsEncrypted<TProperty>(this PropertyBuilder<TProperty> builder, StorageFormat storageFormat = StorageFormat.Default)
     {
         if (builder is null)
