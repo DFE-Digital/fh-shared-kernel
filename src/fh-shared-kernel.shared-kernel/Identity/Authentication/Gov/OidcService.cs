@@ -1,5 +1,6 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity.Authorisation;
+using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
 using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ public class OidcService : IOidcService
     private readonly IAzureIdentityService _azureIdentityService;
     private readonly IJwtSecurityTokenService _jwtSecurityTokenService;
     private readonly ICustomClaims _customClaims;
+    private readonly ISessionService _sessionService;
     private readonly GovUkOidcConfiguration _configuration;
     private readonly ILogger<OidcService> _logger;
 
@@ -34,6 +36,7 @@ public class OidcService : IOidcService
         IJwtSecurityTokenService jwtSecurityTokenService,
         GovUkOidcConfiguration configuration,
         ICustomClaims customClaims,
+        ISessionService sessionService,
         ILogger<OidcService> logger)
     {
         logger.LogTrace("OidcService:constructor BaseUrl={BaseUrl}", _configuration?.Oidc.BaseUrl);
@@ -43,7 +46,7 @@ public class OidcService : IOidcService
         _jwtSecurityTokenService = jwtSecurityTokenService;
         _customClaims = customClaims;
         _configuration = configuration;
-        //todo: no need for a valid BaseUrl if we're using stub authentication
+        _sessionService = sessionService;
         _httpClient.BaseAddress = new Uri(_configuration.Oidc.BaseUrl);
         _logger = logger;
     }
@@ -118,8 +121,10 @@ public class OidcService : IOidcService
             tokenValidatedContext.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Email, content.Email));
         }
 
-        tokenValidatedContext.Principal.Identities.First()
-            .AddClaims(await _customClaims.GetClaims(tokenValidatedContext));
+        var claims = await _customClaims.GetClaims(tokenValidatedContext);
+
+        tokenValidatedContext.Principal.Identities.First().AddClaims(claims);
+        await CreateSession(tokenValidatedContext.Principal.Identities.First().Claims);
 
         _logger.LogDebug("OidcService.PopulateAccountClaims:Exiting");
     }
@@ -177,5 +182,14 @@ public class OidcService : IOidcService
         }
         var key = new RsaSecurityKey(rsa);
         return new SigningCredentials(key, "RS256");
+    }
+
+    private async Task CreateSession(IEnumerable<Claim> claims)
+    {
+        var sid = claims.First(x => x.Type == OneLoginClaimTypes.Sid).Value;
+        var email = claims.First(x => x.Type == ClaimTypes.Email).Value;
+        var userSession = new UserSession { Email = email, Sid = sid };
+        await _sessionService.CreateSession(userSession);
+
     }
 }

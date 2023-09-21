@@ -1,5 +1,10 @@
 ﻿namespace FamilyHubs.SharedKernel.Identity
 {
+    public static class OneLoginClaimTypes
+    {
+        public const string Sid = "sid";
+    }
+
     public static class FamilyHubsClaimTypes
     {
         public const string Role = "role";

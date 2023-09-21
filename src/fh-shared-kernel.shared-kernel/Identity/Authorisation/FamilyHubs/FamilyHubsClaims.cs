@@ -11,6 +11,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
     {
         private readonly HttpClient _httpClient;
         private readonly int _claimsRefreshTimerMinutes;
+
         public FamilyHubsClaims(IHttpClientFactory httpClientFactory, GovUkOidcConfiguration govUkOidcConfiguration)
         {
             _httpClient = httpClientFactory?.CreateClient(nameof(FamilyHubsClaims))!;
@@ -28,7 +29,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             var json = await CallClaimsApi(email);
             var claims = ExtractClaimsFromResponse(json);
 
-            return claims;
+            return claims.AsEnumerable();
         }
 
         public async Task<IEnumerable<Claim>> RefreshClaims(string email, List<Claim> currentClaims)
@@ -37,7 +38,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             var upToDateClaims = ExtractClaimsFromResponse(json);
 
             //  Get Updated Claims
-            var refreshedClaims = upToDateClaims.ToList();
+            var refreshedClaims = upToDateClaims;
 
             //  Add any claims that dont come from our claims endpoint (some come from one login, these will already be in the current claims)
             foreach(var currentClaim in currentClaims)
@@ -72,14 +73,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             return json;
         }
 
-        private IEnumerable<Claim> ExtractClaimsFromResponse(string json)
+        private List<Claim> ExtractClaimsFromResponse(string json)
         {
             var customClaims = JsonSerializer.Deserialize<List<AccountClaim>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             var claims = customClaims.ConvertToSecurityClaim();
 
             claims.Add(CreateRefreshClaim());
 
-            return claims.AsEnumerable();
+            return claims;
         }
 
         private Claim CreateRefreshClaim()

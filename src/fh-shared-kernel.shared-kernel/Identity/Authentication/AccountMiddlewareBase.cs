@@ -90,7 +90,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
             return true;
         }
 
-        private bool PageRequiresAuthorization(HttpContext httpContext)
+        protected bool PageRequiresAuthorization(HttpContext httpContext)
         {
             var endpoint = httpContext.GetEndpoint();
             return endpoint?.Metadata.GetMetadata<IAuthorizeData>() != null;
@@ -117,7 +117,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
             httpContext.Items.Add(AuthenticationConstants.BearerToken, new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        private static bool IsUserAuthenticated(ClaimsPrincipal? user)
+        protected static bool IsUserAuthenticated(ClaimsPrincipal? user)
         {
             if (user == null) return false;
 

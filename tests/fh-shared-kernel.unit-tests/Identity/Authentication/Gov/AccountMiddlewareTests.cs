@@ -1,6 +1,7 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
 using FamilyHubs.SharedKernel.Identity;
 using FamilyHubs.SharedKernel.Identity.Authentication.Gov;
+using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
@@ -12,9 +13,10 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
 {
     public class AccountMiddlewareTests
     {
-        private GovUkOidcConfiguration _configuration;
-        private RequestDelegate _nextMock;
-        private ILogger<AccountMiddleware> _mockedLogger;
+        private readonly GovUkOidcConfiguration _configuration;
+        private readonly RequestDelegate _nextMock;
+        private readonly ILogger<AccountMiddleware> _mockedLogger;
+        private readonly Mock<ISessionService> _mockSessionService;
 
         public AccountMiddlewareTests()
         {
@@ -23,6 +25,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
             _configuration.Oidc.PrivateKey = Guid.NewGuid().ToString();
             _nextMock = Mock.Of<RequestDelegate>();
             _mockedLogger = Mock.Of<ILogger<AccountMiddleware>>();
+            _mockSessionService = new Mock<ISessionService>();
         }
 
         [Fact]
@@ -31,7 +34,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
             //  Arrange
             var mockContext = CreateMockHttpContext();
             var context = mockContext.Object;
-            var accountMiddleware = new AccountMiddleware(_nextMock, _configuration, _mockedLogger);
+            var accountMiddleware = new AccountMiddleware(_nextMock, _configuration, _mockSessionService.Object, _mockedLogger);
 
             //  Act
             await accountMiddleware.InvokeAsync(context);
@@ -48,7 +51,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
             var mockContext = CreateMockHttpContext();
             mockContext.Setup(m => m.User).Returns(CreateUser(false));
             var context = mockContext.Object;
-            var accountMiddleware = new AccountMiddleware(_nextMock, _configuration, _mockedLogger);
+            var accountMiddleware = new AccountMiddleware(_nextMock, _configuration, _mockSessionService.Object, _mockedLogger);
 
             //  Act
             await accountMiddleware.InvokeAsync(context);
@@ -65,7 +68,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
             var mockContext = CreateMockHttpContext();
             mockContext.Setup(m => m.User).Returns(CreateUser(true));
             var context = mockContext.Object;
-            var accountMiddleware = new AccountMiddleware(_nextMock, _configuration, _mockedLogger);
+            var accountMiddleware = new AccountMiddleware(_nextMock, _configuration, _mockSessionService.Object, _mockedLogger);
 
             //  Act
             await accountMiddleware.InvokeAsync(context);
