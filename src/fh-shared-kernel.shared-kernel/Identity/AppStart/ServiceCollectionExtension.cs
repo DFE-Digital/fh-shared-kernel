@@ -54,6 +54,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
             }
             else
             {
+                services.AddTransient<ISessionService, SessionService>();
                 services.AddTransient<IAzureIdentityService, AzureIdentityService>();
                 services.AddTransient<IJwtSecurityTokenService, JwtSecurityTokenService>();
                 services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
