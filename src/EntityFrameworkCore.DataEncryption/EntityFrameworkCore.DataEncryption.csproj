@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
+		<LangVersion>10.0</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<AssemblyName>EntityFrameworkCore.DataEncryption</AssemblyName>
+		<RootNamespace>Microsoft.EntityFrameworkCore.DataEncryption</RootNamespace>
+		<IsPackable>true</IsPackable>
+		<Version>4.0.1</Version>
+		<Authors>Filipe GOMES PEIXOTO</Authors>
+		<PackageId>EntityFrameworkCore.DataEncryption</PackageId>
+		<PackageProjectUrl>https://github.com/Eastrall/EntityFrameworkCore.DataEncryption</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Eastrall/EntityFrameworkCore.DataEncryption.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageTags>entity-framework-core, extensions, dotnet-core, dotnet, encryption, fluent-api</PackageTags>
+		<PackageIcon>icon.png</PackageIcon>
+		<Copyright>Filipe GOMES PEIXOTO © 2019 - 2023</Copyright>
+		<Description>A plugin for Microsoft.EntityFrameworkCore to add support of encrypted fields using built-in or custom encryption providers.</Description>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReleaseNotes>https://github.com/Eastrall/EntityFrameworkCore.DataEncryption/releases/tag/v4.0.1</PackageReleaseNotes>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup Condition="('$(TargetFramework)' == 'netstandard2.0')">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[3.1,6)" />
+	</ItemGroup>
+	<ItemGroup Condition="('$(TargetFramework)' == 'netcoreapp3.1')">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[3.1,6)" />
+	</ItemGroup>
+	<ItemGroup Condition="('$(TargetFramework)' == 'net6.0')">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[6,8)" />
+	</ItemGroup>
+	<ItemGroup Condition="('$(TargetFramework)' == 'net7.0')">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="[7,)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="Resources/icon.png" Pack="true" Visible="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>Microsoft.EntityFrameworkCore.Encryption.Test</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Migration\" />
+	</ItemGroup>
+
+</Project>
