@@ -1,7 +1,9 @@
 ﻿using FamilyHubs.SharedKernel.GovLogin.Configuration;
+using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
 using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
@@ -10,15 +12,18 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
     {
         private readonly RequestDelegate _next;
         private readonly GovUkOidcConfiguration _configuration;
+        private readonly ISessionService _sessionService;
         private readonly ILogger<AccountMiddleware> _logger;
 
         public AccountMiddleware(
             RequestDelegate next,
             GovUkOidcConfiguration configuration,
+            ISessionService sessionService,
             ILogger<AccountMiddleware> logger) : base(configuration)
         {
             _next = next;
             _configuration = configuration;
+            _sessionService = sessionService;
             _logger = logger;
         }
 
@@ -45,6 +50,13 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
             }
 
+            var isSessionValid = await ValidateSession(context);
+            if(!isSessionValid)
+            {
+                context.Response.StatusCode = 401;
+                return;
+            }
+
             SetBearerToken(context);
 
             await _next(context);
@@ -52,6 +64,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
         private async Task SignOut(HttpContext httpContext)
         {
+            var sid = httpContext.GetClaimValue(OneLoginClaimTypes.Sid);
+            await _sessionService.EndSession(sid);
+
             var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
             var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{AuthenticationConstants.AccountLogoutCallback}");
             var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
@@ -94,6 +109,26 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             }
 
             return $"{path}{context.Request.QueryString}";
+        }
+
+        private async Task<bool> ValidateSession(HttpContext context)
+        {
+            if (!PageRequiresAuthorization(context))
+            {
+                return true;
+            }
+
+            if (!context.IsUserLoggedIn())
+            {
+                return true;
+            }
+
+            var sid = context.GetClaimValue(OneLoginClaimTypes.Sid);
+            var isSessionActive = await _sessionService.IsSessionActive(sid);
+
+            _logger.LogError("Session Id {sid} not found in IDams", sid);
+            return isSessionActive;
+
         }
     }
 }

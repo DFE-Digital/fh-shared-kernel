@@ -131,7 +131,7 @@ namespace FamilyHubs.SharedKernel.Identity
             httpContext.Response.Cookies.Append(AuthenticationConstants.RefreshClaimsCookie, "true");
         }
 
-        private static string GetClaimValue(HttpContext httpContext, string key)
+        public static string GetClaimValue(this HttpContext httpContext, string key)
         {
 
             var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == key);
