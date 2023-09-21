@@ -50,7 +50,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 return;
             }
 
-            await ValidateSession(context);
+            var isSessionValid = await ValidateSession(context);
+            if(!isSessionValid)
+            {
+                context.Response.StatusCode = 401;
+                return;
+            }
 
             SetBearerToken(context);
 
@@ -106,24 +111,24 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             return $"{path}{context.Request.QueryString}";
         }
 
-        private async Task ValidateSession(HttpContext context)
+        private async Task<bool> ValidateSession(HttpContext context)
         {
             if (!PageRequiresAuthorization(context))
             {
-                return;
+                return true;
             }
 
             if (!context.IsUserLoggedIn())
             {
-                return;
+                return true;
             }
 
             var sid = context.GetClaimValue(OneLoginClaimTypes.Sid);
             var isSessionActive = await _sessionService.IsSessionActive(sid);
-            if (!isSessionActive)
-            {
-                throw new UnauthorizedAccessException($"Session {sid} is no longer active");
-            }
+
+            _logger.LogError("Session Id {sid} not found in IDams", sid);
+            return isSessionActive;
+
         }
     }
 }
