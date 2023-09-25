@@ -12,6 +12,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
         Task CreateSession(UserSession userSession);
         Task<bool> IsSessionActive(string sid);
         Task EndSession(string sid);
+        Task RefreshSession(string sid);
     }
 
     public class SessionService : ISessionService
@@ -93,5 +94,23 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
         }
 
+        public async Task RefreshSession(string sid)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"{_httpClient.BaseAddress}api/UserSession/{sid}"),
+                Content = new StringContent(JsonConvert.SerializeObject(sid), Encoding.UTF8, "application/json")
+            };
+
+            _logger.LogInformation("Calling Idams to refresh session");
+            using var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Call to Idams to get session failed with {statusCode}", response.StatusCode);
+            }
+
+        }
     }
 }

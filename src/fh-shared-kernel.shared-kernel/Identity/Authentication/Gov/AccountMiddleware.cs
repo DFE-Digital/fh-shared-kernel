@@ -129,7 +129,15 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             var sid = context.GetClaimValue(OneLoginClaimTypes.Sid);
             var isSessionActive = await _sessionService.IsSessionActive(sid);
 
-            _logger.LogError("Session Id {sid} not found in IDams", sid);
+            if(isSessionActive)
+            {
+                _ =_sessionService.RefreshSession(sid);// Do not await
+            }
+            else
+            {
+                _logger.LogError("Session Id {sid} not found in IDams", sid);
+            }
+            
             return isSessionActive;
 
         }
