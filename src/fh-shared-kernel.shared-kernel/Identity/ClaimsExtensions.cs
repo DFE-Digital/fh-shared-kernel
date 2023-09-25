@@ -17,7 +17,7 @@ namespace FamilyHubs.SharedKernel.Identity
         /// </summary>
         public static void AddRoleClaim(this List<Claim> claims)
         {
-            var claim = claims.FirstOrDefault(x => x.Type == FamilyHubsClaimTypes.Role);
+            var claim = claims.Find(x => x.Type == FamilyHubsClaimTypes.Role);
 
             if (claim == null)
             {
@@ -62,7 +62,7 @@ namespace FamilyHubs.SharedKernel.Identity
             context.HttpContext.Response.Cookies.Delete(AuthenticationConstants.RefreshClaimsCookie);
             context.ShouldRenew = true;
 
-            var emailClaim = claims.Where(x => x.Type == ClaimTypes.Email).First();
+            var emailClaim = claims.First(x => x.Type == ClaimTypes.Email);
 
             var customClaims = context.HttpContext.RequestServices.GetService<ICustomClaims>();
             var refreshedClaims = customClaims?.RefreshClaims(emailClaim.Value, claims).GetAwaiter().GetResult();
@@ -75,9 +75,9 @@ namespace FamilyHubs.SharedKernel.Identity
 
         private static bool ShouldRefreshClaims(HttpContext httpContext, List<Claim>? claims)
         {
-            var refreshCookie = httpContext.Request.Cookies.Where(x => x.Key == AuthenticationConstants.RefreshClaimsCookie).FirstOrDefault();
-            var claim = claims?.Where(x=>x.Type == FamilyHubsClaimTypes.ClaimsValidTillTime).FirstOrDefault();
-
+            var refreshCookie = httpContext.Request.Cookies
+                .FirstOrDefault(x => x.Key == AuthenticationConstants.RefreshClaimsCookie);
+            var claim = claims?.Find(x=>x.Type == FamilyHubsClaimTypes.ClaimsValidTillTime);
 
             if (claim == null)
             {

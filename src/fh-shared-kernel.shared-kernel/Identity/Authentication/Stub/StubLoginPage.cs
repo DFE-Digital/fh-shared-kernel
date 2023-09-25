@@ -34,15 +34,15 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
         {
             var stubUsers = configuration.GetStubUsers();
             var redirectUrl = GetRedirectUrlFromPath(context);
-            var body = string.Empty;
+            StringBuilder body = new();
 
-            foreach (var user in stubUsers)
+            foreach (var userEmail in stubUsers.Select(user => user.User.Email))
             {
-                var href = $"{StubConstants.RoleSelectedPath}?user={user.User.Email}&redirect={redirectUrl}";
-                body += $"<a href=\"{href}\"><button>{user.User.Email}</button></a>";
+                var href = $"{StubConstants.RoleSelectedPath}?user={userEmail}&redirect={redirectUrl}";
+                body.Append($"<a href=\"{href}\"><button>{userEmail}</button></a>");
             }
 
-            return html.Replace("@RenderBody", body);
+            return html.Replace("@RenderBody", body.ToString());
         }
 
         private static string GetLoginHtml()

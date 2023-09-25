@@ -40,7 +40,7 @@ namespace FamilyHubs.SharedKernel.Identity
 
         public static string GetUrlQueryValue(this HttpContext httpContext, string key)
         {
-            var value = httpContext.Request.Query[key].First();
+            var value = httpContext.Request.Query[key][0];
 
             if(string.IsNullOrEmpty(value))
             {
@@ -59,7 +59,7 @@ namespace FamilyHubs.SharedKernel.Identity
                 AccountId = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountId),
                 AccountStatus = GetClaimValue(httpContext, FamilyHubsClaimTypes.AccountStatus),
                 FullName = GetClaimValue(httpContext, FamilyHubsClaimTypes.FullName),
-                ClaimsValidTillTime = GetDataTimeClaimValue(httpContext, FamilyHubsClaimTypes.ClaimsValidTillTime),
+                ClaimsValidTillTime = GetDateTimeClaimValue(httpContext, FamilyHubsClaimTypes.ClaimsValidTillTime),
                 Email = GetClaimValue(httpContext, ClaimTypes.Email),
                 PhoneNumber = GetClaimValue(httpContext, FamilyHubsClaimTypes.PhoneNumber),
                 TermsAndConditionsAccepted = TermsAndConditionsAccepted(httpContext)
@@ -133,7 +133,6 @@ namespace FamilyHubs.SharedKernel.Identity
 
         public static string GetClaimValue(this HttpContext httpContext, string key)
         {
-
             var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == key);
             if (claim != null)
             {
@@ -143,18 +142,16 @@ namespace FamilyHubs.SharedKernel.Identity
             return string.Empty;
         }
 
-        private static DateTime? GetDataTimeClaimValue(HttpContext httpContext, string key)
+        private static DateTime? GetDateTimeClaimValue(HttpContext httpContext, string key)
         {
-
             var claim = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == key);
 
             if (claim != null && long.TryParse(claim.Value, out var utcNumber))
             {
-                return new DateTime(utcNumber);
+                return new DateTime(utcNumber, DateTimeKind.Utc);
             }
 
             return null;
         }
-
     }
 }

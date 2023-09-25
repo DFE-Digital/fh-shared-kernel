@@ -120,6 +120,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 if (!string.IsNullOrEmpty(discriminatorPath))
                 {
                     var subSiteTriggerPaths = config.PathBasedRouting!.SubSiteTriggerPaths?.Split(',');
+                    //todo: rewrite and don't disable the warning
+#pragma warning disable S3267
                     foreach (var subSiteTriggerPath in subSiteTriggerPaths!)
                     {
                         if (ctx.Properties!.RedirectUri!.StartsWith(subSiteTriggerPath, StringComparison.InvariantCultureIgnoreCase))
@@ -128,6 +130,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                             break;
                         }
                     }
+#pragma warning restore S3267
                 }
 
                 var token = await oidcService.GetToken(ctx.TokenEndpointRequest!);

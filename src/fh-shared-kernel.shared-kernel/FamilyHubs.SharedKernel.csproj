@@ -10,7 +10,9 @@
 
   <PropertyGroup>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <UserSecretsId>7ea91bdf-618b-4218-b2a0-048611d93b11</UserSecretsId>
+	  <NoWarn>S125;S1135</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,6 +45,10 @@
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.20.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog.Sinks.AzureBlobStorage" Version="3.2.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.10.0.77988">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
 	<PackageReference Include="Serilog" Version="3.0.1" />
 	<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
