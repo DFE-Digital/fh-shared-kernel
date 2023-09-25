@@ -6,7 +6,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.Stub
 {
     public class StubClaims : ICustomClaims
     {
-        private List<Claim> _claims = new List<Claim>();
+        private readonly List<Claim> _claims = new();
 
         public StubClaims(GovUkOidcConfiguration govUkOidcConfiguration)
         {

@@ -63,7 +63,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
 
             var user = _configuration.GetStubUsers().First(x => x.User.Email == userId);
             if (user == null)
-                throw new Exception("Invalid user selected");
+                throw new InvalidOperationException("Invalid user selected");
 
             var claims = user.Claims.ConvertToSecurityClaim();
             claims.Add(new Claim(FamilyHubsClaimTypes.ClaimsValidTillTime, DateTime.UtcNow.AddMinutes(_configuration.ClaimsRefreshTimerMinutes).Ticks.ToString() ));//Not actually used in stub mode
@@ -76,7 +76,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
                 throw new AuthConfigurationException($"CookieName is not configured in {nameof(GovUkOidcConfiguration)} section of appsettings");
             context.Response.Cookies.Append(_configuration.CookieName, json);
 
-            var redirectUrl = context.Request.Query["redirect"].First();
+            var redirectUrl = context.Request.Query["redirect"][0];
 
             if(string.IsNullOrWhiteSpace(redirectUrl))
             {
@@ -84,7 +84,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Stub
                 return;
             }
 
-            if (!redirectUrl.StartsWith("/"))
+            if (!redirectUrl.StartsWith('/'))
             {
                 redirectUrl = $"/{redirectUrl}";
             }

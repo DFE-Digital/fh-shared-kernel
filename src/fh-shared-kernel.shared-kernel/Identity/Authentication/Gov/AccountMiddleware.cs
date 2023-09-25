@@ -98,6 +98,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             if (!string.IsNullOrEmpty(discriminatorPath))
             {
                 var subSiteTriggerPaths = _configuration.PathBasedRouting!.SubSiteTriggerPaths?.Split(',');
+                //todo: rewrite and don't disable the warning
+#pragma warning disable S3267
                 foreach (var subSiteTriggerPath in subSiteTriggerPaths!)
                 {
                     if (path.StartsWith(subSiteTriggerPath, StringComparison.InvariantCultureIgnoreCase))
@@ -106,6 +108,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                         break;
                     }
                 }
+#pragma warning restore S3267
             }
 
             return $"{path}{context.Request.QueryString}";

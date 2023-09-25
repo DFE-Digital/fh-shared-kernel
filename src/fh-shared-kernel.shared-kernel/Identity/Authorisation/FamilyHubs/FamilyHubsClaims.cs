@@ -43,7 +43,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             //  Add any claims that dont come from our claims endpoint (some come from one login, these will already be in the current claims)
             foreach(var currentClaim in currentClaims)
             {
-                if(!refreshedClaims.Where(x=>x.Type == currentClaim.Type).Any())
+                if(!refreshedClaims.Exists(x=>x.Type == currentClaim.Type))
                 {
                     refreshedClaims.Add(currentClaim);
                 }

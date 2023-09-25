@@ -95,7 +95,7 @@ namespace FamilyHubs.SharedKernel.GovLogin.AppStart
                 configureClient(serviceProvider, httpClient);
                 var httpContextAccessor = serviceProvider.GetService<IHttpContextAccessor>();
                 if (httpContextAccessor == null)
-                    throw new Exception($"IHttpContextAccessor required for {nameof(AddSecureHttpClient)}");
+                    throw new InvalidOperationException($"IHttpContextAccessor required for {nameof(AddSecureHttpClient)}");
 
                 httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {httpContextAccessor.HttpContext!.GetBearerToken()}");
             });

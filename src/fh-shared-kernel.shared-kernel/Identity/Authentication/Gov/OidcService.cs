@@ -137,7 +137,6 @@ public class OidcService : IOidcService
             {
                 new("sub", _configuration.Oidc.ClientId),
                 new("jti", jti)
-
             });
 
         var signingCredentials = GetSigningCredentials();
@@ -157,7 +156,7 @@ public class OidcService : IOidcService
         {
             _logger.LogDebug("OidcService retrieving privateKey from KeyVault");
             return new SigningCredentials(
-                new KeyVaultSecurityKey(_configuration.Oidc.KeyVaultIdentifier,
+                new KeyVaultSecurityKey(_configuration.Oidc.KeyVaultIdentifier!,
                     _azureIdentityService.AuthenticationCallback), "RS512")
             {
                 CryptoProviderFactory = new CryptoProviderFactory
@@ -190,6 +189,5 @@ public class OidcService : IOidcService
         var email = claims.First(x => x.Type == ClaimTypes.Email).Value;
         var userSession = new UserSession { Email = email, Sid = sid };
         await _sessionService.CreateSession(userSession);
-
     }
 }

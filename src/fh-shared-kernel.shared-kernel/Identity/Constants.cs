@@ -33,6 +33,7 @@
     {
         public const string LaProfessionalOrDualRole = RoleTypes.LaProfessional + "," + RoleTypes.LaDualRole;
         public const string VcsProfessionalOrDualRole = RoleTypes.VcsProfessional + "," + RoleTypes.VcsDualRole;
+        public const string LaOrVcsProfessionalOrDualRole = LaProfessionalOrDualRole + "," + VcsProfessionalOrDualRole;
     }
 
     internal static class AuthenticationConstants
