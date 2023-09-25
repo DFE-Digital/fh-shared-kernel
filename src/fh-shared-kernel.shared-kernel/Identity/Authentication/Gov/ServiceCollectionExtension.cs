@@ -142,23 +142,18 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
         private static SecurityKey GetIssuerSigningKey(GovUkOidcConfiguration config, IAzureIdentityService azureIdentityService)
         {
-
-
             if (config.UseKeyVault())
             {
-                return new KeyVaultSecurityKey(config.Oidc.KeyVaultIdentifier, azureIdentityService.AuthenticationCallback);
+                return new KeyVaultSecurityKey(config.Oidc.KeyVaultIdentifier!, azureIdentityService.AuthenticationCallback);
             }
 
             var unencodedKey = config.Oidc.PrivateKey!;
             var privateKeyBytes = Convert.FromBase64String(unencodedKey);
-
-            var bytes = Encoding.ASCII.GetBytes(unencodedKey);
 
             var rsa = RSA.Create();
             rsa.ImportPkcs8PrivateKey(privateKeyBytes, out _);
             var key = new RsaSecurityKey(rsa);
             return key;
         }
-
     }
 }
