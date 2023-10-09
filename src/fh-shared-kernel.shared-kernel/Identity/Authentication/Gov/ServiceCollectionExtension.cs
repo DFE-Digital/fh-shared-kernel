@@ -111,7 +111,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = true,
                 ValidateAudience = true,
-                SaveSigninToken = true
+                SaveSigninToken = true,
+                ValidateLifetime = true
             };
             options.Events.OnAuthorizationCodeReceived = async (ctx) =>
             {

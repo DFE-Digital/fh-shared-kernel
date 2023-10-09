@@ -52,6 +52,7 @@ namespace FamilyHubs.SharedKernel.UnitTests.Identity.Authentication.Gov
 
             var claims = new List<Claim>();
             claims.Add(new Claim("sid", "1234"));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, _user.Sub));
             _claimsIdentity.Add(new ClaimsIdentity(claims));
 
             _mockedLogger = Mock.Of<ILogger<OidcService>>();

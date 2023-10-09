@@ -116,6 +116,12 @@ public class OidcService : IOidcService
         var response = await _httpClient.SendAsync(httpRequestMessage);
         var valueString = response.Content.ReadAsStringAsync().Result;
         var content = JsonSerializer.Deserialize<GovUkUser>(valueString);
+        var nameIdentifier = tokenValidatedContext.Principal.Identities.First().Claims.FirstOrDefault((Claim x) => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        if (content?.Sub != nameIdentifier)
+        {
+            tokenValidatedContext.Fail("UserInfo returns invalid name identifier");
+            return;
+        }
         if (content?.Email != null)
         {
             tokenValidatedContext.Principal.Identities.First().AddClaim(new Claim(ClaimTypes.Email, content.Email));
