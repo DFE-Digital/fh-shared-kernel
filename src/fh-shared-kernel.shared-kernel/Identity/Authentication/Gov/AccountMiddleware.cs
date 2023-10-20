@@ -3,7 +3,7 @@ using FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
@@ -51,9 +51,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             }
 
             var isSessionValid = await ValidateSession(context);
-            if(!isSessionValid)
+            if (!isSessionValid)
             {
-                context.Response.StatusCode = 401;
+                context.Response.Redirect(_configuration.Urls.SignedOutRedirect);
                 return;
             }
 
@@ -64,8 +64,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
         private async Task SignOut(HttpContext httpContext)
         {
-            var sid = httpContext.GetClaimValue(OneLoginClaimTypes.Sid);
-            await _sessionService.EndSession(sid);
+            var email = httpContext.GetClaimValue(ClaimTypes.Email);
+            await _sessionService.EndAllUserSessions(email);
 
             var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
             var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{AuthenticationConstants.AccountLogoutCallback}");
@@ -135,7 +135,8 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             }
             else
             {
-                _logger.LogError("Session Id {sid} not found in IDams", sid);
+                context.Response.Cookies.Delete(_configuration.CookieName!);
+                _logger.LogInformation("Session Id {sid} not found in IDams", sid);
             }
             
             return isSessionActive;

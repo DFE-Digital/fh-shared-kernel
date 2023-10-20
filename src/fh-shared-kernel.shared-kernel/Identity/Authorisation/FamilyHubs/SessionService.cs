@@ -13,6 +13,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
         Task<bool> IsSessionActive(string sid);
         Task EndSession(string sid);
         Task RefreshSession(string sid);
+        Task EndAllUserSessions(string email);
     }
 
     public class SessionService : ISessionService
@@ -92,6 +93,25 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
             response.EnsureSuccessStatusCode();
 
+        }
+
+        public async Task EndAllUserSessions(string email)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri($"{_httpClient.BaseAddress}api/UserSession/DeleteAllUserSeessions/{email}"),                
+            };
+
+            _logger.LogInformation("Calling Idams to delete all user sessions");
+            using var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Call to Idams to delete all user sessions failed with {statusCode}", response.StatusCode);
+            }
+
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task RefreshSession(string sid)
