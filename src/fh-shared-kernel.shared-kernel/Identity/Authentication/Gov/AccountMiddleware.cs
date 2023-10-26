@@ -76,8 +76,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
         private async Task SignOutThenRedirectToNoClaims(HttpContext httpContext)
         {
             var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
-            var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{_configuration.Urls.NoClaimsRedirect}");
-            var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
+            string noClaimsRedirect = Uri.IsWellFormedUriString(_configuration.Urls.NoClaimsRedirect, UriKind.Absolute)
+                ? _configuration.Urls.NoClaimsRedirect
+                : $"{_configuration.AppHost}{_configuration.Urls.NoClaimsRedirect}";
+
+            noClaimsRedirect = HttpUtility.UrlEncode(noClaimsRedirect);
+            var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={noClaimsRedirect}";
             httpContext.Response.Redirect(logoutRedirect);
         }
 
