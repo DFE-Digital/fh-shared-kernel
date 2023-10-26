@@ -39,7 +39,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             if (ShouldRedirectToNoClaims(context))
             {
-                context.Response.Redirect(_configuration.Urls.NoClaimsRedirect);
+                await SignOutThenRedirectToNoClaims(context);
                 return;
             }
 
@@ -69,6 +69,14 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
             var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{AuthenticationConstants.AccountLogoutCallback}");
+            var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
+            httpContext.Response.Redirect(logoutRedirect);
+        }
+
+        private async Task SignOutThenRedirectToNoClaims(HttpContext httpContext)
+        {
+            var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
+            var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{_configuration.Urls.NoClaimsRedirect}");
             var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}";
             httpContext.Response.Redirect(logoutRedirect);
         }
@@ -129,18 +137,17 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             var sid = context.GetClaimValue(OneLoginClaimTypes.Sid);
             var isSessionActive = await _sessionService.IsSessionActive(sid);
 
-            if(isSessionActive)
+            if (isSessionActive)
             {
-                _ =_sessionService.RefreshSession(sid);// Do not await
+                _ = _sessionService.RefreshSession(sid);// Do not await
             }
             else
             {
                 context.Response.Cookies.Delete(_configuration.CookieName!);
                 _logger.LogInformation("Session Id {sid} not found in IDams", sid);
             }
-            
-            return isSessionActive;
 
+            return isSessionActive;
         }
     }
 }
