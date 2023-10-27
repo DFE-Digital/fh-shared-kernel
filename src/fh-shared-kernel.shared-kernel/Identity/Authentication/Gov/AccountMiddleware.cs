@@ -39,7 +39,12 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             if (ShouldRedirectToNoClaims(context))
             {
-                context.Response.Redirect(_configuration.Urls.NoClaimsRedirect);
+                context.Response.Cookies.Append(AuthenticationConstants.UnauthorizedCookie, "true", new CookieOptions()
+                {
+                    HttpOnly = true
+                });
+
+                await SignOut(context);
                 return;
             }
 
@@ -129,18 +134,17 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             var sid = context.GetClaimValue(OneLoginClaimTypes.Sid);
             var isSessionActive = await _sessionService.IsSessionActive(sid);
 
-            if(isSessionActive)
+            if (isSessionActive)
             {
-                _ =_sessionService.RefreshSession(sid);// Do not await
+                _ = _sessionService.RefreshSession(sid);// Do not await
             }
             else
             {
                 context.Response.Cookies.Delete(_configuration.CookieName!);
                 _logger.LogInformation("Session Id {sid} not found in IDams", sid);
             }
-            
-            return isSessionActive;
 
+            return isSessionActive;
         }
     }
 }

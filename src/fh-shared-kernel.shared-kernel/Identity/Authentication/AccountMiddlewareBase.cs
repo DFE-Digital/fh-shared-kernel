@@ -39,12 +39,6 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
                 return false;
             }
 
-            if (httpContext.Request.Path.Value?.StartsWith(_configuration.Urls.NoClaimsRedirect) == true)
-            {
-                // If we are already redirecting to the NoClaimsPage no need to redirect again
-                return false;
-            }
-
             if (!httpContext.IsUserLoggedIn())
             {
                 // We only redirect to NoClaims page if user is logged in and doesn't have claims
