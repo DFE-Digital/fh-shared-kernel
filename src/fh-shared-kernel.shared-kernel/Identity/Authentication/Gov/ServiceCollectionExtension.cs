@@ -95,7 +95,17 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             options.Events.OnSignedOutCallbackRedirect = c =>
             {
                 c.Response.Cookies.Delete(govUkConfiguration.CookieName!);
-                c.Response.Redirect(govUkConfiguration.Urls.SignedOutRedirect);
+
+                if (c.Request.Cookies["unauthorised"] != null)
+                {
+                    c.Response.Cookies.Delete("unauthorised");
+                    c.Response.Redirect(govUkConfiguration.Urls.NoClaimsRedirect);
+                }
+                else
+                {
+                    c.Response.Redirect(govUkConfiguration.Urls.SignedOutRedirect);
+                }
+
                 c.HandleResponse();
                 return Task.CompletedTask;
             };

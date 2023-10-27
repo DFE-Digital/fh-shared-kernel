@@ -39,6 +39,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication
                 return false;
             }
 
+            //todo: check relative/absolute
             if (httpContext.Request.Path.Value?.StartsWith(_configuration.Urls.NoClaimsRedirect) == true)
             {
                 // If we are already redirecting to the NoClaimsPage no need to redirect again

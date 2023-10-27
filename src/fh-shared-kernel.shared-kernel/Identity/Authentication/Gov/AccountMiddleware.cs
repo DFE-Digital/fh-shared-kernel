@@ -39,7 +39,17 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             if (ShouldRedirectToNoClaims(context))
             {
-                await SignOutThenRedirectToNoClaims(context);
+                context.Response.Cookies.Append("unauthorised", "true", new CookieOptions()
+                {
+                    HttpOnly = true
+                });
+
+                await SignOut(context);
+
+                //await SignOutThen401(context);
+                //await SignOut(context);
+
+                //await SignOutThenRedirectToNoClaims(context);
                 return;
             }
 
@@ -73,17 +83,30 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             httpContext.Response.Redirect(logoutRedirect);
         }
 
+#pragma warning disable S1144
+        private async Task SignOutThen401(HttpContext httpContext)
+        {
+            var email = httpContext.GetClaimValue(ClaimTypes.Email);
+            await _sessionService.EndAllUserSessions(email);
+
+            var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
+            var postLogOutUrl = HttpUtility.UrlEncode($"{_configuration.AppHost}{AuthenticationConstants.AccountLogoutCallback}");
+            var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={postLogOutUrl}?unauthorised=true";
+            httpContext.Response.Redirect(logoutRedirect);
+        }
+
         private async Task SignOutThenRedirectToNoClaims(HttpContext httpContext)
         {
             var idToken = await httpContext.GetTokenAsync(AuthenticationConstants.IdToken);
-            string noClaimsRedirect = Uri.IsWellFormedUriString(_configuration.Urls.NoClaimsRedirect, UriKind.Absolute)
-                ? _configuration.Urls.NoClaimsRedirect
-                : $"{_configuration.AppHost}{_configuration.Urls.NoClaimsRedirect}";
+            //string noClaimsRedirect = Uri.IsWellFormedUriString(_configuration.Urls.NoClaimsRedirect, UriKind.Absolute)
+            //    ? _configuration.Urls.NoClaimsRedirect
+            //    : $"{_configuration.AppHost}{_configuration.Urls.NoClaimsRedirect}";
 
-            noClaimsRedirect = HttpUtility.UrlEncode(noClaimsRedirect);
+            string noClaimsRedirect = HttpUtility.UrlEncode(_configuration.Urls.NoClaimsRedirect);
             var logoutRedirect = $"{_configuration.Oidc.BaseUrl}/logout?id_token_hint={idToken}&post_logout_redirect_uri={noClaimsRedirect}";
             httpContext.Response.Redirect(logoutRedirect);
         }
+#pragma warning restore S1144
 
         /// <summary>
         /// Only logs requests related to account activity
