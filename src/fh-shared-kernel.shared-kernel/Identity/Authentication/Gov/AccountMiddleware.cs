@@ -39,7 +39,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
 
             if (ShouldRedirectToNoClaims(context))
             {
-                context.Response.Cookies.Append("unauthorised", "true", new CookieOptions()
+                context.Response.Cookies.Append(AuthenticationConstants.UnauthorizedCookie, "true", new CookieOptions()
                 {
                     HttpOnly = true
                 });

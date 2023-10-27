@@ -96,9 +96,9 @@ namespace FamilyHubs.SharedKernel.Identity.Authentication.Gov
             {
                 c.Response.Cookies.Delete(govUkConfiguration.CookieName!);
 
-                if (c.Request.Cookies["unauthorised"] != null)
+                if (c.Request.Cookies[AuthenticationConstants.UnauthorizedCookie] != null)
                 {
-                    c.Response.Cookies.Delete("unauthorised");
+                    c.Response.Cookies.Delete(AuthenticationConstants.UnauthorizedCookie);
                     c.Response.Redirect(govUkConfiguration.Urls.NoClaimsRedirect);
                 }
                 else
