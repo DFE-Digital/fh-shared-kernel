@@ -56,4 +56,8 @@
     </PackageReference>
   </ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\EntityFrameworkCore.DataEncryption\EntityFrameworkCore.DataEncryption.csproj" />
+	</ItemGroup>
+
 </Project>
