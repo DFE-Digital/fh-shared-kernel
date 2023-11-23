@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\EntityFrameworkCore.DataEncryption\EntityFrameworkCore.DataEncryption.csproj" />
     <ProjectReference Include="..\..\src\fh-shared-kernel.shared-kernel\FamilyHubs.SharedKernel.csproj" />
   </ItemGroup>
 
