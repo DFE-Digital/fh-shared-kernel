@@ -31,9 +31,12 @@
 
     public static class RoleGroups
     {
-        public const string LaProfessionalOrDualRole = RoleTypes.LaProfessional + "," + RoleTypes.LaDualRole;
-        public const string VcsProfessionalOrDualRole = RoleTypes.VcsProfessional + "," + RoleTypes.VcsDualRole;
-        public const string LaOrVcsProfessionalOrDualRole = LaProfessionalOrDualRole + "," + VcsProfessionalOrDualRole;
+        public const string LaProfessionalOrDualRole = $"{RoleTypes.LaProfessional},{RoleTypes.LaDualRole}";
+        public const string VcsProfessionalOrDualRole = $"{RoleTypes.VcsProfessional},{RoleTypes.VcsDualRole}";
+        public const string LaOrVcsProfessionalOrDualRole = $"{LaProfessionalOrDualRole},{VcsProfessionalOrDualRole}";
+        public const string LaManagerOrDualRole = $"{RoleTypes.LaManager},{RoleTypes.LaDualRole}";
+        public const string VcsManagerOrDualRole = $"{RoleTypes.VcsManager},{RoleTypes.VcsDualRole}";
+        public const string AdminRole = $"{RoleTypes.DfeAdmin},{LaManagerOrDualRole},{VcsManagerOrDualRole}";
     }
 
     internal static class AuthenticationConstants
