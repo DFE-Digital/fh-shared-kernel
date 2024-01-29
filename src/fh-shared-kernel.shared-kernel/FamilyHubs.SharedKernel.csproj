@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	  <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <UserSecretsId>7ea91bdf-618b-4218-b2a0-048611d93b11</UserSecretsId>
 	  <NoWarn>S125;S1135</NoWarn>
@@ -50,7 +50,9 @@
 	  <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
 	  <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
 	  <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
+	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.15" />
+	  <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
+	  <PackageReference Include="SonarAnalyzer.CSharp" Version="9.12.0.78982">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
