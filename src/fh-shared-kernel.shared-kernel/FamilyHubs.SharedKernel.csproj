@@ -4,12 +4,12 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <VersionPrefix>2.1.0</VersionPrefix>
+    <VersionPrefix>2.2.0</VersionPrefix>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	  <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <UserSecretsId>7ea91bdf-618b-4218-b2a0-048611d93b11</UserSecretsId>
 	  <NoWarn>S125;S1135</NoWarn>
