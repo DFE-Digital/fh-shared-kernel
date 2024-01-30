@@ -71,7 +71,7 @@ public class PostcodesIoLookup : IPostcodeLookup, IHealthCheckUrlGroup
 
     internal static string GetEndpoint(IConfiguration configuration)
     {
-        const string endpointConfigKey = "PostcodesIo:Endpoint";
+        const string endpointConfigKey = "FamilyHubsUi:Urls:PostcodesIo";
 
         // as long as the config isn't changed, the worst that can happen is we fetch more than once
         return _endpoint ??= ConfigurationException.ThrowIfNotUrl(
