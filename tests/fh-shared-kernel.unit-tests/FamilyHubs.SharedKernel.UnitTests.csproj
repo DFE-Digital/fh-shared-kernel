@@ -36,4 +36,8 @@
     <ProjectReference Include="..\..\src\fh-shared-kernel.shared-kernel\FamilyHubs.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
 </Project>
