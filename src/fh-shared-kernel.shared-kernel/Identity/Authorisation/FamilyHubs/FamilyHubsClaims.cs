@@ -4,6 +4,7 @@ using FamilyHubs.SharedKernel.Identity.Models;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 {
@@ -54,11 +55,11 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
         private async Task<string> CallClaimsApi(string email)
         {
-
+            var emailEncoded = HttpUtility.UrlEncode(email);
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(_httpClient.BaseAddress + $"api/AccountClaims/GetAccountClaimsByEmail?email={email}"),
+                RequestUri = new Uri(_httpClient.BaseAddress + $"api/AccountClaims/GetAccountClaimsByEmail?email={emailEncoded}"),
             };
 
             using var response = await _httpClient.SendAsync(request);
