@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 
 namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 {
@@ -97,10 +98,11 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
 
         public async Task EndAllUserSessions(string email)
         {
+            var emailEncoded = HttpUtility.UrlEncode(email);
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Delete,
-                RequestUri = new Uri($"{_httpClient.BaseAddress}api/UserSession/DeleteAllUserSessions/{email}"),
+                RequestUri = new Uri($"{_httpClient.BaseAddress}api/UserSession/DeleteAllUserSessions/{emailEncoded}"),
             };
 
             _logger.LogInformation("Calling Idams to delete all user sessions");
