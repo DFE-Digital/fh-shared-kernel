@@ -102,7 +102,7 @@ namespace FamilyHubs.SharedKernel.Identity.Authorisation.FamilyHubs
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Delete,
-                RequestUri = new Uri($"{_httpClient.BaseAddress}api/UserSession/DeleteAllUserSessions/{emailEncoded}"),
+                RequestUri = new Uri($"{_httpClient.BaseAddress}api/UserSession/DeleteAllUserSessions?email={emailEncoded}"),
             };
 
             _logger.LogInformation("Calling Idams to delete all user sessions");
