@@ -1,8 +1,22 @@
 ﻿
 namespace FamilyHubs.SharedKernel.DataProtection;
 
+internal enum DataProtectionKeyPersistence
+{
+    Disabled,
+    AzureBlobStorage,
+    DatabaseTable
+}
+
+//internal class DataProtectionBlobStorageOptions
+//{
+
+//}
+
 internal class DataProtectionOptions
 {
+    public DataProtectionKeyPersistence KeyPersistence { get; set; }
+    //public DataProtectionBlobStorageOptions? BlobStorageOptions { get; set; }
     public string? KeyIdentifier { get; set; }
     public string? TenantId { get; set; }
     public string? ClientId { get; set; }
