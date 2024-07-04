@@ -4,5 +4,5 @@ public class ConnectionRequestsBreakdown
 {
     public ConnectionRequests Totals { get; init; } = null!;
 
-    public IEnumerable<ConnectionRequests> WeeklyReports { get; init; } = null!;
+    public IEnumerable<ConnectionRequestsDated> WeeklyReports { get; init; } = null!;
 }
